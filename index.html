@@ -215,6 +215,43 @@
             border: 1px solid rgba(110, 68, 255, 0.3);
         }
         
+        .package-details-section {
+            background: rgba(13, 13, 26, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(110, 68, 255, 0.3);
+            display: none;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+        }
+        
+        .detail-item label {
+            display: block;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+        
+        .detail-item input, .detail-item select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(26, 26, 46, 0.5);
+            border: 1px solid rgba(110, 68, 255, 0.3);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: inherit;
+        }
+        
         .progress-section {
             display: none;
             margin-bottom: 20px;
@@ -292,9 +329,13 @@
             color: var(--secondary);
         }
         
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .main-content {
                 grid-template-columns: 1fr;
+            }
+            
+            .details-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
         }
         
@@ -311,6 +352,43 @@
             
             .upload-icon {
                 font-size: 50px;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .package-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .package-actions {
+                align-self: flex-end;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 15px;
+            }
+            
+            .auth-section, .upload-section {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 14px;
             }
         }
     </style>
@@ -360,6 +438,62 @@
                 
                 <div class="file-info" id="file-info"></div>
                 
+                <div class="package-details-section" id="package-details-section">
+                    <h3 class="section-title"><i class="fas fa-info-circle"></i> تفاصيل الحزمة</h3>
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <label for="package-name">اسم الحزمة:</label>
+                            <input type="text" id="package-name" placeholder="اسم الحزمة">
+                        </div>
+                        <div class="detail-item">
+                            <label for="package-version">الإصدار:</label>
+                            <input type="text" id="package-version" placeholder="الإصدار">
+                        </div>
+                        <div class="detail-item">
+                            <label for="package-architecture">الهيكلة:</label>
+                            <select id="package-architecture">
+                                <option value="iphoneos-arm">iphoneos-arm</option>
+                                <option value="iphoneos-arm64" selected>iphoneos-arm64</option>
+                                <option value="iphoneos-arm64e">iphoneos-arm64e</option>
+                                <option value="linux-x86">linux-x86</option>
+                                <option value="linux-x86_64">linux-x86_64</option>
+                            </select>
+                        </div>
+                        <div class="detail-item">
+                            <label for="package-section">القسم:</label>
+                            <select id="package-section">
+                                <option value="Utilities">Utilities</option>
+                                <option value="Development">Development</option>
+                                <option value="Multimedia">Multimedia</option>
+                                <option value="Networking">Networking</option>
+                                <option value="System">System</option>
+                                <option value="Themes">Themes</option>
+                                <option value="Tweaks">Tweaks</option>
+                            </select>
+                        </div>
+                        <div class="detail-item">
+                            <label for="package-maintainer">المشرف:</label>
+                            <input type="text" id="package-maintainer" placeholder="اسم المشرف">
+                        </div>
+                        <div class="detail-item">
+                            <label for="package-depends">التبعيات:</label>
+                            <input type="text" id="package-depends" placeholder="الحزم المعتمدة عليها">
+                        </div>
+                        <div class="detail-item">
+                            <label for="package-author">المؤلف:</label>
+                            <input type="text" id="package-author" placeholder="اسم المؤلف">
+                        </div>
+                        <div class="detail-item">
+                            <label for="package-display-name">اسم العرض:</label>
+                            <input type="text" id="package-display-name" placeholder="اسم العرض">
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <label for="package-description">الوصف:</label>
+                        <textarea id="package-description" rows="3" placeholder="وصف الحزمة" style="width: 100%; padding: 12px; background: rgba(26, 26, 46, 0.5); border: 1px solid rgba(110, 68, 255, 0.3); border-radius: 8px; color: var(--light); font-family: inherit;"></textarea>
+                    </div>
+                </div>
+                
                 <button id="upload-btn" class="btn" disabled><i class="fas fa-paper-plane"></i> رفع إلى GitHub</button>
                 
                 <div class="progress-section" id="progress-section">
@@ -399,6 +533,7 @@
             const fileInput = document.getElementById('file-input');
             const dropZone = document.getElementById('drop-zone');
             const fileInfo = document.getElementById('file-info');
+            const packageDetailsSection = document.getElementById('package-details-section');
             const uploadBtn = document.getElementById('upload-btn');
             const progressSection = document.getElementById('progress-section');
             const uploadProgress = document.getElementById('upload-progress');
@@ -407,6 +542,17 @@
             const resultMessage = document.getElementById('result-message');
             const packagesList = document.getElementById('packages-list');
             const packagesContainer = document.getElementById('packages-container');
+            
+            // عناصر تفاصيل الحزمة
+            const packageNameInput = document.getElementById('package-name');
+            const packageVersionInput = document.getElementById('package-version');
+            const packageArchitectureSelect = document.getElementById('package-architecture');
+            const packageSectionSelect = document.getElementById('package-section');
+            const packageMaintainerInput = document.getElementById('package-maintainer');
+            const packageDependsInput = document.getElementById('package-depends');
+            const packageAuthorInput = document.getElementById('package-author');
+            const packageDisplayNameInput = document.getElementById('package-display-name');
+            const packageDescriptionTextarea = document.getElementById('package-description');
             
             let selectedFile = null;
             let packages = [];
@@ -488,6 +634,19 @@
                     <strong>اسم الملف:</strong> ${file.name}<br>
                     <strong>الحجم:</strong> ${(file.size / 1024 / 1024).toFixed(2)} MB
                 `;
+                
+                // تعبئة تفاصيل الحزمة تلقائياً
+                const baseName = file.name.replace('.deb', '');
+                packageNameInput.value = baseName;
+                packageVersionInput.value = '1.0.0';
+                packageMaintainerInput.value = 'المطور العربي';
+                packageDependsInput.value = 'firmware (>= 14.0)';
+                packageAuthorInput.value = 'فريق التطوير';
+                packageDisplayNameInput.value = 'أداة متقدمة';
+                packageDescriptionTextarea.value = 'هذه أداة متقدمة توفر وظائف مفيدة لنظام iOS';
+                
+                // إظهار قسم تفاصيل الحزمة
+                packageDetailsSection.style.display = 'block';
                 
                 uploadBtn.disabled = !isFormValid();
             }
@@ -638,21 +797,23 @@
                 const sha1 = CryptoJS.SHA1(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
                 const sha256 = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
                 
-                // إنشاء معلومات الحزمة
+                // إنشاء معلومات الحزمة من المدخلات
                 const packageInfo = `
-Package: ${debName.replace('.deb', '')}
-Version: 1.0.0
-Architecture: iphoneos-arm64
-Maintainer: Package Maintainer
-Description: Description of the package
-Depends: firmware (>= 14.0)
+Package: ${packageNameInput.value || debName.replace('.deb', '')}
+Version: ${packageVersionInput.value || '1.0.0'}
+Architecture: ${packageArchitectureSelect.value}
+Maintainer: ${packageMaintainerInput.value || 'Package Maintainer'}
+Depends: ${packageDependsInput.value || 'firmware (>= 14.0)'}
+Author: ${packageAuthorInput.value || 'Package Author'}
+Name: ${packageDisplayNameInput.value || 'Package Display Name'}
+Description: ${packageDescriptionTextarea.value || 'Description of the package'}
+Section: ${packageSectionSelect.value}
 Homepage: https://example.com
 Filename: ${debPath}
 Size: ${selectedFile.size}
 MD5sum: ${md5}
 SHA1: ${sha1}
 SHA256: ${sha256}
-Section: Utilities
 
 `;
                 
