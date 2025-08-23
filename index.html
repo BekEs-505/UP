@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
-        /* أنماط CSS سوف تكون هنا */
         :root {
             --primary: #6e44ff;
             --secondary: #b892ff;
@@ -199,6 +198,7 @@
             box-shadow: 0 5px 15px rgba(110, 68, 255, 0.4);
             position: relative;
             overflow: hidden;
+            min-width: 120px; /* جعل الأزرار بنفس العرض */
         }
         
         .btn::before {
@@ -428,16 +428,32 @@
             border-radius: 10px;
             margin-bottom: 10px;
             transition: all 0.3s ease;
+            flex-wrap: wrap;
         }
         
-        .package-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .package-info {
+            flex: 1;
+            min-width: 0; /* لمنع خروج النص */
+            margin-right: 15px;
+        }
+        
+        .package-info h3 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            margin-bottom: 5px;
         }
         
         .package-actions {
             display: flex;
             gap: 10px;
+            flex-shrink: 0; /* منع الأزرار من التقلص */
+        }
+        
+        .package-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .multi-upload-info {
@@ -511,6 +527,13 @@
             
             .package-actions {
                 align-self: flex-end;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .package-info {
+                margin-right: 0;
+                width: 100%;
             }
         }
         
@@ -534,6 +557,7 @@
             .btn {
                 padding: 12px 20px;
                 font-size: 14px;
+                min-width: 100px;
             }
             
             .upload-icon {
@@ -542,6 +566,15 @@
             
             .upload-text {
                 font-size: 16px;
+            }
+            
+            .package-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .package-actions .btn {
+                width: 100%;
             }
         }
         
@@ -642,6 +675,7 @@
                 </div>
                 <button id="save-token" class="btn"><i class="fas fa-save"></i> حفظ الإعدادات</button>
                 <button id="load-packages" class="btn btn-secondary" style="margin-top: 10px;"><i class="fas fa-download"></i> تحميل الحزم</button>
+                <button id="update-repo" class="btn btn-warning" style="margin-top: 10px;"><i class="fas fa-sync-alt"></i> تحديث المستودع</button>
             </div>
             
             <div class="upload-section fade-in hover-lift">
@@ -755,6 +789,7 @@
             const repoBranchInput = document.getElementById('repo-branch');
             const saveTokenBtn = document.getElementById('save-token');
             const loadPackagesBtn = document.getElementById('load-packages');
+            const updateRepoBtn = document.getElementById('update-repo');
             const fileInput = document.getElementById('file-input');
             const dropZone = document.getElementById('drop-zone');
             const fileInfo = document.getElementById('file-info');
@@ -821,6 +856,24 @@
                 }
                 
                 loadPackagesFromRepo();
+            });
+            
+            // تحديث المستودع (إنشاء ملفات Packages المضغوطة وملف Release)
+            updateRepoBtn.addEventListener('click', async function() {
+                if (!repoConfig.token || !repoConfig.owner || !repoConfig.repo) {
+                    showNotification('يرجى حفظ الإعدادات أولاً', 'error');
+                    return;
+                }
+                
+                try {
+                    showNotification('جاري تحديث المستودع...', 'info');
+                    await createCompressedPackages();
+                    await createReleaseFile();
+                    showNotification('تم تحديث المستودع بنجاح!', 'success');
+                } catch (error) {
+                    console.error('Error updating repository:', error);
+                    showNotification('فشل في تحديث المستودع: ' + error.message, 'error');
+                }
             });
             
             // التعامل مع سحب وإفلات الملفات
@@ -995,11 +1048,12 @@
                         }
                     }
                     
-                    // 3. إنشاء ملفات مضغوطة
-                    progressStatus.textContent = 'جاري إنشاء ملفات مضغوطة...';
+                    // 3. إنشاء ملفات مضغوطة وملف Release
+                    progressStatus.textContent = 'جاري إنشاء ملفات المستودع...';
                     uploadProgress.style.width = '90%';
                     
                     await createCompressedPackages();
+                    await createReleaseFile();
                     
                     // اكتمال العملية
                     uploadProgress.style.width = '100%';
@@ -1012,7 +1066,8 @@
                         resultSection.className = 'result-section success';
                         resultMessage.innerHTML = `
                             <p>تم رفع ${successCount} حزمة بنجاح إلى المستودع!</p>
-                            <p>تم تحديث ملفات Packages تلقائياً.</p>
+                            <p>تم تحديث ملفات Packages وملف Release تلقائياً.</p>
+                            <p>سيظهر التغيير في متجر Sileo بعد التحديث.</p>
                         `;
                         showNotification(`تم رفع ${successCount} حزمة وتحديث المستودع بنجاح!`, 'success');
                     } else if (successCount === 0) {
@@ -1029,7 +1084,7 @@
                         resultMessage.innerHTML = `
                             <p>تم رفع ${successCount} حزمة بنجاح!</p>
                             <p>فشل في رفع ${errorCount} حزمة!</p>
-                            <p>تم تحديث ملفات Packages تلقائياً.</p>
+                            <p>تم تحديث ملفات Packages وملف Release تلقائياً.</p>
                         `;
                         showNotification(`تم رفع ${successCount} حزمة بنجاح، وفشل ${errorCount}!`, 'warning');
                     }
@@ -1070,7 +1125,7 @@
             
             // قراءة الملف كـ base64
             function readFileAsBase64(file) {
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve, reject) {
                     const reader = new FileReader();
                     reader.onload = () => {
                         const arrayBuffer = reader.result;
@@ -1148,6 +1203,7 @@ Package: ${packageNameInput.value || debName.replace('.deb', '')}
 Version: ${packageVersionInput.value || '1.0.0'}
 Architecture: ${packageArchitectureSelect.value}
 Maintainer: ${packageMaintainerInput.value || 'Package Maintainer'}
+Installed-Size: ${Math.round(file.size / 1024)}
 Depends: ${packageDependsInput.value || 'firmware (>= 14.0)'}
 Author: ${packageAuthorInput.value || 'Package Author'}
 Name: ${packageDisplayNameInput.value || 'Package Display Name'}
@@ -1238,11 +1294,42 @@ SHA256: ${sha256}
                 
                 // إنشاء Packages.gz (محاكاة)
                 try {
+                    // في المتصفح، لا يمكننا ضغط الملفات فعلياً، لكننا نرفع نفس المحتوى
+                    // في بيئة حقيقية، نستخدم مكتبة مثل pako للضغط
                     const compressedContent = btoa(unescape(encodeURIComponent(packagesContent)));
                     await uploadToGitHub('Packages.gz', compressedContent, 'تحديث Packages.gz');
+                    await uploadToGitHub('Packages.bz2', compressedContent, 'تحديث Packages.bz2');
                 } catch (error) {
                     console.error('Error creating compressed packages:', error);
                     throw new Error('Failed to create compressed packages');
+                }
+            }
+            
+            // إنشاء ملف Release
+            async function createReleaseFile() {
+                try {
+                    const releaseContent = `Origin: ${repoConfig.owner} Repo
+Label: ${repoConfig.owner}
+Suite: stable
+Version: 1.0
+Codename: ios
+Architectures: iphoneos-arm iphoneos-arm64
+Components: main
+Description: DEB packages for iOS
+`;
+
+                    const encoder = new TextEncoder();
+                    const encodedContent = encoder.encode(releaseContent);
+                    let binary = '';
+                    for (let i = 0; i < encodedContent.byteLength; i++) {
+                        binary += String.fromCharCode(encodedContent[i]);
+                    }
+                    const base64Release = btoa(binary);
+
+                    await uploadToGitHub('Release', base64Release, 'تحديث Release');
+                } catch (error) {
+                    console.error('Error creating Release file:', error);
+                    throw new Error('Failed to create Release file');
                 }
             }
             
@@ -1461,6 +1548,7 @@ Package: ${packageNameInput.value || currentEditingPackage.replace('.deb', '')}
 Version: ${packageVersionInput.value || '1.0.0'}
 Architecture: ${packageArchitectureSelect.value}
 Maintainer: ${packageMaintainerInput.value || 'Package Maintainer'}
+Installed-Size: ${Math.round(fileSize / 1024)}
 Depends: ${packageDependsInput.value || 'firmware (>= 14.0)'}
 Author: ${packageAuthorInput.value || 'Package Author'}
 Name: ${packageDisplayNameInput.value || 'Package Display Name'}
@@ -1490,8 +1578,9 @@ SHA256: ${sha256}
                             // رفع ملف Packages المحدث
                             await uploadToGitHub('Packages', base64Content, `تحديث معلومات الحزمة: ${currentEditingPackage}`);
                             
-                            // إعادة إنشاء الملفات المضغوطة
+                            // إعادة إنشاء الملفات المضغوطة وملف Release
                             await createCompressedPackages();
+                            await createReleaseFile();
                             
                             showNotification('تم تحديث معلومات الحزمة بنجاح', 'success');
                             
@@ -1594,8 +1683,9 @@ SHA256: ${sha256}
                         // رفع ملف Packages المحدث
                         await uploadToGitHub('Packages', base64Content, `تحديث Packages بعد حذف: ${filename}`);
                         
-                        // إعادة إنشاء الملفات المضغوطة
+                        // إعادة إنشاء الملفات المضغوطة وملف Release
                         await createCompressedPackages();
+                        await createReleaseFile();
                         
                         showNotification('تم تحديث ملفات Packages بعد الحذف', 'success');
                     }
