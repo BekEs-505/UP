@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
-        /* أنماط CSS سوف تكون هنا */
         :root {
             --primary: #6e44ff;
             --secondary: #b892ff;
@@ -186,11 +185,11 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 15px 25px;
+            padding: 12px 20px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: inherit;
             font-weight: 600;
@@ -199,6 +198,7 @@
             box-shadow: 0 5px 15px rgba(110, 68, 255, 0.4);
             position: relative;
             overflow: hidden;
+            font-size: 14px;
         }
         
         .btn::before {
@@ -226,7 +226,7 @@
         }
         
         .btn i {
-            font-size: 18px;
+            font-size: 16px;
         }
         
         .btn-secondary {
@@ -243,6 +243,11 @@
         
         .btn-warning {
             background: linear-gradient(135deg, var(--warning), #e67e22);
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 13px;
         }
         
         .upload-area {
@@ -415,7 +420,7 @@
             border-radius: 15px;
             margin-top: 20px;
             border: 1px solid rgba(110, 68, 255, 0.3);
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
         }
         
@@ -426,18 +431,27 @@
             padding: 15px;
             background: rgba(26, 26, 46, 0.5);
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             transition: all 0.3s ease;
+            flex-wrap: wrap;
+        }
+        
+        .package-info {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 10px;
+        }
+        
+        .package-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
         
         .package-item:hover {
             transform: translateX(5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .package-actions {
-            display: flex;
-            gap: 10px;
         }
         
         .multi-upload-info {
@@ -506,11 +520,11 @@
             .package-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
             }
             
             .package-actions {
-                align-self: flex-end;
+                align-self: stretch;
+                justify-content: center;
             }
         }
         
@@ -532,8 +546,8 @@
             }
             
             .btn {
-                padding: 12px 20px;
-                font-size: 14px;
+                padding: 10px 15px;
+                font-size: 13px;
             }
             
             .upload-icon {
@@ -542,6 +556,15 @@
             
             .upload-text {
                 font-size: 16px;
+            }
+            
+            .package-actions {
+                flex-direction: column;
+            }
+            
+            .package-actions .btn {
+                width: 100%;
+                margin-bottom: 5px;
             }
         }
         
@@ -585,13 +608,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
         
-        /* تأثيرات التدرج */
-        .gradient-border {
-            border: 2px solid transparent;
-            background: linear-gradient(45deg, var(--darker), var(--dark)) padding-box,
-                        linear-gradient(45deg, var(--primary), var(--accent)) border-box;
-        }
-        
         /* تحسينات التمرير */
         ::-webkit-scrollbar {
             width: 8px;
@@ -609,6 +625,12 @@
         
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(var(--accent), var(--primary));
+        }
+        
+        /* تحسينات الأداء */
+        .performance-optimized {
+            will-change: transform, opacity;
+            backface-visibility: hidden;
         }
     </style>
 </head>
@@ -902,7 +924,7 @@
                         <div>
                             <strong>${file.name}</strong> (${(file.size / 1024 / 1024).toFixed(2)} MB)
                         </div>
-                        <button class="btn btn-danger" style="padding: 5px 10px;" onclick="removeFile(${index})">
+                        <button class="btn btn-danger btn-small" onclick="removeFile(${index})">
                             <i class="fas fa-times"></i>
                         </button>
                     `;
@@ -972,13 +994,14 @@
                 try {
                     let successCount = 0;
                     let errorCount = 0;
+                    const totalFiles = selectedFiles.length;
                     
-                    for (let i = 0; i < selectedFiles.length; i++) {
-                        const file = selectedFiles[i];
-                        progressStatus.textContent = `جاري رفع الملف ${i+1} من ${selectedFiles.length}: ${file.name}...`;
-                        uploadProgress.style.width = `${(i / selectedFiles.length) * 100}%`;
-                        
+                    // رفع جميع الملفات دفعة واحدة
+                    const uploadPromises = selectedFiles.map(async (file, index) => {
                         try {
+                            progressStatus.textContent = `جاري رفع الملف ${index+1} من ${totalFiles}: ${file.name}...`;
+                            uploadProgress.style.width = `${((index) / totalFiles) * 100}%`;
+                            
                             // 1. رفع ملف DEB
                             const debContent = await readFileAsBase64(file);
                             const debPath = `debs/${file.name}`;
@@ -989,13 +1012,18 @@
                             await updatePackagesFile(file.name, debPath, file);
                             
                             successCount++;
+                            return { success: true, file: file.name };
                         } catch (error) {
                             console.error(`Error uploading file ${file.name}:`, error);
                             errorCount++;
+                            return { success: false, file: file.name, error };
                         }
-                    }
+                    });
                     
-                    // 3. إنشاء ملفات مضغوطة
+                    // انتظار اكتمال جميع الرفع
+                    const results = await Promise.allSettled(uploadPromises);
+                    
+                    // 3. إنشاء ملفات مضغوطة بعد رفع جميع الملفات
                     progressStatus.textContent = 'جاري إنشاء ملفات مضغوطة...';
                     uploadProgress.style.width = '90%';
                     
@@ -1042,6 +1070,7 @@
                         dropZone.style.display = 'block';
                         selectedFiles = [];
                         uploadBtn.disabled = true;
+                        progressSection.style.display = 'none';
                     }, 5000);
                     
                 } catch (error) {
@@ -1065,6 +1094,7 @@
                     
                     // إعادة عرض خيارات الرفع
                     dropZone.style.display = 'block';
+                    progressSection.style.display = 'none';
                 }
             });
             
@@ -1164,6 +1194,7 @@ SHA256: ${sha256}
                 
                 // الحصول على محتوى Packages الحالي إذا كان موجوداً
                 let packagesContent = '';
+                let sha = null;
                 try {
                     const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
                         headers: {
@@ -1176,6 +1207,7 @@ SHA256: ${sha256}
                         const fileData = await response.json();
                         const decodedContent = atob(fileData.content);
                         packagesContent = decodedContent;
+                        sha = fileData.sha;
                         
                         // إزالة الإدخال القديم إذا كان موجوداً
                         const packageName = debName.replace('.deb', '');
@@ -1199,7 +1231,7 @@ SHA256: ${sha256}
                 const base64Content = btoa(binary);
                 
                 // رفع ملف Packages المحدث
-                await uploadToGitHub('Packages', base64Content, `تحديث Packages بإضافة: ${debName}`);
+                await uploadToGitHub('Packages', base64Content, `تحديث Packages بإضافة: ${debName}`, sha);
             }
             
             // قراءة الملف كـ ArrayBuffer
@@ -1274,16 +1306,16 @@ SHA256: ${sha256}
                     files.forEach(file => {
                         if (file.name.endsWith('.deb')) {
                             const packageItem = document.createElement('div');
-                            packageItem.classList.add('package-item');
+                            packageItem.classList.add('package-item', 'performance-optimized');
                             packageItem.innerHTML = `
                                 <div class="package-info">
                                     <h3>${file.name}</h3>
                                     <p>الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
                                 </div>
                                 <div class="package-actions">
-                                    <button class="btn btn-secondary" onclick="downloadPackage('${file.name}')"><i class="fas fa-download"></i> تحميل</button>
-                                    <button class="btn btn-warning" onclick="editPackage('${file.name}')"><i class="fas fa-edit"></i> تعديل</button>
-                                    <button class="btn btn-danger" onclick="deletePackage('${file.name}')"><i class="fas fa-trash"></i> حذف</button>
+                                    <button class="btn btn-secondary btn-small" onclick="downloadPackage('${file.name}')"><i class="fas fa-download"></i> تحميل</button>
+                                    <button class="btn btn-warning btn-small" onclick="editPackage('${file.name}')"><i class="fas fa-edit"></i> تعديل</button>
+                                    <button class="btn btn-danger btn-small" onclick="deletePackage('${file.name}')"><i class="fas fa-trash"></i> حذف</button>
                                 </div>
                             `;
                             packagesContainer.appendChild(packageItem);
@@ -1429,6 +1461,7 @@ SHA256: ${sha256}
                     if (response.ok) {
                         const fileData = await response.json();
                         let packagesContent = atob(fileData.content);
+                        const packagesSha = fileData.sha;
                         
                         // إزالة الإدخال القديم
                         const packagePattern = new RegExp(`Package: ${currentEditingPackage.replace('.deb', '')}[\\s\\S]*?(?=Package:|$)`, 'g');
@@ -1488,7 +1521,7 @@ SHA256: ${sha256}
                             const base64Content = btoa(binary);
                             
                             // رفع ملف Packages المحدث
-                            await uploadToGitHub('Packages', base64Content, `تحديث معلومات الحزمة: ${currentEditingPackage}`);
+                            await uploadToGitHub('Packages', base64Content, `تحديث معلومات الحزمة: ${currentEditingPackage}`, packagesSha);
                             
                             // إعادة إنشاء الملفات المضغوطة
                             await createCompressedPackages();
@@ -1576,6 +1609,7 @@ SHA256: ${sha256}
                     if (response.ok) {
                         const fileData = await response.json();
                         let packagesContent = atob(fileData.content);
+                        const packagesSha = fileData.sha;
                         
                         // إزالة معلومات الحزمة المحذوفة
                         const packageName = filename.replace('.deb', '');
@@ -1592,7 +1626,7 @@ SHA256: ${sha256}
                         const base64Content = btoa(binary);
                         
                         // رفع ملف Packages المحدث
-                        await uploadToGitHub('Packages', base64Content, `تحديث Packages بعد حذف: ${filename}`);
+                        await uploadToGitHub('Packages', base64Content, `تحديث Packages بعد حذف: ${filename}`, packagesSha);
                         
                         // إعادة إنشاء الملفات المضغوطة
                         await createCompressedPackages();
