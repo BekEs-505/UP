@@ -678,6 +678,25 @@
         .notification.info {
             background: linear-gradient(135deg, var(--info), #2980b9);
         }
+        
+        .packages-options {
+            background: rgba(13, 13, 26, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(110, 68, 255, 0.3);
+        }
+        
+        .packages-options h3 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .option-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
     </style>
 </head>
 <body>
@@ -714,6 +733,15 @@
             
             <div class="upload-section fade-in hover-lift">
                 <h2 class="section-title"><i class="fas fa-upload"></i> رفع حزمة DEB</h2>
+                
+                <div class="packages-options">
+                    <h3><i class="fas fa-cog"></i> خيارات ملف Packages</h3>
+                    <div class="option-buttons">
+                        <button id="use-existing-packages" class="btn btn-secondary"><i class="fas fa-file"></i> استخدام الملف الحالي</button>
+                        <button id="create-new-packages" class="btn"><i class="fas fa-plus"></i> إنشاء ملف جديد</button>
+                    </div>
+                </div>
+                
                 <div class="upload-area" id="drop-zone">
                     <div class="upload-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -838,6 +866,8 @@
             const resultMessage = document.getElementById('result-message');
             const packagesList = document.getElementById('packages-list');
             const packagesContainer = document.getElementById('packages-container');
+            const useExistingPackagesBtn = document.getElementById('use-existing-packages');
+            const createNewPackagesBtn = document.getElementById('create-new-packages');
             
             // عناصر تفاصيل الحزمة
             const packageNameInput = document.getElementById('package-name');
@@ -853,6 +883,7 @@
             let selectedFiles = [];
             let repoConfig = {};
             let currentEditingPackage = null;
+            let packagesOption = 'existing'; // 'existing' أو 'new'
             
             // تحميل الإعدادات المحفوظة
             const savedConfig = localStorage.getItem('repoConfig');
@@ -863,6 +894,8 @@
                     repoOwnerInput.value = repoConfig.owner || '';
                     repoNameInput.value = repoConfig.repo || '';
                     repoBranchInput.value = repoConfig.branch || 'main';
+                    
+                    showNotification('تم تحميل الإعدادات المحفوظة', 'info');
                 } catch (e) {
                     console.error('Error parsing saved config:', e);
                     localStorage.removeItem('repoConfig');
@@ -882,6 +915,8 @@
                     showNotification('تم حفظ الإعدادات بنجاح!', 'success');
                 } else {
                     showNotification('يرجى ملء جميع الحقول', 'error');
+                    saveTokenBtn.classList.add('shake');
+                    setTimeout(() => saveTokenBtn.classList.remove('shake'), 500);
                 }
             });
             
@@ -889,6 +924,8 @@
             loadPackagesBtn.addEventListener('click', function() {
                 if (!repoConfig.token || !repoConfig.owner || !repoConfig.repo) {
                     showNotification('يرجى حفظ الإعدادات أولاً', 'error');
+                    loadPackagesBtn.classList.add('shake');
+                    setTimeout(() => loadPackagesBtn.classList.remove('shake'), 500);
                     return;
                 }
                 
@@ -929,7 +966,26 @@
                 updateMultiFileList();
                 fileInput.value = '';
                 uploadBtn.disabled = !isFormValid();
+                showNotification('تم مسح جميع الملفات', 'info');
             });
+            
+            // اختيار خيارات ملف Packages
+            useExistingPackagesBtn.addEventListener('click', function() {
+                packagesOption = 'existing';
+                useExistingPackagesBtn.classList.add('btn-secondary');
+                createNewPackagesBtn.classList.remove('btn-secondary');
+                showNotification('سيتم استخدام ملف Packages الحالي', 'info');
+            });
+            
+            createNewPackagesBtn.addEventListener('click', function() {
+                packagesOption = 'new';
+                createNewPackagesBtn.classList.add('btn-secondary');
+                useExistingPackagesBtn.classList.remove('btn-secondary');
+                showNotification('سيتم إنشاء ملف Packages جديد', 'info');
+            });
+            
+            // تعيين الخيار الافتراضي
+            useExistingPackagesBtn.classList.add('btn-secondary');
             
             function handleFileSelect(files) {
                 for (let i = 0; i < files.length; i++) {
@@ -1001,6 +1057,7 @@
             
             // إزالة ملف من القائمة
             window.removeFile = function(index) {
+                const removedFile = selectedFiles[index].name;
                 selectedFiles.splice(index, 1);
                 updateMultiFileList();
                 
@@ -1011,6 +1068,7 @@
                 }
                 
                 uploadBtn.disabled = !isFormValid();
+                showNotification(`تم إزالة الملف: ${truncateFileName(removedFile, 25)}`, 'info');
             };
             
             function fillPackageDetails(file) {
@@ -1024,10 +1082,10 @@
                 const baseName = file.name.replace('.deb', '');
                 packageNameInput.value = baseName;
                 packageVersionInput.value = '1.0.0';
-                packageMaintainerInput.value = 'المطور العربي';
+                packageMaintainerInput.value = repoConfig.owner || 'المطور العربي';
                 packageDependsInput.value = 'firmware (>= 14.0)';
-                packageAuthorInput.value = 'فريق التطوير';
-                packageDisplayNameInput.value = 'أداة متقدمة';
+                packageAuthorInput.value = repoConfig.owner || 'فريق التطوير';
+                packageDisplayNameInput.value = baseName;
                 packageDescriptionTextarea.value = 'هذه أداة متقدمة توفر وظائف مفيدة لنظام iOS';
                 
                 // إظهار قسم تفاصيل الحزمة
@@ -1045,6 +1103,8 @@
             uploadBtn.addEventListener('click', async function() {
                 if (!isFormValid()) {
                     showNotification('يرجى ملء جميع الحقول واختيار ملف', 'error');
+                    uploadBtn.classList.add('shake');
+                    setTimeout(() => uploadBtn.classList.remove('shake'), 500);
                     return;
                 }
                 
@@ -1164,7 +1224,7 @@
             
             // قراءة الملف كـ base64
             function readFileAsBase64(file) {
-                return new Promise((resolve, reject) {
+                return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = () => {
                         const arrayBuffer = reader.result;
@@ -1256,28 +1316,33 @@ SHA256: ${sha256}
 
 `;
                 
-                // الحصول على محتوى Packages الحالي إذا كان موجوداً
                 let packagesContent = '';
-                try {
-                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
-                        headers: {
-                            'Authorization': `token ${repoConfig.token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const fileData = await response.json();
-                        const decodedContent = atob(fileData.content);
-                        packagesContent = decodedContent;
+                
+                if (packagesOption === 'existing') {
+                    // الحصول على محتوى Packages الحالي إذا كان موجوداً
+                    try {
+                        const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
+                            headers: {
+                                'Authorization': `token ${repoConfig.token}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        });
                         
-                        // إزالة الإدخال القديم إذا كان موجوداً
-                        const packageName = debName.replace('.deb', '');
-                        const packagePattern = new RegExp(`Package: ${packageName}[\\s\\S]*?(?=Package:|$)`, 'g');
-                        packagesContent = packagesContent.replace(packagePattern, '');
+                        if (response.ok) {
+                            const fileData = await response.json();
+                            const decodedContent = atob(fileData.content);
+                            packagesContent = decodedContent;
+                            
+                            // إزالة الإدخال القديم إذا كان موجوداً
+                            const packageName = debName.replace('.deb', '');
+                            const packagePattern = new RegExp(`Package: ${packageName}[\\s\\S]*?(?=Package:|$)`, 'g');
+                            packagesContent = packagesContent.replace(packagePattern, '');
+                        }
+                    } catch (e) {
+                        // الملف غير موجود، سنقوم بإنشائه
+                        packagesOption = 'new';
+                        showNotification('لم يتم العثور على ملف Packages، سيتم إنشاء ملف جديد', 'warning');
                     }
-                } catch (e) {
-                    // الملف غير موجود، سنقوم بإنشائه
                 }
                 
                 // إضافة معلومات الحزمة الجديدة
@@ -1414,8 +1479,11 @@ SHA256: ${sha256}
                         }
                     });
                     
+                    showNotification('تم تحميل الحزم بنجاح', 'success');
+                    
                 } catch (error) {
                     packagesContainer.innerHTML = `<p>خطأ في تحميل الحزم: ${error.message}</p>`;
+                    showNotification('فشل في تحميل الحزم', 'error');
                 }
             }
             
@@ -1674,7 +1742,7 @@ SHA256: ${sha256}
                         throw new Error('File not found');
                     }
                 } catch (error) {
-                    showNotification('فشل в حذف الحزمة', 'error');
+                    showNotification('فشل في حذف الحزمة', 'error');
                 }
             };
             
