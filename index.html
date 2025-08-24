@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pako@2.0.4/dist/pako.min.js"></script>
     <style>
+        /* أنماط CSS سوف تكون هنا */
         :root {
             --primary: #6e44ff;
             --secondary: #b892ff;
@@ -438,30 +438,6 @@
         .package-actions {
             display: flex;
             gap: 10px;
-            flex-shrink: 0;
-        }
-        
-        .package-info {
-            flex: 1;
-            min-width: 0;
-            margin-left: 15px;
-        }
-        
-        .package-info h3 {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
-            margin-bottom: 5px;
-            font-size: 16px;
-            direction: ltr;
-            text-align: left;
-        }
-        
-        .package-info p {
-            margin: 0;
-            color: var(--secondary);
-            font-size: 0.9em;
         }
         
         .multi-upload-info {
@@ -489,15 +465,6 @@
             margin-bottom: 8px;
         }
         
-        .multi-file-item div {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 70%;
-            direction: ltr;
-            text-align: left;
-        }
-        
         .footer {
             text-align: center;
             padding: 30px;
@@ -506,6 +473,7 @@
             color: var(--secondary);
         }
         
+        /* تحسينات للاستجابة */
         @media (max-width: 1200px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -542,8 +510,7 @@
             }
             
             .package-actions {
-                align-self: stretch;
-                justify-content: flex-end;
+                align-self: flex-end;
             }
         }
         
@@ -576,18 +543,9 @@
             .upload-text {
                 font-size: 16px;
             }
-            
-            .package-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .package-actions .btn {
-                width: 100%;
-                justify-content: center;
-            }
         }
         
+        /* تأثيرات إضافية */
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -607,14 +565,17 @@
             75% { transform: translateX(5px); }
         }
         
+        /* تأثيرات النيون */
         .neon-text {
             text-shadow: 0 0 5px var(--secondary), 0 0 10px var(--secondary), 0 0 15px var(--secondary), 0 0 20px var(--primary), 0 0 35px var(--primary), 0 0 40px var(--primary);
         }
         
+        /* تأثيرات الظل */
         .shadow-deep {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(110, 68, 255, 0.3);
         }
         
+        /* تأثيرات التحويم */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -624,12 +585,14 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
         
+        /* تأثيرات التدرج */
         .gradient-border {
             border: 2px solid transparent;
             background: linear-gradient(45deg, var(--darker), var(--dark)) padding-box,
                         linear-gradient(45deg, var(--primary), var(--accent)) border-box;
         }
         
+        /* تحسينات التمرير */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -646,57 +609,6 @@
         
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(var(--accent), var(--primary));
-        }
-        
-        .notification {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 15px 25px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.5s ease-in-out;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .notification.success {
-            background: linear-gradient(135deg, var(--success), #27ae60);
-        }
-        
-        .notification.error {
-            background: linear-gradient(135deg, var(--error), #c0392b);
-        }
-        
-        .notification.warning {
-            background: linear-gradient(135deg, var(--warning), #e67e22);
-        }
-        
-        .notification.info {
-            background: linear-gradient(135deg, var(--info), #2980b9);
-        }
-        
-        .packages-options {
-            background: rgba(13, 13, 26, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
-        }
-        
-        .packages-options h3 {
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-        
-        .option-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -734,15 +646,6 @@
             
             <div class="upload-section fade-in hover-lift">
                 <h2 class="section-title"><i class="fas fa-upload"></i> رفع حزمة DEB</h2>
-                
-                <div class="packages-options">
-                    <h3><i class="fas fa-cog"></i> خيارات ملف Packages</h3>
-                    <div class="option-buttons">
-                        <button id="use-existing-packages" class="btn btn-secondary"><i class="fas fa-file"></i> استخدام الملف الحالي</button>
-                        <button id="create-new-packages" class="btn"><i class="fas fa-plus"></i> إنشاء ملف جديد</button>
-                    </div>
-                </div>
-                
                 <div class="upload-area" id="drop-zone">
                     <div class="upload-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -867,8 +770,6 @@
             const resultMessage = document.getElementById('result-message');
             const packagesList = document.getElementById('packages-list');
             const packagesContainer = document.getElementById('packages-container');
-            const useExistingPackagesBtn = document.getElementById('use-existing-packages');
-            const createNewPackagesBtn = document.getElementById('create-new-packages');
             
             // عناصر تفاصيل الحزمة
             const packageNameInput = document.getElementById('package-name');
@@ -882,25 +783,18 @@
             const packageDescriptionTextarea = document.getElementById('package-description');
             
             let selectedFiles = [];
+            let packages = [];
             let repoConfig = {};
             let currentEditingPackage = null;
-            let packagesOption = 'existing'; // 'existing' أو 'new'
             
             // تحميل الإعدادات المحفوظة
             const savedConfig = localStorage.getItem('repoConfig');
             if (savedConfig) {
-                try {
-                    repoConfig = JSON.parse(savedConfig);
-                    tokenInput.value = repoConfig.token || '';
-                    repoOwnerInput.value = repoConfig.owner || '';
-                    repoNameInput.value = repoConfig.repo || '';
-                    repoBranchInput.value = repoConfig.branch || 'main';
-                    
-                    showNotification('تم تحميل الإعدادات المحفوظة', 'info');
-                } catch (e) {
-                    console.error('Error parsing saved config:', e);
-                    localStorage.removeItem('repoConfig');
-                }
+                repoConfig = JSON.parse(savedConfig);
+                tokenInput.value = repoConfig.token || '';
+                repoOwnerInput.value = repoConfig.owner || '';
+                repoNameInput.value = repoConfig.repo || '';
+                repoBranchInput.value = repoConfig.branch || 'main';
             }
             
             // حفظ التوكن والإعدادات
@@ -916,8 +810,6 @@
                     showNotification('تم حفظ الإعدادات بنجاح!', 'success');
                 } else {
                     showNotification('يرجى ملء جميع الحقول', 'error');
-                    saveTokenBtn.classList.add('shake');
-                    setTimeout(() => saveTokenBtn.classList.remove('shake'), 500);
                 }
             });
             
@@ -925,15 +817,13 @@
             loadPackagesBtn.addEventListener('click', function() {
                 if (!repoConfig.token || !repoConfig.owner || !repoConfig.repo) {
                     showNotification('يرجى حفظ الإعدادات أولاً', 'error');
-                    loadPackagesBtn.classList.add('shake');
-                    setTimeout(() => loadPackagesBtn.classList.remove('shake'), 500);
                     return;
                 }
                 
                 loadPackagesFromRepo();
             });
             
-            // التعامل עם سحب وإفلات الملفات
+            // التعامل مع سحب وإفلات الملفات
             dropZone.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 dropZone.style.borderColor = '#b892ff';
@@ -967,26 +857,7 @@
                 updateMultiFileList();
                 fileInput.value = '';
                 uploadBtn.disabled = !isFormValid();
-                showNotification('تم مسح جميع الملفات', 'info');
             });
-            
-            // اختيار خيارات ملف Packages
-            useExistingPackagesBtn.addEventListener('click', function() {
-                packagesOption = 'existing';
-                useExistingPackagesBtn.classList.add('btn-secondary');
-                createNewPackagesBtn.classList.remove('btn-secondary');
-                showNotification('سيتم استخدام ملف Packages الحالي', 'info');
-            });
-            
-            createNewPackagesBtn.addEventListener('click', function() {
-                packagesOption = 'new';
-                createNewPackagesBtn.classList.add('btn-secondary');
-                useExistingPackagesBtn.classList.remove('btn-secondary');
-                showNotification('سيتم إنشاء ملف Packages جديد', 'info');
-            });
-            
-            // تعيين الخيار الافتراضي
-            useExistingPackagesBtn.classList.add('btn-secondary');
             
             function handleFileSelect(files) {
                 for (let i = 0; i < files.length; i++) {
@@ -1024,12 +895,12 @@
                 multiUploadInfo.style.display = 'block';
                 multiFileList.innerHTML = '';
                 
-                selectedFiles.forEach((file, index) {
+                selectedFiles.forEach((file, index) => {
                     const fileItem = document.createElement('div');
                     fileItem.classList.add('multi-file-item');
                     fileItem.innerHTML = `
-                        <div title="${file.name}">
-                            <strong>${truncateFileName(file.name, 30)}</strong> (${(file.size / 1024 / 1024).toFixed(2)} MB)
+                        <div>
+                            <strong>${file.name}</strong> (${(file.size / 1024 / 1024).toFixed(2)} MB)
                         </div>
                         <button class="btn btn-danger" style="padding: 5px 10px;" onclick="removeFile(${index})">
                             <i class="fas fa-times"></i>
@@ -1039,26 +910,8 @@
                 });
             }
             
-            // دالة لتقصير أسماء الملفات الطويلة
-            function truncateFileName(name, maxLength) {
-                if (name.length <= maxLength) return name;
-                
-                const extensionIndex = name.lastIndexOf('.');
-                const extension = name.substring(extensionIndex);
-                const nameWithoutExtension = name.substring(0, extensionIndex);
-                
-                const charsToKeep = maxLength - extension.length - 3; // 3 للنقاط
-                if (charsToKeep <= 0) return '...' + extension;
-                
-                const beginning = nameWithoutExtension.substring(0, Math.floor(charsToKeep / 2));
-                const end = nameWithoutExtension.substring(nameWithoutExtension.length - Math.ceil(charsToKeep / 2));
-                
-                return beginning + '...' + end + extension;
-            }
-            
             // إزالة ملف من القائمة
             window.removeFile = function(index) {
-                const removedFile = selectedFiles[index].name;
                 selectedFiles.splice(index, 1);
                 updateMultiFileList();
                 
@@ -1069,7 +922,6 @@
                 }
                 
                 uploadBtn.disabled = !isFormValid();
-                showNotification(`تم إزالة الملف: ${truncateFileName(removedFile, 25)}`, 'info');
             };
             
             function fillPackageDetails(file) {
@@ -1083,10 +935,10 @@
                 const baseName = file.name.replace('.deb', '');
                 packageNameInput.value = baseName;
                 packageVersionInput.value = '1.0.0';
-                packageMaintainerInput.value = repoConfig.owner || 'المطور العربي';
+                packageMaintainerInput.value = 'المطور العربي';
                 packageDependsInput.value = 'firmware (>= 14.0)';
-                packageAuthorInput.value = repoConfig.owner || 'فريق التطوير';
-                packageDisplayNameInput.value = baseName;
+                packageAuthorInput.value = 'فريق التطوير';
+                packageDisplayNameInput.value = 'أداة متقدمة';
                 packageDescriptionTextarea.value = 'هذه أداة متقدمة توفر وظائف مفيدة لنظام iOS';
                 
                 // إظهار قسم تفاصيل الحزمة
@@ -1104,8 +956,6 @@
             uploadBtn.addEventListener('click', async function() {
                 if (!isFormValid()) {
                     showNotification('يرجى ملء جميع الحقول واختيار ملف', 'error');
-                    uploadBtn.classList.add('shake');
-                    setTimeout(() => uploadBtn.classList.remove('shake'), 500);
                     return;
                 }
                 
@@ -1147,13 +997,9 @@
                     
                     // 3. إنشاء ملفات مضغوطة
                     progressStatus.textContent = 'جاري إنشاء ملفات مضغوطة...';
-                    uploadProgress.style.width = '70%';
+                    uploadProgress.style.width = '90%';
                     
                     await createCompressedPackages();
-                    
-                    // 4. تخطي إنشاء ملف Release لأنه يسبب مشاكل
-                    progressStatus.textContent = 'تم إنشاء الملفات المضغوطة، تخطي إنشاء Release...';
-                    uploadProgress.style.width = '100%';
                     
                     // اكتمال العملية
                     uploadProgress.style.width = '100%';
@@ -1167,7 +1013,6 @@
                         resultMessage.innerHTML = `
                             <p>تم رفع ${successCount} حزمة بنجاح إلى المستودع!</p>
                             <p>تم تحديث ملفات Packages تلقائياً.</p>
-                            <p>سيظهر المستودع الآن في Sileo بعد إضافته.</p>
                         `;
                         showNotification(`تم رفع ${successCount} حزمة وتحديث المستودع بنجاح!`, 'success');
                     } else if (successCount === 0) {
@@ -1317,33 +1162,28 @@ SHA256: ${sha256}
 
 `;
                 
+                // الحصول على محتوى Packages الحالي إذا كان موجوداً
                 let packagesContent = '';
-                
-                if (packagesOption === 'existing') {
-                    // الحصول على محتوى Packages الحالي إذا كان موجوداً
-                    try {
-                        const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
-                            headers: {
-                                'Authorization': `token ${repoConfig.token}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-                        
-                        if (response.ok) {
-                            const fileData = await response.json();
-                            const decodedContent = atob(fileData.content);
-                            packagesContent = decodedContent;
-                            
-                            // إزالة الإدخال القديم إذا كان موجوداً
-                            const packageName = debName.replace('.deb', '');
-                            const packagePattern = new RegExp(`Package: ${packageName}[\\s\\S]*?(?=Package:|$)`, 'g');
-                            packagesContent = packagesContent.replace(packagePattern, '');
+                try {
+                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
+                        headers: {
+                            'Authorization': `token ${repoConfig.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
                         }
-                    } catch (e) {
-                        // الملف غير موجود، سنقوم بإنشائه
-                        packagesOption = 'new';
-                        showNotification('لم يتم العثور على ملف Packages، سيتم إنشاء ملف جديد', 'warning');
+                    });
+                    
+                    if (response.ok) {
+                        const fileData = await response.json();
+                        const decodedContent = atob(fileData.content);
+                        packagesContent = decodedContent;
+                        
+                        // إزالة الإدخال القديم إذا كان موجوداً
+                        const packageName = debName.replace('.deb', '');
+                        const packagePattern = new RegExp(`Package: ${packageName}[\\s\\S]*?(?=Package:|$)`, 'g');
+                        packagesContent = packagesContent.replace(packagePattern, '');
                     }
+                } catch (e) {
+                    // الملف غير موجود، سنقوم بإنشائه
                 }
                 
                 // إضافة معلومات الحزمة الجديدة
@@ -1374,7 +1214,7 @@ SHA256: ${sha256}
                 });
             }
             
-            // إنشاء ملفات Packages المضغوطة - الإصدار المحسن
+            // إنشاء ملفات Packages المضغوطة
             async function createCompressedPackages() {
                 // جلب محتوى Packages
                 let packagesContent = '';
@@ -1396,61 +1236,13 @@ SHA256: ${sha256}
                     throw new Error('Unable to fetch Packages file');
                 }
                 
-                // إنشاء Packages.gz باستخدام pako لضغط GZIP صحيح
+                // إنشاء Packages.gz (محاكاة)
                 try {
-                    // تحويل المحتوى إلى Uint8Array
-                    const textEncoder = new TextEncoder();
-                    const data = textEncoder.encode(packagesContent);
-                    
-                    // ضغط المحتوى باستخدام pako مع إعدادات متوافقة مع Sileo
-                    const compressedData = pako.gzip(data, { 
-                        level: 9, 
-                        windowBits: 15, 
-                        memLevel: 9 
-                    });
-                    
-                    // تحويل البيانات المضغوطة إلى base64
-                    let binary = '';
-                    const bytes = new Uint8Array(compressedData);
-                    for (let i = 0; i < bytes.byteLength; i++) {
-                        binary += String.fromCharCode(bytes[i]);
-                    }
-                    const base64Content = btoa(binary);
-                    
-                    await uploadToGitHub('Packages.gz', base64Content, 'تحديث Packages.gz');
+                    const compressedContent = btoa(unescape(encodeURIComponent(packagesContent)));
+                    await uploadToGitHub('Packages.gz', compressedContent, 'تحديث Packages.gz');
                 } catch (error) {
-                    console.error('Error creating Packages.gz:', error);
-                    throw new Error('Failed to create Packages.gz');
-                }
-                
-                // لا نقوم بإنشاء Packages.xz لأنه يسبب مشاكل في Sileo
-                // بدلاً من ذلك، سنقوم بحذفه إذا كان موجوداً
-                try {
-                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages.xz`, {
-                        headers: {
-                            'Authorization': `token ${repoConfig.token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const fileData = await response.json();
-                        await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages.xz`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Authorization': `token ${repoConfig.token}`,
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/vnd.github.v3+json'
-                            },
-                            body: JSON.stringify({
-                                message: 'حذف Packages.xz لتجنب مشاكل Sileo',
-                                sha: fileData.sha,
-                                branch: repoConfig.branch
-                            })
-                        });
-                    }
-                } catch (e) {
-                    // الملف غير موجود، لا مشكلة
+                    console.error('Error creating compressed packages:', error);
+                    throw new Error('Failed to create compressed packages');
                 }
             }
             
@@ -1485,7 +1277,7 @@ SHA256: ${sha256}
                             packageItem.classList.add('package-item');
                             packageItem.innerHTML = `
                                 <div class="package-info">
-                                    <h3 title="${file.name}">${truncateFileName(file.name, 30)}</h3>
+                                    <h3>${file.name}</h3>
                                     <p>الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
                                 </div>
                                 <div class="package-actions">
@@ -1498,28 +1290,33 @@ SHA256: ${sha256}
                         }
                     });
                     
-                    showNotification('تم تحميل الحزم بنجاح', 'success');
-                    
                 } catch (error) {
                     packagesContainer.innerHTML = `<p>خطأ في تحميل الحزم: ${error.message}</p>`;
-                    showNotification('فشل في تحميل الحزم', 'error');
                 }
             }
             
             // وظيفة عرض الإشعارات
             function showNotification(message, type) {
-                // إنصراف الإشعار القديم إذا كان موجوداً
-                const oldNotification = document.querySelector('.notification');
-                if (oldNotification) {
-                    oldNotification.remove();
-                }
-                
                 const notification = document.createElement('div');
-                notification.className = `notification ${type}`;
-                notification.innerHTML = `
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
-                    <span>${message}</span>
-                `;
+                notification.textContent = message;
+                notification.style.position = 'fixed';
+                notification.style.bottom = '30px';
+                notification.style.right = '30px';
+                notification.style.padding = '15px 25px';
+                notification.style.borderRadius = '10px';
+                notification.style.color = 'white';
+                notification.style.fontWeight = '600';
+                notification.style.zIndex = '1000';
+                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+                notification.classList.add('fade-in');
+                
+                if (type === 'success') {
+                    notification.style.background = 'linear-gradient(135deg, var(--success), #27ae60)';
+                } else if (type === 'warning') {
+                    notification.style.background = 'linear-gradient(135deg, var(--warning), #e67e22)';
+                } else {
+                    notification.style.background = 'linear-gradient(135deg, var(--error), #c0392b)';
+                }
                 
                 document.body.appendChild(notification);
                 
