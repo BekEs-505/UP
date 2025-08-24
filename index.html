@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
     <style>
         :root {
             --primary: #6e44ff;
@@ -1023,7 +1024,7 @@
                 multiUploadInfo.style.display = 'block';
                 multiFileList.innerHTML = '';
                 
-                selectedFiles.forEach((file, index) => {
+                selectedFiles.forEach((file, index) {
                     const fileItem = document.createElement('div');
                     fileItem.classList.add('multi-file-item');
                     fileItem.innerHTML = `
@@ -1373,7 +1374,7 @@ SHA256: ${sha256}
                 });
             }
             
-            // إنشاء ملفات Packages المضغوطة
+            // إنشاء ملفات Packages المضغوطة - الإصدار المحسن
             async function createCompressedPackages() {
                 // جلب محتوى Packages
                 let packagesContent = '';
@@ -1395,10 +1396,24 @@ SHA256: ${sha256}
                     throw new Error('Unable to fetch Packages file');
                 }
                 
-                // إنشاء Packages.gz
+                // إنشاء Packages.gz باستخدام pako لضغط GZIP صحيح
                 try {
-                    const compressedContent = btoa(unescape(encodeURIComponent(packagesContent)));
-                    await uploadToGitHub('Packages.gz', compressedContent, 'تحديث Packages.gz');
+                    // تحويل المحتوى إلى Uint8Array
+                    const textEncoder = new TextEncoder();
+                    const data = textEncoder.encode(packagesContent);
+                    
+                    // ضغط المحتوى باستخدام pako
+                    const compressedData = pako.gzip(data);
+                    
+                    // تحويل البيانات المضغوطة إلى base64
+                    let binary = '';
+                    const bytes = new Uint8Array(compressedData);
+                    for (let i = 0; i < bytes.byteLength; i++) {
+                        binary += String.fromCharCode(bytes[i]);
+                    }
+                    const base64Content = btoa(binary);
+                    
+                    await uploadToGitHub('Packages.gz', base64Content, 'تحديث Packages.gz');
                 } catch (error) {
                     console.error('Error creating Packages.gz:', error);
                     throw new Error('Failed to create Packages.gz');
