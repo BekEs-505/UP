@@ -642,6 +642,39 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(var(--accent), var(--primary));
         }
+        
+        /* إشعارات */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, var(--error), #c0392b);
+        }
+        
+        .notification.warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+        }
+        
+        .notification.info {
+            background: linear-gradient(135deg, var(--info), #2980b9);
+        }
     </style>
 </head>
 <body>
@@ -822,11 +855,16 @@
             // تحميل الإعدادات المحفوظة
             const savedConfig = localStorage.getItem('repoConfig');
             if (savedConfig) {
-                repoConfig = JSON.parse(savedConfig);
-                tokenInput.value = repoConfig.token || '';
-                repoOwnerInput.value = repoConfig.owner || '';
-                repoNameInput.value = repoConfig.repo || '';
-                repoBranchInput.value = repoConfig.branch || 'main';
+                try {
+                    repoConfig = JSON.parse(savedConfig);
+                    tokenInput.value = repoConfig.token || '';
+                    repoOwnerInput.value = repoConfig.owner || '';
+                    repoNameInput.value = repoConfig.repo || '';
+                    repoBranchInput.value = repoConfig.branch || 'main';
+                } catch (e) {
+                    console.error('Error parsing saved config:', e);
+                    localStorage.removeItem('repoConfig');
+                }
             }
             
             // حفظ التوكن والإعدادات
@@ -855,7 +893,7 @@
                 loadPackagesFromRepo();
             });
             
-            // التعامل مع سحب وإفلات الملفات
+            // التعامل עם سحب وإفلات الملفات
             dropZone.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 dropZone.style.borderColor = '#b892ff';
@@ -1107,7 +1145,7 @@
             
             // قراءة الملف كـ base64
             function readFileAsBase64(file) {
-                return new Promise((resolve, reject) {
+                return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = () => {
                         const arrayBuffer = reader.result;
@@ -1241,7 +1279,7 @@ SHA256: ${sha256}
             
             // قراءة الملف كـ ArrayBuffer
             function readFileAsArrayBuffer(file) {
-                return new Promise((resolve, reject) {
+                return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = () => {
                         resolve(reader.result);
@@ -1418,26 +1456,18 @@ SHA256:
             
             // وظيفة عرض الإشعارات
             function showNotification(message, type) {
-                const notification = document.createElement('div');
-                notification.textContent = message;
-                notification.style.position = 'fixed';
-                notification.style.bottom = '30px';
-                notification.style.right = '30px';
-                notification.style.padding = '15px 25px';
-                notification.style.borderRadius = '10px';
-                notification.style.color = 'white';
-                notification.style.fontWeight = '600';
-                notification.style.zIndex = '1000';
-                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-                notification.classList.add('fade-in');
-                
-                if (type === 'success') {
-                    notification.style.background = 'linear-gradient(135deg, var(--success), #27ae60)';
-                } else if (type === 'warning') {
-                    notification.style.background = 'linear-gradient(135deg, var(--warning), #e67e22)';
-                } else {
-                    notification.style.background = 'linear-gradient(135deg, var(--error), #c0392b)';
+                // إنصراف الإشعار القديم إذا كان موجوداً
+                const oldNotification = document.querySelector('.notification');
+                if (oldNotification) {
+                    oldNotification.remove();
                 }
+                
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                `;
                 
                 document.body.appendChild(notification);
                 
