@@ -1090,11 +1090,9 @@
                     
                     await createCompressedPackages();
                     
-                    // 4. إنشاء ملف Release لتوافق Sileo
-                    progressStatus.textContent = 'جاري إنشاء ملف Release...';
-                    uploadProgress.style.width = '90%';
-                    
-                    await createReleaseFile();
+                    // 4. تخطي إنشاء ملف Release لأنه يسبب مشاكل
+                    progressStatus.textContent = 'تم إنشاء الملفات المضغوطة، تخطي إنشاء Release...';
+                    uploadProgress.style.width = '100%';
                     
                     // اكتمال العملية
                     uploadProgress.style.width = '100%';
@@ -1107,7 +1105,7 @@
                         resultSection.className = 'result-section success';
                         resultMessage.innerHTML = `
                             <p>تم رفع ${successCount} حزمة بنجاح إلى المستودع!</p>
-                            <p>تم تحديث ملفات Packages وRelease تلقائياً.</p>
+                            <p>تم تحديث ملفات Packages تلقائياً.</p>
                             <p>سيظهر المستودع الآن في Sileo بعد إضافته.</p>
                         `;
                         showNotification(`تم رفع ${successCount} حزمة وتحديث المستودع بنجاح!`, 'success');
@@ -1125,7 +1123,7 @@
                         resultMessage.innerHTML = `
                             <p>تم رفع ${successCount} حزمة بنجاح!</p>
                             <p>فشل في رفع ${errorCount} حزمة!</p>
-                            <p>تم تحديث ملفات Packages وRelease تلقائياً.</p>
+                            <p>تم تحديث ملفات Packages تلقائياً.</p>
                         `;
                         showNotification(`تم رفع ${successCount} حزمة بنجاح، وفشل ${errorCount}!`, 'warning');
                     }
@@ -1166,7 +1164,7 @@
             
             // قراءة الملف كـ base64
             function readFileAsBase64(file) {
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve, reject) {
                     const reader = new FileReader();
                     reader.onload = () => {
                         const arrayBuffer = reader.result;
@@ -1369,90 +1367,6 @@ SHA256: ${sha256}
                     }
                 } catch (e) {
                     // الملف غير موجود، لا مشكلة
-                }
-            }
-            
-            // إنشاء ملف Release لتوافق Sileo
-            async function createReleaseFile() {
-                try {
-                    // جلب محتوى Packages وPackages.gz
-                    let packagesContent = '';
-                    let packagesGzContent = '';
-                    
-                    try {
-                        const packagesResponse = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
-                            headers: {
-                                'Authorization': `token ${repoConfig.token}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-                        
-                        if (packagesResponse.ok) {
-                            const fileData = await packagesResponse.json();
-                            packagesContent = atob(fileData.content);
-                        }
-                        
-                        const packagesGzResponse = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages.gz`, {
-                            headers: {
-                                'Authorization': `token ${repoConfig.token}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-                        
-                        if (packagesGzResponse.ok) {
-                            const fileData = await packagesGzResponse.json();
-                            packagesGzContent = atob(fileData.content);
-                        }
-                    } catch (e) {
-                        console.error('Error fetching packages files for Release:', e);
-                    }
-                    
-                    // حساب الهاشات للملفات
-                    const packagesMD5 = CryptoJS.MD5(packagesContent).toString();
-                    const packagesSHA1 = CryptoJS.SHA1(packagesContent).toString();
-                    const packagesSHA256 = CryptoJS.SHA256(packagesContent).toString();
-                    const packagesSize = packagesContent.length;
-                    
-                    const packagesGzMD5 = CryptoJS.MD5(packagesGzContent).toString();
-                    const packagesGzSHA1 = CryptoJS.SHA1(packagesGzContent).toString();
-                    const packagesGzSHA256 = CryptoJS.SHA256(packagesGzContent).toString();
-                    const packagesGzSize = packagesGzContent.length;
-                    
-                    // إنشاء محتوى ملف Release بدون Packages.xz
-                    const releaseContent = `Origin: ${repoConfig.owner} Repository
-Label: ${repoConfig.owner}
-Suite: stable
-Version: 1.0
-Codename: ios
-Architectures: iphoneos-arm iphoneos-arm64
-Components: main
-Description: DEB Repository for iOS packages
-MD5Sum:
- ${packagesMD5} ${packagesSize} Packages
- ${packagesGzMD5} ${packagesGzSize} Packages.gz
-SHA1:
- ${packagesSHA1} ${packagesSize} Packages
- ${packagesGzSHA1} ${packagesGzSize} Packages.gz
-SHA256:
- ${packagesSHA256} ${packagesSize} Packages
- ${packagesGzSHA256} ${packagesGzSize} Packages.gz
-`;
-                    
-                    // تحويل المحتوى إلى base64
-                    const encoder = new TextEncoder();
-                    const encodedContent = encoder.encode(releaseContent);
-                    let binary = '';
-                    for (let i = 0; i < encodedContent.byteLength; i++) {
-                        binary += String.fromCharCode(encodedContent[i]);
-                    }
-                    const base64Content = btoa(binary);
-                    
-                    // رفع ملف Release
-                    await uploadToGitHub('Release', base64Content, 'تحديث ملف Release لتوافق Sileo');
-                    
-                } catch (error) {
-                    console.error('Error creating Release file:', error);
-                    throw new Error('Failed to create Release file');
                 }
             }
             
@@ -1695,9 +1609,6 @@ SHA256: ${sha256}
                             // إعادة إنشاء الملفات المضغوطة
                             await createCompressedPackages();
                             
-                            // إعادة إنشاء ملف Release
-                            await createReleaseFile();
-                            
                             showNotification('تم تحديث معلومات الحزمة بنجاح', 'success');
                             
                             // إعادة تحميل قائمة الحزم
@@ -1802,10 +1713,7 @@ SHA256: ${sha256}
                         // إعادة إنشاء الملفات المضغوطة
                         await createCompressedPackages();
                         
-                        // إعادة إنشاء ملف Release
-                        await createReleaseFile();
-                        
-                        showNotification('تم تحديث ملفات Packages وRelease بعد الحذف', 'success');
+                        showNotification('تم تحديث ملفات Packages بعد الحذف', 'success');
                     }
                 } catch (error) {
                     console.error('Error updating Packages after deletion:', error);
