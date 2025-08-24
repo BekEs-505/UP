@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pako@2.0.4/dist/pako.min.js"></script>
     <style>
         :root {
             --primary: #6e44ff;
@@ -933,7 +933,7 @@
                 loadPackagesFromRepo();
             });
             
-            // التعامل مع سحب وإفلات الملفات
+            // التعامل עם سحب وإفلات الملفات
             dropZone.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 dropZone.style.borderColor = '#b892ff';
@@ -1402,8 +1402,12 @@ SHA256: ${sha256}
                     const textEncoder = new TextEncoder();
                     const data = textEncoder.encode(packagesContent);
                     
-                    // ضغط المحتوى باستخدام pako
-                    const compressedData = pako.gzip(data);
+                    // ضغط المحتوى باستخدام pako مع إعدادات متوافقة مع Sileo
+                    const compressedData = pako.gzip(data, { 
+                        level: 9, 
+                        windowBits: 15, 
+                        memLevel: 9 
+                    });
                     
                     // تحويل البيانات المضغوطة إلى base64
                     let binary = '';
