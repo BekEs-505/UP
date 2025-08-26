@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bzip2@1.0.6/js/bzip2.min.js"></script>
     <style>
         :root {
             --primary: #6e44ff;
@@ -383,7 +384,7 @@
             overflow: hidden;
             margin-bottom: 10px;
             border: 1px solid rgba(110, 68, 255, 0.3);
-            box-shadow: inset 0 2px 5px rgba(0, 0, 极速飞艇微信群, 0.3);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
         .progress {
@@ -413,7 +414,7 @@
         }
         
         .result-section {
-            background: rgba(13, 13, 26, 极速飞艇微信群, 0.7);
+            background: rgba(13, 13, 26, 0.7);
             padding: 25px;
             border-radius: 20px;
             margin-top: 20px;
@@ -465,7 +466,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 220px;
-            font-weight: 极速飞艇微信群, 600;
+            font-weight: 600;
             font-size: 16px;
             color: var(--lighter);
         }
@@ -511,7 +512,7 @@
             gap: 10px;
             font-size: 14px;
             font-weight: 500;
-            border: 极速飞艇微信群, 1px solid rgba(110, 68, 255, 0.3);
+            border: 1px solid rgba(110, 68, 255, 0.3);
         }
         
         .file-badge .remove-file {
@@ -566,14 +567,14 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
-极速飞艇微信群,            }
+            }
             
             .package-actions {
                 align-self: stretch;
                 justify-content: space-between;
             }
             
-极速飞艇微信群,            .btn {
+            .btn {
                 flex: 1;
             }
         }
@@ -618,7 +619,7 @@
             animation: fadeIn 0.5s ease-in-out;
         }
         
-        @keyframes fade极速飞艇微信群, In {
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
@@ -629,7 +630,7 @@
         
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5极速飞艇微信群, px); }
+            25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
         
@@ -696,7 +697,7 @@
         
         /* تأثيرات الأزرار الخاصة */
         .btn-glow {
-            box-shadow: 0极速飞艇微信群,  0 15px rgba(110, 68, 255, 0.6);
+            box-shadow: 0 0 15px rgba(110, 68, 255, 0.6);
         }
         
         .btn-glow:hover {
@@ -721,398 +722,16 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, var(--primary-dark), var(--accent-dark));
         }
-
-        /* نافذة اختيار الملفات */
-        .file-manager-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .file-manager-content {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--card-border);
-        }
-        
-        .file-manager-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-极速飞艇微信群,            border-bottom: 2极速飞艇微信群, px solid var(--primary);
-        }
-        
-        .file-manager-header h3 {
-            color: var(--secondary);
-            font-size: 22px;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        
-        .close-modal:hover {
-            color: var(--accent);
-        }
-        
-        .file-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, min极速飞艇微信群, max(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .file-option {
-            background: rgba(13, 13, 26, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-        
-        .file-option:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .file-option i {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-        
-        .file-option h4 {
-            margin-bottom: 10px;
-            color: var(--lighter);
-        }
-        
-        .file-option p {
-            color: var(--secondary);
-            font-size: 14px;
-        }
-        
-        .file-input-custom {
-            display: none;
-        }
-
-        /* نافذة تعديل الحزمة */
-        .edit-package-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .edit-package-content {
-            background: var(--card极速飞艇微信群, -bg);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--card-border);
-        }
-        
-        .edit-package-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--primary);
-        }
-        
-        .edit-package-header h极速飞艇微信群, 3 {
-            color: var(--secondary);
-            font-size: 22px;
-        }
-        
-        .notification-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10极速飞艇微信群, px;
-        }
-        
-        .notification {
-            padding: 15px 20px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: slideIn 0.3s ease-out;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .notification.success {
-            background: linear-gradient(135deg, var(--success), var(--success-dark));
-        }
-        
-        .notification.error {
-            background: linear-gradient(135deg, var(--error), var(--error-dark));
-        }
-        
-        .notification.info {
-            background: linear-gradient(135deg, var(--info), var(--info-dark));
-        }
-        
-        .notification.warning {
-            background: linear-gradient(135deg, var(--warning), var(--warning-dark));
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-        
-        /* تحسينات التصميم */
-        .settings-group {
-            background: rgba(13, 13, 26, 0.7);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
-        }
-        
-        .settings-group h4 {
-            color: var(--secondary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .settings-group h4 i {
-            font-size: 20px;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(13, 13, 26, 0.9);
-            transition: .4s;
-            border-radius: 34px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 3px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .toggle-slider {
-            background-color: rgba(110, 68, 255, 0.2);
-        }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(30px);
-        }
-        
-        .bulk-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
     </style>
 </head>
 <body>
     <!-- خلفية متحركة -->
     <div class="bg-animation">
         <div class="bg-circle" style="width: 300px; height: 300px; top: 10%; left: 10%;"></div>
-        <div class="bg-circle" style="width: 200px; height: 200px极速飞艇微信群, ; top: 60%; left: 80%;"></div>
+        <div class="bg-circle" style="width: 200px; height: 200px; top: 60%; left: 80%;"></div>
         <div class="bg-circle" style="width: 250px; height: 250px; top: 30%; left: 60%;"></div>
-        <div class极速飞艇微信群, =".bg-circle" style="width: 180px; height: 180px; top: 70%; left: 20%;"></div>
+        <div class="bg-circle" style="width: 180px; height: 180px; top: 70%; left: 20%;"></div>
     </div>
-    
-    <!-- نافذة اختيار ملف Packages -->
-    <div class="file-manager-modal" id="file-manager-modal">
-        <div class="file-manager-content">
-            <div class="file-manager-header">
-                <h3><i class="fas fa-file-archive"></i> اختيار ملف Packages</h3>
-                <button class="close-modal" id="close-modal">&times;</button>
-            </div>
-            <p style="margin-bottom: 20px; text-align: center;">اختر طريقة استعادة ملف Packages:</p>
-            <div class="file-options">
-                <div class="file-option" onclick="handlePackagesOption('existing')">
-                    <i class="fas fa-folder-open"></i>
-                    <h4>استخدام الملف الحالي</h4>
-                    <p>استخدم ملف Packages الموجود في المستودع وأضف عليه</p>
-                </div>
-                <div class="file-option" onclick="handlePackagesOption('new')">
-                    <i class="fas fa-plus-circle"></极速飞艇微信群, i>
-                    <h4>إنشاء ملف جديد</h4>
-                    <p>إنشاء ملف Packages جديد من الصفر</p>
-                </div>
-                <div class="file-option" onclick="document.getElementById('packages-file-input').click()">
-                    <i class="fas fa-upload"></i>
-                    <h4>رفع ملف جديد</h4>
-                    <p>رفع ملف Packages من جهازك</p>
-                </div>
-            </div>
-            <input type="file" id="packages-file-input" class="file-input-custom" accept=".gz,.bz2,.xz,.zip">
-        </div>
-    </div>
-    
-    <!-- نافذة تعديل الحزمة -->
-    <div class="edit-package-modal" id="edit-package-modal">
-        <div class="edit-package-content">
-            <div class="edit-package-header">
-                <h3><i class="fas fa-edit"></i> تعديل الحزمة</h3>
-                <button class="close-modal" id="close-edit-modal">&times;</button>
-            </div>
-            <div class="package-details-section">
-                <h3 class="section-title"><i class="fas fa-info-circle"></i> تفاصيل الحزمة</h3>
-                <div class="details-grid">
-                    <div class="detail-item">
-                        <label for="edit-package-name">اسم الحزمة:</label>
-                        <input type="text" id="edit-package-name" placeholder="اسم الحزمة">
-                    </div>
-                    <div class="detail-item">
-                        <label for="edit-package-version">الإصدار:</label>
-                        <input type="text" id="edit-package-version" placeholder="الإصدار">
-                    </div>
-                    <div class="detail-item">
-                        <label for="edit-package-architecture">الهيكلة:</label>
-                        <select id="edit-package-architecture">
-                            <option value="iphoneos-arm">iphoneos-arm</option>
-                            <option value="iphoneos-arm64" selected>iphoneos-arm64</option>
-                            <option value="iphoneos-arm64e">iphoneos-arm64e</option>
-                            <option value="appletvos-arm64">appletvos-arm64</option>
-                            <option value="linux-x86">linux-x86</option>
-                            <option value="linux-x86_64">linux-x86_64</option>
-                            <option value="linux-arm">linux-arm</option>
-                            <option value="linux-arm64">linux-arm64</option>
-                            <option value="darwin-x86_64">darwin-x86_64</option>
-                            <option value="darwin-arm64">darwin-arm64</option>
-                            <option value="all">all</option>
-                        </select>
-                    </div>
-                    <div class="detail-item">
-                        <label for="edit-package-section">القسم:</label>
-                        <select id="edit-package-section">
-                            <option value="Utilities">Utilities</option>
-                            <option value="Development">Development</option>
-                            <option value="Multimedia">Multimedia</option>
-                            <option value="Networking">Networking</option>
-                            <option value="System">System</option>
-                            <option value="Themes">Themes</option>
-                            <option value="Tweaks">Tweaks</option>
-                            <option value="Games">Games</option>
-                            <option value="Packaging">Packaging</option>
-                            <option value="Terminal_Support">Terminal Support</option>
-                        </select>
-                    </div>
-                    <div class="detail-item">
-                        <label for="edit-package-maintainer">المشرف:</label>
-                        <input type="text" id="edit-package-maintainer" placeholder="اسم المشرف">
-                    </div>
-                    <极速飞艇微信群, div class="detail-item">
-                        <label for="edit-package-depends">التبعيات:</label>
-                        <input type="text" id="edit-package-depends" placeholder="الحزم المعتمدة عليها">
-                    </div>
-                    <div class="detail-item">
-                        <label for="edit-package-author">المؤلف:</label>
-                        <input type="text" id="edit-package-author" placeholder="اسم المؤلف">
-                    </div>
-                    <div class="detail-item">
-                        <label for="edit-package-display-name">اسم العرض:</label>
-                        <input type="text" id="edit-package-display-name" placeholder="اسم العرض">
-                    </div>
-                </div>
-                <div class="detail-item">
-                    <label for="edit-package-description">الوصف:</label>
-                    <textarea id="edit极速飞艇微信群, -package-description" rows="3" placeholder="وصف الحزمة"></textarea>
-                </div>
-            </div>
-            <div class="btn-group" style="margin-top: 20px;">
-                <button id="save-package-changes" class="btn btn-success"><i class="fas fa-save"></i> حفظ التغييرات</button>
-                <button id="cancel-edit" class="btn btn-secondary"><i class="fas fa-times"></i> إلغاء</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- حاوية الإشعارات -->
-    <div class="notification-container" id="notification-container"></div>
     
     <div class="container">
         <header>
@@ -1128,8 +747,8 @@
         
         <div class="tabs">
             <div class="tab active" data-tab="upload">رفع الحزم</div>
-            <div class="tab" data极速飞艇微信群, -tab="manage">إدارة الحزم</div>
-            <div class="tab" data-tab="settings">الإعدادات</极速飞艇微信群, div>
+            <div class="tab" data-tab="manage">إدارة الحزم</div>
+            <div class="tab" data-tab="settings">الإعدادات</div>
         </div>
         
         <div class="tab-content active" id="upload-tab">
@@ -1159,7 +778,7 @@
                 </div>
                 
                 <div class="upload-section fade-in">
-                    <h2 class="section-title"><i class="fas fa-upload"></极速飞艇微信群, i> رفع حزم DEB</h2>
+                    <h2 class="section-title"><i class="fas fa-upload"></i> رفع حزم DEB</h2>
                     <div class="upload-area" id="drop-zone">
                         <div class="upload-icon">
                             <i class="fas fa-cloud-upload-alt"></i>
@@ -1196,7 +815,7 @@
                                     <option value="linux-x86_64">linux-x86_64</option>
                                     <option value="linux-arm">linux-arm</option>
                                     <option value="linux-arm64">linux-arm64</option>
-                                    <option value="darwin-x86_极速飞艇微信群, 64">darwin-x86_64</option>
+                                    <option value="darwin-x86_64">darwin-x86_64</option>
                                     <option value="darwin-arm64">darwin-arm64</option>
                                     <option value="all">all</option>
                                 </select>
@@ -1243,8 +862,8 @@
                         <button id="upload-btn" class="btn" disabled><i class="fas fa-paper-plane"></i> رفع إلى GitHub</button>
                     </div>
                     
-                    <div class="progress-section hidden极速飞艇微信群, " id="progress-section">
-                        <h3>تقدم الرفع</极速飞艇微信群, h3>
+                    <div class="progress-section hidden" id="progress-section">
+                        <h3>تقدم الرفع</h3>
                         <div class="progress-bar">
                             <div class="progress" id="upload-progress"></div>
                         </div>
@@ -1262,10 +881,6 @@
         <div class="tab-content" id="manage-tab">
             <div class="packages-list" id="packages-list">
                 <h2 class="section-title"><i class="fas fa-boxes"></i> إدارة الحزم</h2>
-                <div class="bulk-actions">
-                    <button id="select-all-packages" class="btn btn-secondary"><i class="fas fa-check-square"></i> تحديد الكل</button>
-                    <button id="delete-selected-packages" class="btn btn-danger"><i class="fas fa-trash"></i> حذف المحدد</button>
-                </div>
                 <div id="packages-container"></div>
             </div>
         </div>
@@ -1274,54 +889,30 @@
             <div class="auth-section fade-in">
                 <h2 class="section-title"><i class="fas fa-cog"></i> الإعدادات المتقدمة</h2>
                 
-                <div class="settings-group">
-                    <h4><i class="fas fa-history"></i> إعدادات التحديث التلقائي</h4>
-                    <div class="input-group">
-                        <label for="auto-update-interval">فاصل التحديث التلقائي (دقائق):</label>
-                        <input type="number" id="auto-update-interval" min="1" value="5">
-                    </div>
-                    <div class="input-group">
-                        <label for="enable-auto-update">تفعيل التحديث التلقائي:</label>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="enable-auto-update">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
+                <div class="input-group">
+                    <label for="auto-update-interval"><i class="fas fa-history"></i> فاصل التحديث التلقائي (دقائق):</label>
+                    <input type="number" id="auto-update-interval" min="1" value="5">
                 </div>
                 
-                <div class="settings-group">
-                    <h4><i class="fas fa-microchip"></i> الإعدادات الافتراضية</h4>
-                    <div class="input-group">
-                        <label for="default-arch">الهيكلة الافتراضية:</label>
-                        <select id="default-arch">
-                            <option value="iphoneos-arm64" selected>iphoneos-arm64</option>
-                            <option value="iphoneos-arm">iphoneos-arm</option>
-                            <option value="iphoneos-arm64e">iphoneos-arm64e</option>
-                            <option value="appletvos-arm64">appletvos-arm64</option>
-                            <option value="linux-arm64">linux-arm64</option>
-                            <option value="all">all</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="default-section">القسم الافتراضي:</label>
-                        <select id="default-section">
-                            <option value="Tweaks" selected>Tweaks</option>
-                            <option value="Utilities">Utilities</option>
-                            <option value="Development">Development</option>
-                        </select>
-                    </div>
+                <div class="input-group">
+                    <label for="default-arch"><i class="fas fa-microchip"></i> الهيكلة الافتراضية:</label>
+                    <select id="default-arch">
+                        <option value="iphoneos-arm64" selected>iphoneos-arm64</option>
+                        <option value="iphoneos-arm">iphoneos-arm</option>
+                        <option value="iphoneos-arm64e">iphoneos-arm64e</option>
+                        <option value="appletvos-arm64">appletvos-arm64</option>
+                        <option value="linux-arm64">linux-arm64</option>
+                        <option value="all">all</option>
+                    </select>
                 </div>
                 
-                <div class="settings-group">
-                    <h4><i class="fas fa-file-upload"></i> إعدادات رفع متعددة</h4>
-                    <div class="input-group">
-                        <label for="hide-edit-multiple">إخفاء التعديل عند رفع عدة أدوات:</label>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="hide-edit-multiple">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
+                <div class="input-group">
+                    <label for="default-section"><i class="fas fa-folder"></i> القسم الافتراضي:</label>
+                    <select id="default-section">
+                        <option value="Tweaks" selected>Tweaks</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Development">Development</option>
+                    </select>
                 </div>
                 
                 <div class="btn-group">
@@ -1337,14 +928,6 @@
     </div>
 
     <script>
-        // متغيرات عامة
-        let selectedFiles = [];
-        let packages = [];
-        let repoConfig = {};
-        let autoUpdateInterval = null;
-        let currentEditingPackage = null;
-        let selectedPackages = new Set();
-
         document.addEventListener('DOMContentLoaded', function() {
             // عناصر DOM
             const tokenInput = document.getElementById('github-token');
@@ -1370,17 +953,6 @@
             const restorePackagesBtn = document.getElementById('restore-packages');
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
-            const fileManagerModal = document.getElementById('file-manager-modal');
-            const closeModalBtn = document.getElementById('close-modal');
-            const packagesFileInput = document.getElementById('packages-file-input');
-            const editPackageModal = document.getElementById('edit-package-modal');
-            const closeEditModalBtn = document.getElementById('close-edit-modal');
-            const savePackageChangesBtn = document.getElementById极速飞艇微信群, ('save-package-changes');
-            const cancelEditBtn = document.getElementById('cancel-edit');
-            const selectAllPackagesBtn = document.getElementById('select-all-packages');
-            const deleteSelectedPackagesBtn = document.getElementById('delete-selected-packages');
-            const enableAutoUpdate = document.getElementById('enable-auto-update');
-            const hideEditMultiple = document.getElementById('hide-edit-multiple');
             
             // عناصر تفاصيل الحزمة
             const packageNameInput = document.getElementById('package-name');
@@ -1393,16 +965,10 @@
             const packageDisplayNameInput = document.getElementById('package-display-name');
             const packageDescriptionTextarea = document.getElementById('package-description');
             
-            // عناصر تعديل الحزمة
-            const editPackageNameInput = document.getElementById('edit-package-name');
-            const editPackageVersionInput = document.getElementById('edit-package-version');
-            const editPackageArchitectureSelect = document.getElementById('edit-package-architecture');
-            const editPackageSectionSelect = document.getElementById('edit-package-section');
-            const editPackageMaintainerInput = document.getElementById('edit-package-maintainer');
-            const editPackageDependsInput = document.getElementById('edit-package-depends');
-            const editPackageAuthorInput = document.getElementById('edit-package-author');
-            const editPackageDisplayNameInput = document.getElementById('edit-package-display-name');
-            const editPackageDescriptionTextarea = document.getElementById('edit-package-description');
+            let selectedFiles = [];
+            let packages = [];
+            let repoConfig = {};
+            let autoUpdateInterval = null;
             
             // تحميل الإعدادات المحفوظة
             loadSettings();
@@ -1427,76 +993,6 @@
                 });
             });
             
-            // إدارة نافذة اختيار الملفات
-            restorePackagesBtn.addEventListener('click', function() {
-                fileManagerModal.style.display = 'flex';
-            });
-            
-            closeModalBtn.addEventListener('click', function() {
-                fileManagerModal.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(event) {
-                if (event.target === fileManagerModal) {
-                    fileManagerModal.style.display = 'none';
-                }
-            });
-            
-            packagesFileInput.addEventListener('change', function(e) {
-                if (e.target.files.length > 0) {
-                    handlePackagesUpload(e.target.files[0]);
-                }
-            });
-            
-            // إدارة نافذة تعديل الحزمة
-            closeEditModalBtn.addEventListener('click', function() {
-                editPackageModal.style.display = 'none';
-            });
-            
-            cancelEditBtn.addEventListener('click', function() {
-                editPackageModal.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(event) {
-                if (event.target === editPackageModal) {
-                    editPackageModal.style.display = 'none';
-                }
-            });
-            
-            savePackageChangesBtn.addEventListener('click', function() {
-                if (currentEditingPackage) {
-                    updatePackageInfo(currentEditingPackage);
-                }
-            });
-            
-            // إدارة الحزم المحددة
-            selectAllPackagesBtn.addEventListener('click', function() {
-                const checkboxes = document.querySelectorAll('.package-checkbox');
-                const allSelected = Array.from(checkboxes).every(checkbox => checkbox.checked);
-                
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = !allSelected;
-                    if (checkbox.checked) {
-                        selectedPackages.add(checkbox.dataset.filename);
-                    } else {
-                        selectedPackages.delete(checkbox.dataset.filename);
-                    }
-                });
-                
-                updateSelectedPackagesCount();
-            });
-            
-            deleteSelectedPackagesBtn.addEventListener('click', function() {
-                if (selectedPackages.size === 0) {
-                    showNotification('يرجى تحديد حزم لحذفها', 'warning');
-                    return;
-                }
-                
-                if (confirm(`هل أنت متأكد من أنك تريد حذف ${selectedPackages.size} حزمة؟`)) {
-                    deleteSelectedPackages();
-                }
-            });
-            
             // حفظ التوكن والإعدادات
             saveTokenBtn.addEventListener('click', function() {
                 const token = tokenInput.value.trim();
@@ -1518,7 +1014,7 @@
             
             // تحميل الحزم من المستودع
             loadPackagesBtn.addEventListener('click', function() {
-                if (!repoConfig.token || !repoConfig.owner || !repo极速飞艇微信群, Config.repo) {
+                if (!repoConfig.token || !repoConfig.owner || !repoConfig.repo) {
                     showNotification('يرجى حفظ الإعدادات أولاً', 'error');
                     return;
                 }
@@ -1537,13 +1033,40 @@
                     const interval = parseInt(document.getElementById('auto-update-interval').value) * 60 * 1000;
                     autoUpdateInterval = setInterval(() => {
                         if (repoConfig.token && repoConfig.owner && repoConfig.repo) {
-                            updateAllPackagesFiles();
+                            loadPackagesFromRepo();
                             showNotification('تم التحديث التلقائي للمستودع', 'success');
                         }
                     }, interval);
                     
                     autoUpdateBtn.innerHTML = '<i class="fas fa-stop"></i> إيقاف التحديث التلقائي';
                     showNotification('تم تفعيل التحديث التلقائي', 'success');
+                }
+            });
+            
+            // استعادة Packages
+            restorePackagesBtn.addEventListener('click', async function() {
+                if (!repoConfig.token || !repoConfig.owner || !repoConfig.repo) {
+                    showNotification('يرجى حفظ الإعدادات أولاً', 'error');
+                    return;
+                }
+                
+                const hasExistingPackages = confirm('هل يوجد لديك ملف Packages جاهز يحتوي على أدوات؟');
+                
+                try {
+                    showNotification('جاري استعادة ملف Packages...', 'info');
+                    
+                    if (hasExistingPackages) {
+                        // استخدم الملف الحالي وأضف عليه
+                        await updateAllPackagesFiles();
+                    } else {
+                        // إنشاء ملف Packages جديد من الصفر
+                        await recreatePackagesFile();
+                    }
+                    
+                    showNotification('تم استعادة ملف Packages بنجاح', 'success');
+                } catch (error) {
+                    console.error('Error restoring packages:', error);
+                    showNotification('فشل في استعادة ملف Packages', 'error');
                 }
             });
             
@@ -1602,17 +1125,11 @@
                 packageMaintainerInput.value = repoConfig.owner || 'المطور العربي';
                 packageDependsInput.value = 'firmware (>= 14.0)';
                 packageAuthorInput.value = repoConfig.owner || 'فريق التطوير';
-                packageDisplayName极速飞艇微信群, Input.value = baseName;
+                packageDisplayNameInput.value = baseName;
                 packageDescriptionTextarea.value = 'هذه أداة متقدمة توفر وظائف مفيدة';
                 
                 // إظهار قسم تفاصيل الحزمة
                 packageDetailsSection.classList.remove('hidden');
-                
-                // إخفاء التعديل إذا كان الخيار مفعلاً وعدد الملفات أكثر من 1
-                const hideEdit = document.getElementById('hide-edit-multiple').checked;
-                if (hideEdit && selectedFiles.length > 1) {
-                    packageDetailsSection.classList.add('hidden');
-                }
                 
                 uploadBtn.disabled = !isFormValid();
             }
@@ -1654,6 +1171,31 @@
                        selectedFiles.length > 0;
             }
             
+            // دالة جديدة لضغط المحتوى باستخدام bzip2
+            async function compressWithBzip2(content) {
+                return new Promise((resolve, reject) => {
+                    try {
+                        // تحويل المحتوى إلى Uint8Array
+                        const encoder = new TextEncoder();
+                        const data = encoder.encode(content);
+                        
+                        // ضغط البيانات باستخدام bzip2
+                        const compressed = bzip2.compress(data, {blockSize: 9});
+                        
+                        // تحويل البيانات المضغوطة إلى base64
+                        let binary = '';
+                        for (let i = 0; i < compressed.length; i++) {
+                            binary += String.fromCharCode(compressed[i]);
+                        }
+                        const base64 = btoa(binary);
+                        
+                        resolve(base64);
+                    } catch (error) {
+                        reject(error);
+                    }
+                });
+            }
+            
             // رفع الملفات إلى GitHub
             uploadBtn.addEventListener('click', async function() {
                 if (!isFormValid()) {
@@ -1691,6 +1233,7 @@
                     progressStatus.textContent = 'جاري إنشاء ملفات مضغوطة...';
                     uploadProgress.style.width = '90%';
                     
+                    // هذا السطر يضمن تحديث كلا الملفين Packages و Packages.bz2
                     await updateAllPackagesFiles();
                     
                     // اكتمال العملية
@@ -1702,7 +1245,7 @@
                     resultSection.className = 'result-section success';
                     resultMessage.innerHTML = `
                         <p>تم رفع ${successfulUploads} من أصل ${totalFiles} حزمة بنجاح إلى المستودع!</p>
-                        <p>تم تحديث ملفات Packages تلقائياً.</p>
+                        <p>تم تحديث ملفات Packages و Packages.bz2 تلقائياً.</p>
                     `;
                     
                     showNotification(`تم رفع ${successfulUploads} حزمة وتحديث المستودع بنجاح!`, 'success');
@@ -1729,9 +1272,6 @@
                         resultMessage.innerHTML = 'المستودع غير موجود أو لا يمكن الوصول إليه';
                     } else if (error.message.includes('invalid characters')) {
                         resultMessage.innerHTML = 'خطأ في ترميز الملف: يحتوي الملف على أحرف غير صالحة';
-                    } else if (error.message.includes('decompress') || error.message.includes('XZError')) {
-                        resultMessage.innerHTML = 'خطأ في فك ضغط الملف: قد يكون الملف تالفاً أو غير مدعوم';
-                        showNotification('خطأ في فك ضغط الملف. يرجى التحقق من الملف والمحاولة مرة أخرى', 'error');
                     } else {
                         resultMessage.innerHTML = `حدث خطأ أثناء الرفع: ${error.message || 'خطأ غير معروف'}`;
                     }
@@ -1808,20 +1348,19 @@
             
             // تحديث ملف Packages
             async function updatePackagesFile(debName, debPath, file) {
-                try {
-                    // حساب الهاشات
-                    const fileBuffer = await readFileAsArrayBuffer(file);
-                    const md5 = CryptoJS.MD5(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
-                    const sha1 = CryptoJS.SHA1(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
-                    const sha256 = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
-                    
-                    // إنشاء معلومات الحزمة من المدخلات
-                    const packageInfo = `
+                // حساب الهاشات
+                const fileBuffer = await readFileAsArrayBuffer(file);
+                const md5 = CryptoJS.MD5(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
+                const sha1 = CryptoJS.SHA1(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
+                const sha256 = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(fileBuffer)).toString();
+                
+                // إنشاء معلومات الحزمة من المدخلات
+                const packageInfo = `
 Package: ${packageNameInput.value || debName.replace('.deb', '')}
 Version: ${packageVersionInput.value || '1.0.0'}
 Architecture: ${packageArchitectureSelect.value}
 Maintainer: ${packageMaintainerInput.value || 'Package Maintainer'}
-Depends: ${packageDepends极速飞艇微信群, Input.value || 'firmware (>= 14.0)'}
+Depends: ${packageDependsInput.value || 'firmware (>= 14.0)'}
 Author: ${packageAuthorInput.value || 'Package Author'}
 Name: ${packageDisplayNameInput.value || 'Package Display Name'}
 Description: ${packageDescriptionTextarea.value || 'Description of the package'}
@@ -1834,43 +1373,40 @@ SHA1: ${sha1}
 SHA256: ${sha256}
 
 `;
-                    
-                    // الحصول على محتوى Packages الحالي إذا كان موجوداً
-                    let packagesContent = '';
-                    try {
-                        const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig极速飞艇微信群, .repo}/contents/Packages`, {
-                            headers: {
-                                'Authorization': `token ${repoConfig.token}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-                        
-                        if (response.ok) {
-                            const file极速飞艇微信群, Data = await response.json();
-                            // استخدام TextDecoder لفك تشفير المحتوى بشكل صحيح للغة العربية
-                            const decodedContent = decodeURIComponent(escape(atob(fileData.content)));
-                            packagesContent = decodedContent;
+                
+                // الحصول على محتوى Packages الحالي إذا كان موجوداً
+                let packagesContent = '';
+                try {
+                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
+                        headers: {
+                            'Authorization': `token ${repoConfig.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
                         }
-                    } catch (e) {
-                        // الملف غير موجود، سنقوم بإنشائه
+                    });
+                    
+                    if (response.ok) {
+                        const fileData = await response.json();
+                        const decodedContent = atob(fileData.content);
+                        packagesContent = decodedContent;
                     }
-                    
-                    // إضافة معلومات الحزمة الجديدة
-                    packagesContent += packageInfo;
-                    
-                    // استخدام TextEncoder لتحويل المحتوى إلى base64 بشكل صحيح للغة العربية
-                    const encodedContent = btoa(unescape(encodeURIComponent(packagesContent)));
-                    
-                    // رفع ملف Packages المحدث
-                    await uploadToGitHub('Packages', encodedContent, `تحديث Packages بإضافة: ${debName}`);
-                } catch (error) {
-                    console.error('Error updating packages file:', error);
-                    if (error.message.includes('decompress') || error.message.includes('XZError')) {
-                        showNotification('خطأ في ضغط/فك ضغط الملف. يرجى المحاولة مرة أخرى', 'error');
-                        throw new Error('فشل في ضغط/فك ضغط الملف');
-                    }
-                    throw error;
+                } catch (e) {
+                    // الملف غير موجود، سنقوم بإنشائه
                 }
+                
+                // إضافة معلومات الحزمة الجديدة
+                packagesContent += packageInfo;
+                
+                // تحويل المحتوى إلى base64
+                const encoder = new TextEncoder();
+                const encodedContent = encoder.encode(packagesContent);
+                let binary = '';
+                for (let i = 0; i < encodedContent.byteLength; i++) {
+                    binary += String.fromCharCode(encodedContent[i]);
+                }
+                const base64Content = btoa(binary);
+                
+                // رفع ملف Packages المحدث
+                await uploadToGitHub('Packages', base64Content, `تحديث Packages بإضافة: ${debName}`);
             }
             
             // تحديث جميع ملفات Packages المضغوطة
@@ -1887,7 +1423,7 @@ SHA256: ${sha256}
                     
                     if (response.ok) {
                         const fileData = await response.json();
-                        packagesContent = decodeURIComponent(escape(atob(fileData.content)));
+                        packagesContent = atob(fileData.content);
                     } else {
                         throw new Error('Unable to fetch Packages file');
                     }
@@ -1896,30 +1432,29 @@ SHA256: ${sha256}
                 }
                 
                 try {
-                    // إنشاء Packages.gz (محاكاة)
+                    // إنشاء Packages.bz2 (ضغط حقيقي)
+                    const bz2Content = await compressWithBzip2(packagesContent);
+                    await uploadToGitHub('Packages.bz2', bz2Content, 'تحديث Packages.bz2');
+                    
+                    // إنشاء Packages.gz (نحافظ على الدعم لهذا الملف أيضًا)
                     const gzContent = btoa(unescape(encodeURIComponent(packagesContent)));
                     await uploadToGitHub('Packages.gz', gzContent, 'تحديث Packages.gz');
                     
-                    // إنشاء Packages.bz2 (محاكاة)
+                } catch (error) {
+                    console.error('Error creating compressed packages:', error);
+                    // في حالة الفشل، نستخدم الطريقة القديمة كاحتياطي
+                    const gzContent = btoa(unescape(encodeURIComponent(packagesContent)));
+                    await uploadToGitHub('Packages.gz', gzContent, 'تحديث Packages.gz');
+                    
                     const bz2Content = btoa(unescape(encodeURIComponent(packagesContent)));
                     await uploadToGitHub('Packages.bz2', bz2Content, 'تحديث Packages.bz2');
                     
-                    // إنشاء Packages.xz (محاكاة)
-                    const xzContent = btoa(unescape(encodeURIComponent(packagesContent)));
-                    await uploadToGitHub('Packages.xz', xzContent, 'تحديث Packages.xz');
-                    
-                } catch (error) {
-                    console.error('Error creating compressed packages:', error);
-                    if (error.message.includes('decompress') || error.message.includes('XZError')) {
-                        showNotification('خطأ في ضغط/فك ضغط الملف. يرجى المحاولة مرة أخرى', 'error');
-                        throw new Error('فشل في ضغط/فك ضغط الملف');
-                    }
-                    throw new Error('Failed to create compressed packages');
+                    showNotification('تم استخدام طريقة بديلة لإنشاء الملفات المضغوطة', 'warning');
                 }
             }
             
             // قراءة الملف كـ ArrayBuffer
-            function readFile极速飞艇微信群, AsArrayBuffer(file) {
+            function readFileAsArrayBuffer(file) {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = () => {
@@ -1966,7 +1501,6 @@ SHA256: ${sha256}
                                 
                             packageItem.innerHTML = `
                                 <div class="package-info">
-                                    <input type="checkbox" class="package-checkbox" data-filename="${file.name}" style="margin-left: 10px;">
                                     <h3 class="package-name" title="${file.name}">${displayName}</h3>
                                     <p class="package-size">الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
                                 </div>
@@ -1980,150 +1514,8 @@ SHA256: ${sha256}
                         }
                     });
                     
-                    // إضافة أحداث للتحديد
-                    document.querySelectorAll('.package-checkbox').forEach(checkbox => {
-                        checkbox.addEventListener('change', function() {
-                            if (this.checked) {
-                                selectedPackages.add(this.dataset.filename);
-                            } else {
-                                selectedPackages.delete(this.dataset.filename);
-                            }
-                            updateSelectedPackagesCount();
-                        });
-                    });
-                    
                 } catch (error) {
                     packagesContainer.innerHTML = `<p>خطأ في تحميل الحزم: ${error.message}</p>`;
-                }
-            }
-            
-            function updateSelectedPackagesCount() {
-                const count = selectedPackages.size;
-                deleteSelectedPackagesBtn.innerHTML = `<i class="fas fa-trash"></i> حذف المحدد (${count})`;
-            }
-            
-            // حذف الحزم المحددة
-            async function deleteSelectedPackages() {
-                try {
-                    progressSection.classList.remove('hidden');
-                    uploadProgress.style.width = '0%';
-                    progressStatus.textContent = 'جاري حذف الحزم المحددة...';
-                    
-                    const packagesToDelete = Array.from(selectedPackages);
-                    const totalPackages = packagesToDelete.length;
-                    let successfulDeletes = 0;
-                    
-                    for (let i = 0; i < totalPackages; i++) {
-                        const filename = packagesToDelete[i];
-                        progressStatus.textContent = `جاري حذف الحزمة ${i+1} من ${totalPackages}...`;
-                        uploadProgress.style.width = `${(i / totalPackages) * 100}%`;
-                        
-                        // حذف الملف من المستودع
-                        await deletePackageFromRepo(filename);
-                        
-                        successfulDeletes++;
-                    }
-                    
-                    // تحديث ملف Packages بعد الحذف
-                    progressStatus.textContent = 'جاري تحديث ملف Packages...';
-                    uploadProgress.style.width = '90%';
-                    
-                    await updatePackagesAfterBulkDeletion(packagesToDelete);
-                    
-                    // اكتمال العملية
-                    uploadProgress.style.width = '100%';
-                    progressStatus.textContent = 'تم الحذف بنجاح!';
-                    
-                    showNotification(`تم حذف ${successfulDeletes} حزمة بنجاح`, 'success');
-                    
-                    // إعادة تحميل قائمة الحزم
-                    loadPackagesFromRepo();
-                    
-                    // إعادة تعيين الحزم المحددة
-                    selectedPackages.clear();
-                    updateSelectedPackagesCount();
-                    
-                } catch (error) {
-                    console.error('Error deleting packages:', error);
-                    showNotification('فشل في حذف الحزم المحددة', 'error');
-                }
-            }
-            
-            // حذف حزمة من المستودع
-            async function deletePackageFromRepo(filename) {
-                try {
-                    // الحصول على معلومات الملف أولاً للحصول على SHA
-                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/debs/${filename}`, {
-                        headers: {
-                            'Authorization': `token ${repoConfig.token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const fileData = await response.json();
-                        
-                        // حذف الملف
-                        const deleteResponse = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/debs/${filename}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Authorization': `token ${repoConfig.token}`,
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/vnd.github.v3+json'
-                            },
-                            body: JSON.stringify({
-                                message: `حذف الحزمة: ${filename}`,
-                                sha: fileData.sha,
-                                branch: repoConfig.branch
-                            })
-                        });
-                        
-                        if (!deleteResponse.ok) {
-                            throw new Error('Failed to delete file');
-                        }
-                    } else {
-                        throw new Error('File not found');
-                    }
-                } catch (error) {
-                    console.error(`Error deleting package ${filename}:`, error);
-                    throw error;
-                }
-            }
-            
-            // تحديث ملف Packages بعد حذف جماعي
-            async function updatePackagesAfterBulkDeletion(filenames) {
-                try {
-                    // جلب محتوى Packages الحالي
-                    const response = await fetch(`极速飞艇微信群, https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
-                        headers: {
-                            'Authorization': `token ${repoConfig.token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const fileData = await response.json();
-                        let packagesContent = decodeURIComponent(escape(atob(fileData.content)));
-                        
-                        // إزالة معلومات الحزم المحذوفة
-                        filenames.forEach(filename => {
-                            const packageName = filename.replace('.deb', '');
-                            const packagePattern = new RegExp(`Package: ${packageName}[\\s\\S]*?(?=Package:|$)`, 'g');
-                            packagesContent = packagesContent.replace(packagePattern, '');
-                        });
-                        
-                        // تحويل المحتوى إلى base64 بشكل صحيح للغة العربية
-                        const base64Content = btoa(unescape(encodeURIComponent(packagesContent)));
-                        
-                        // رفع ملف Packages المحدث
-                        await uploadToGitHub('Packages', base64Content, `تحديث Packages بعد حذف: ${filenames.length} حزمة`);
-                        
-                        // إعادة إنشاء الملفات المضغوطة
-                        await updateAllPackagesFiles();
-                    }
-                } catch (error) {
-                    console.error('Error updating Packages after bulk deletion:', error);
-                    throw error;
                 }
             }
             
@@ -2171,93 +1563,60 @@ SHA256: ${file.sha}${file.sha}
                         }
                     }
                     
-                    // تحويل المحتوى إلى base64 بشكل صحيح للغة العربية
-                    const base64Content = btoa(unescape(encodeURIComponent(packagesContent)));
+                    // تحويل المحتوى إلى base64
+                    const encoder = new TextEncoder();
+                    const encodedContent = encoder.encode(packagesContent);
+                    let binary = '';
+                    for (let i = 0; i < encodedContent.byteLength; i++) {
+                        binary += String.fromCharCode(encodedContent[i]);
+                    }
+                    const base64Content = btoa(binary);
                     
                     // رفع ملف Packages الجديد
-                    await uploadToGitHub('极速飞艇微信群, Packages', base64极速飞艇微信群, Content, 'إعادة إنشاء ملف Packages');
+                    await uploadToGitHub('Packages', base64Content, 'إعادة إنشاء ملف Packages');
                     
                     // إنشاء جميع الملفات المضغوطة
                     await updateAllPackagesFiles();
                     
-                    showNotification('تم إعادة إنشاء ملف Packages بنجاح', 'success');
-                    
                 } catch (error) {
                     console.error('Error recreating packages file:', error);
-                    showNotification('فشل في إعادة إنشاء ملف Packages', 'error');
                     throw error;
                 }
             }
             
-            // معالجة خيارات استعادة Packages
-            function handlePackagesOption(option) {
-                fileManagerModal.style.display = 'none';
-                
-                if (option === 'existing') {
-                    updateAllPackagesFiles()
-                        .then(() => showNotification('تم تحديث ملفات Packages باستخدام الملف الحالي', 'success'))
-                        .catch(error => {
-                            console.error('Error updating packages files:', error);
-                            showNotification('فشل في تحديث ملفات Packages', 'error');
-                        });
-                } else if (option === 'new') {
-                    recreatePackagesFile()
-                        .then(() => showNotification('تم إنشاء ملف Packages جديد بنجاح', 'success'))
-                        .catch(error => {
-                            console.error('Error creating new packages file:', error);
-                            showNotification('فشل في إنشاء ملف Packages جديد', 'error');
-                        });
-                }
-            }
-            
-            // معالجة رفع ملف Packages
-            function handlePackagesUpload(file) {
-                fileManagerModal.style.display = 'none';
-                
-                // هنا يمكنك معالجة الملف الذي تم رفعه
-                // في هذا المثال، سنقوم بمحاكاة عملية الرفع
-                
-                showNotification(`تم رفع ملف: ${file.name}`, 'info');
-                
-                // محاكاة معالجة الملف
-                setTimeout(() => {
-                    showNotification('تم استعادة ملف Packages بنجاح', 'success');
-                }, 2000);
-            }
-            
             // وظيفة عرض الإشعارات
             function showNotification(message, type) {
-                const notificationContainer = document.getElementById('notification-container');
                 const notification = document.createElement('div');
                 notification.textContent = message;
-                notification.classList.add('notification', type);
+                notification.style.position = 'fixed';
+                notification.style.bottom = '30px';
+                notification.style.right = '30px';
+                notification.style.padding = '15px 25px';
+                notification.style.borderRadius = '10px';
+                notification.style.color = 'white';
+                notification.style.fontWeight = '600';
+                notification.style.zIndex = '1000';
+                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+                notification.classList.add('fade-in');
                 
-                // إضافة أيقونة حسب نوع الإشعار
-                let icon = '';
-                switch(type) {
-                    case 'success':
-                        icon = '<i class="fas fa-check-circle"></i>';
-                        break;
-                    case 'error':
-                        icon = '<i class="fas fa-exclamation-circle"></i>';
-                        break;
-                    case 'warning':
-                        icon = '<i class="fas fa-exclamation-triangle"></i>';
-                        break;
-                    default:
-                        icon = '<i class="fas fa-info-circle"></i>';
+                if (type === 'success') {
+                    notification.style.background = 'linear-gradient(135deg, var(--success), var(--success-dark))';
+                } else if (type === 'error') {
+                    notification.style.background = 'linear-gradient(135deg, var(--error), var(--error-dark))';
+                } else {
+                    notification.style.background = 'linear-gradient(135deg, var(--info), var(--info-dark))';
                 }
                 
-                notification.innerHTML = icon + ' ' + notification.innerHTML;
-                notificationContainer.appendChild(notification);
+                document.body.appendChild(notification);
                 
                 setTimeout(() => {
-                    notification.style.animation = 'slideOut 0.3s ease-out';
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
                     setTimeout(() => {
-                        if (notificationContainer.contains(notification)) {
-                            notificationContainer.removeChild(notification);
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
                         }
-                    }, 300);
+                    }, 500);
                 }, 3000);
             }
             
@@ -2278,25 +1637,10 @@ SHA256: ${file.sha}${file.sha}
                     document.getElementById('auto-update-interval').value = settings.autoUpdateInterval || 5;
                     document.getElementById('default-arch').value = settings.defaultArch || 'iphoneos-arm64';
                     document.getElementById('default-section').value = settings.defaultSection || 'Tweaks';
-                    document.getElementById('enable-auto-update').checked = settings.enableAutoUpdate || false;
-                    document.getElementById('hide-edit-multiple').checked = settings.hideEditMultiple || false;
                     
                     // تطبيق الإعدادات على النموذج
                     packageArchitectureSelect.value = settings.defaultArch || 'iphoneos-arm64';
                     packageSectionSelect.value = settings.defaultSection || 'Tweaks';
-                    
-                    // تفعيل التحديث التلقائي إذا كان مفعلاً
-                    if (settings.enableAutoUpdate) {
-                        const interval = parseInt(settings.autoUpdateInterval || 5) * 60 * 1000;
-                        autoUpdateInterval = setInterval(() => {
-                            if (repoConfig.token && repoConfig.owner && repoConfig.repo) {
-                                updateAllPackagesFiles();
-                                showNotification('تم التحديث التلقائي للمستودع', 'success');
-                            }
-                        }, interval);
-                        
-                        autoUpdateBtn.innerHTML = '<i class="fas fa-stop"></i> إيقاف التحديث التلقائي';
-                    }
                 }
             }
             
@@ -2305,9 +1649,7 @@ SHA256: ${file.sha}${file.sha}
                 const settings = {
                     autoUpdateInterval: parseInt(document.getElementById('auto-update-interval').value),
                     defaultArch: document.getElementById('default-arch').value,
-                    defaultSection: document.getElementById('default-section').value,
-                    enableAutoUpdate: document.getElementById('enable-auto-update').checked,
-                    hideEditMultiple: document.getElementById('hide-edit-multiple').checked
+                    defaultSection: document.getElementById('default-section').value
                 };
                 
                 localStorage.setItem('appSettings', JSON.stringify(settings));
@@ -2316,26 +1658,6 @@ SHA256: ${file.sha}${file.sha}
                 // تطبيق الإعدادات على النموذج
                 packageArchitectureSelect.value = settings.defaultArch;
                 packageSectionSelect.value = settings.defaultSection;
-                
-                // تفعيل/إيقاف التحديث التلقائي
-                if (autoUpdateInterval) {
-                    clearInterval(autoUpdateInterval);
-                    autoUpdateInterval = null;
-                }
-                
-                if (settings.enableAutoUpdate) {
-                    const interval = parseInt(settings.autoUpdateInterval) * 60 * 1000;
-                    autoUpdateInterval = setInterval(() => {
-                        if (repoConfig.token && repoConfig.owner && repoConfig.repo) {
-                            updateAllPackagesFiles();
-                            showNotification('تم التحديث التلقائي للمستودع', 'success');
-                        }
-                    }, interval);
-                    
-                    autoUpdateBtn.innerHTML = '<i class="fas fa-stop"></i> إيقاف التحديث التلقائي';
-                } else {
-                    autoUpdateBtn.innerHTML = '<i class极速飞艇微信群, ="fas fa-sync-alt"></i> التحديث التلقائي';
-                }
             });
             
             // إعادة ضبط الإعدادات
@@ -2344,19 +1666,10 @@ SHA256: ${file.sha}${file.sha}
                 document.getElementById('auto-update-interval').value = 5;
                 document.getElementById('default-arch').value = 'iphoneos-arm64';
                 document.getElementById('default-section').value = 'Tweaks';
-                document.getElementById('enable-auto-update').checked = false;
-                document.getElementById('hide-edit-multiple').checked = false;
                 
                 // تطبيق الإعدادات على النموذج
                 packageArchitectureSelect.value = 'iphoneos-arm64';
                 packageSectionSelect.value = 'Tweaks';
-                
-                // إيقاف التحديث التلقائي
-                if (autoUpdateInterval) {
-                    clearInterval(autoUpdateInterval);
-                    autoUpdateInterval = null;
-                    autoUpdateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> التحديث التلقائي';
-                }
                 
                 showNotification('تم إعادة ضبط الإعدادات', 'info');
             });
@@ -2367,135 +1680,9 @@ SHA256: ${file.sha}${file.sha}
             };
             
             window.editPackage = async function(filename) {
-                try {
-                    // جلب معلومات الحزمة من ملف Packages
-                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
-                        headers: {
-                            'Authorization': `token ${repoConfig.token}`,
-                            'Accept': 'application/vnd.github.v3极速飞艇微信群, +json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const fileData = await response.json();
-                        const packagesContent = decodeURIComponent(escape(atob(fileData.content)));
-                        
-                        // البحث عن معلومات الحزمة المحددة
-                        const packageName = filename.replace('.deb', '');
-                        const packagePattern = new RegExp(`Package: ${packageName}[\\s\\S]*?(?=Package:|$)`);
-                        const packageMatch = packagesContent.match(packagePattern);
-                        
-                        if (packageMatch) {
-                            const packageInfo = packageMatch[0];
-                            
-                            // استخراج المعلومات من النص
-                            const getFieldValue = (field) => {
-                                const regex = new RegExp(`${field}:\\s*(.*)`);
-                                const match = packageInfo.match(regex);
-                                return match ? match[1].trim() : '';
-                            };
-                            
-                            // تعبئة نموذج التعديل
-                            editPackageNameInput.value = getFieldValue('Package') || packageName;
-                            editPackageVersionInput.value = getFieldValue('Version') || '1.0.0';
-                            editPackageArchitectureSelect.value = getFieldValue('Architecture') || 'iphoneos-arm64';
-                            editPackageSectionSelect.value = getFieldValue('Section') || 'Utilities';
-                            editPackageMaintainerInput.value = getFieldValue('Maintainer') || '';
-                            editPackageDependsInput.value = getFieldValue('Depends') || '';
-                            editPackageAuthorInput.value = getFieldValue('Author') || '';
-                            editPackageDisplayNameInput.value = getFieldValue('Name') || '';
-                            editPackageDescriptionTextarea.value = getFieldValue('Description') || '';
-                            
-                            // حفظ اسم الحزمة الحالي للتعديل
-                            currentEditingPackage = {
-                                oldName: packageName,
-                                filename: filename
-                            };
-                            
-                            // عرض نافذة التعديل
-                            editPackageModal.style.display = 'flex';
-                        } else {
-                            showNotification('لم يتم العثور على معلومات الحزمة', 'error');
-                        }
-                    } else {
-                        throw new Error('Unable to fetch Packages file');
-                    }
-                } catch (error) {
-                    console.error('Error fetching package info:', error);
-                    showNotification('فشل في تحميل معلومات الحزمة', 'error');
-                }
+                showNotification(`سيتم فتح نافذة تعديل للحزمة: ${filename}`, 'info');
+                // يمكنك تطوير هذه الوظيفة لاحقاً
             };
-            
-            // تحديث معلومات الحزمة
-            async function updatePackageInfo(packageData) {
-                try {
-                    // جلب محتوى Packages الحالي
-                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
-                        headers: {
-                            'Authorization': `token ${repoConfig.token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const fileData = await response.json();
-                        let packagesContent = decodeURIComponent(escape(atob(fileData.content)));
-                        
-                        // البحث عن معلومات الحزمة القديمة واستبدالها بالمعلومات الجديدة
-                        const packagePattern = new RegExp(`Package: ${packageData.oldName}[\\s\\S]*?(?=Package:|$)`);
-                        const packageMatch = packagesContent.match(packagePattern);
-                        
-                        if (packageMatch) {
-                            // إنشاء معلومات الحزمة الجديدة
-                            const newPackageInfo = `
-Package: ${editPackageNameInput.value}
-Version: ${editPackageVersionInput.value}
-Architecture: ${editPackageArchitectureSelect.value}
-Maintainer: ${editPackageMaintainerInput.value}
-Depends: ${editPackageDependsInput.value}
-Author: ${editPackageAuthorInput.value}
-Name: ${editPackageDisplayNameInput.value}
-Description: ${editPackageDescriptionTextarea.value}
-Section: ${editPackageSectionSelect.value}
-Homepage: https://github.com/${repoConfig.owner}/${repoConfig.repo}
-Filename: debs/${packageData.filename}
-Size: ${packageMatch[0].match(/Size:\s*(\d+)/)[1]}
-MD5sum: ${packageMatch[0].match(/MD5sum:\s*(\w+)/)[1]}
-SHA1: ${packageMatch[0].match(/SHA1:\s*(\w+)/)[1]}
-SHA256: ${packageMatch[0].match(/SHA256:\s*(\w+)/)[1]}
-
-`;
-                            
-                            // استبدال المعلومات القديمة بالجديدة
-                            packagesContent = packagesContent.replace(packagePattern, newPackageInfo);
-                            
-                            // تحويل المحتوى إلى base64 بشكل صحيح للغة العربية
-                            const encodedContent = btoa(unescape(encodeURIComponent(packagesContent)));
-                            
-                            // رفع ملف Packages المحدث
-                            await uploadToGitHub('Packages', encodedContent, `تعديل الحزمة: ${packageData.oldName}`);
-                            
-                            // إعادة إنشاء الملفات المضغوطة
-                            await update极速飞艇微信群, AllPackagesFiles();
-                            
-                            showNotification('تم تحديث معلومات الحزمة بنجاح', 'success');
-                            
-                            // إغلاق نافذة التعديل
-                            editPackageModal.style.display = 'none';
-                            
-                            // إعادة تحميل قائمة الحزم
-                            loadPackages极速飞艇微信群, FromRepo();
-                        } else {
-                            throw new Error('Package not found in Packages file');
-                        }
-                    } else {
-                        throw new Error('Unable to fetch Packages file');
-                    }
-                } catch (error) {
-                    console.error('Error updating package info:', error);
-                    showNotification('فشل في تحديث معلومات الحزمة', 'error');
-                }
-            }
             
             window.deletePackage = async function(filename) {
                 if (!confirm('هل أنت متأكد من أنك تريد حذف هذه الحزمة نهائياً من المستودع؟')) return;
@@ -2557,15 +1744,21 @@ SHA256: ${packageMatch[0].match(/SHA256:\s*(\w+)/)[1]}
                     
                     if (response.ok) {
                         const fileData = await response.json();
-                        let packagesContent = decodeURIComponent(escape(atob(fileData.content)));
+                        let packagesContent = atob(fileData.content);
                         
                         // إزالة معلومات الحزمة المحذوفة
                         const packageName = filename.replace('.deb', '');
                         const packagePattern = new RegExp(`Package: ${packageName}[\\s\\S]*?(?=Package:|$)`, 'g');
                         packagesContent = packagesContent.replace(packagePattern, '');
                         
-                        // تحويل المحتوى إلى base64 بشكل صحيح للغة العربية
-                        const base64Content = btoa(unescape(encodeURIComponent(packagesContent)));
+                        // تحويل المحتوى إلى base64
+                        const encoder = new TextEncoder();
+                        const encodedContent = encoder.encode(packagesContent);
+                        let binary = '';
+                        for (let i = 0; i < encodedContent.byteLength; i++) {
+                            binary += String.fromCharCode(encodedContent[i]);
+                        }
+                        const base64Content = btoa(binary);
                         
                         // رفع ملف Packages المحدث
                         await uploadToGitHub('Packages', base64Content, `تحديث Packages بعد حذف: ${filename}`);
