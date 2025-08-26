@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
+    <!-- إضافة مكتبة bzip2.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bzip2@0.9.0/dist/bzip2.min.js"></script>
     <style>
         :root {
             --primary: #6e44ff;
@@ -210,6 +212,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
+            z-index: 1;
         }
         
         .btn:hover::before {
@@ -1242,14 +1245,20 @@ SHA256: ${sha256}
                     throw new Error('Unable to fetch Packages file');
                 }
                 
-                // إنشاء Packages.bz2 باستخدام pako (zlib)
+                // إنشاء Packages.bz2 باستخدام bzip2
                 try {
                     // تحويل النص إلى Uint8Array
                     const textEncoder = new TextEncoder();
                     const packagesData = textEncoder.encode(packagesContent);
                     
-                    // ضغط البيانات باستخدام pako (zlib)
-                    const compressedData = pako.deflate(packagesData, { level: 9, to: 'uint8array' });
+                    // تحويل Uint8Array إلى Array عادي لأن bzip2.compress يتوقع Array
+                    const packagesArray = Array.from(packagesData);
+                    
+                    // ضغط البيانات باستخدام bzip2
+                    const compressedArray = bzip2.compress(packagesArray);
+                    
+                    // تحويل النتيجة إلى Uint8Array
+                    const compressedData = new Uint8Array(compressedArray);
                     
                     // تحويل البيانات المضغوطة إلى base64
                     let binary = '';
