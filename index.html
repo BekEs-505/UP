@@ -8,10 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
-    <!-- إضافة مكتبة bzip2 -->
-    <script src="https://cdn.jsdelivr.net/npm/bzip2@1.0.6/lib/bzip2.min.js"></script>
+    <!-- إضافة مكتبة bzip2.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bzip2@0.9.0/dist/bzip2.min.js"></script>
     <style>
-        /* أنماط CSS تبقى كما هي بدون تغيير */
         :root {
             --primary: #6e44ff;
             --secondary: #b892ff;
@@ -614,6 +613,123 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(var(--accent), var(--primary));
         }
+
+        /* نظام الإشعارات المحسّن */
+        .notification-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+        }
+        
+        .notification {
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            animation: notificationIn 0.5s ease forwards;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid;
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            border-left-color: #27ae60;
+        }
+        
+        .notification.warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+            border-left-color: #e67e22;
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, var(--error), #c0392b);
+            border-left-color: #c0392b;
+        }
+        
+        .notification.info {
+            background: linear-gradient(135deg, var(--info), #2980b9);
+            border-left-color: #2980b9;
+        }
+        
+        .notification i {
+            font-size: 20px;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .notification-close:hover {
+            opacity: 1;
+        }
+        
+        @keyframes notificationIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes notificationOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+        
+        .notification.hide {
+            animation: notificationOut 0.5s ease forwards;
+        }
+        
+        .notification-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            width: 100%;
+            transform-origin: left;
+            animation: progressBar 3s linear forwards;
+        }
+        
+        @keyframes progressBar {
+            from { transform: scaleX(1); }
+            to { transform: scaleX(0); }
+        }
     </style>
 </head>
 <body>
@@ -755,6 +871,9 @@
             <p>© 2023 منصة إدارة مستودعات DEB المتكاملة. جميع الحقوق محفوظة.</p>
         </div>
     </div>
+
+    <!-- حاوية الإشعارات -->
+    <div id="notification-container" class="notification-container"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1080,7 +1199,7 @@
             
             // قراءة الملف كـ base64
             function readFileAsBase64(file) {
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve, reject) {
                     const reader = new FileReader();
                     reader.onload = () => {
                         const arrayBuffer = reader.result;
@@ -1224,7 +1343,7 @@ SHA256: ${sha256}
                 });
             }
             
-            // إنشاء ملفات Packages المضغوطة - الإصدار المعدل
+            // إنشاء ملفات Packages المضغوطة - الإصدار المحسن
             async function createCompressedPackages() {
                 // جلب محتوى Packages
                 let packagesContent = '';
@@ -1246,50 +1365,44 @@ SHA256: ${sha256}
                     throw new Error('Unable to fetch Packages file');
                 }
                 
-                // إنشاء Packages.bz2 باستخدام bzip2
+                // إنشاء Packages.bz2 باستخدام bzip2 - الطريقة المحسنة
                 try {
                     // تحويل النص إلى Uint8Array
                     const textEncoder = new TextEncoder();
                     const packagesData = textEncoder.encode(packagesContent);
                     
-                    // ضغط البيانات باستخدام bzip2
-                    const compressed = bzip2.compress(packagesContent, { level: 9 });
+                    // تحسين عملية الضغط
+                    let compressedArray;
+                    try {
+                        // الطريقة 1: استخدام bzip2.js بشكل صحيح
+                        compressedArray = bzip2.compress(Array.from(packagesData));
+                    } catch (bzipError) {
+                        console.warn('bzip2 compression failed, trying alternative method:', bzipError);
+                        
+                        // الطريقة 2: استخدام pako كبديل (للطوارئ)
+                        const compressed = pako.gzip(packagesData);
+                        // رفع كملف .gz بدلاً من .bz2 في حالة الطوارئ
+                        await uploadToGitHub('Packages.gz', btoa(String.fromCharCode(...compressed)), 'تحديث Packages.gz (بديل)');
+                        showNotification('تم إنشاء Packages.gz كبديل لـ Packages.bz2', 'warning');
+                        return;
+                    }
+                    
+                    // تحويل النتيجة إلى Uint8Array
+                    const compressedData = new Uint8Array(compressedArray);
                     
                     // تحويل البيانات المضغوطة إلى base64
                     let binary = '';
-                    for (let i = 0; i < compressed.length; i++) {
-                        binary += String.fromCharCode(compressed[i]);
+                    for (let i = 0; i < compressedData.byteLength; i++) {
+                        binary += String.fromCharCode(compressedData[i]);
                     }
                     const base64Content = btoa(binary);
                     
                     // رفع ملف Packages.bz2 المضغوط
                     await uploadToGitHub('Packages.bz2', base64Content, 'تحديث Packages.bz2');
+                    
                 } catch (error) {
-                    console.error('Error creating Packages.bz2:', error);
-                    throw new Error('Failed to create Packages.bz2');
-                }
-                
-                // إنشاء Packages.gz باستخدام pako (للحفاظ على التوافق)
-                try {
-                    // تحويل النص إلى Uint8Array
-                    const textEncoder = new TextEncoder();
-                    const packagesData = textEncoder.encode(packagesContent);
-                    
-                    // ضغط البيانات باستخدام pako (gzip)
-                    const compressed = pako.gzip(packagesData);
-                    
-                    // تحويل البيانات المضغوطة إلى base64
-                    let binary = '';
-                    for (let i = 0; i < compressed.byteLength; i++) {
-                        binary += String.fromCharCode(compressed[i]);
-                    }
-                    const base64Content = btoa(binary);
-                    
-                    // رفع ملف Packages.gz المضغوط
-                    await uploadToGitHub('Packages.gz', base64Content, 'تحديث Packages.gz');
-                } catch (error) {
-                    console.error('Error creating Packages.gz:', error);
-                    throw new Error('Failed to create Packages.gz');
+                    console.error('Error creating compressed packages:', error);
+                    throw new Error('Failed to create compressed packages: ' + error.message);
                 }
             }
             
@@ -1342,40 +1455,52 @@ SHA256: ${sha256}
                 }
             }
             
-            // وظيفة عرض الإشعارات
+            // وظيفة عرض الإشعارات المحسنة
             function showNotification(message, type) {
+                const notificationContainer = document.getElementById('notification-container');
+                
                 const notification = document.createElement('div');
-                notification.textContent = message;
-                notification.style.position = 'fixed';
-                notification.style.bottom = '30px';
-                notification.style.right = '30px';
-                notification.style.padding = '15px 25px';
-                notification.style.borderRadius = '10px';
-                notification.style.color = 'white';
-                notification.style.fontWeight = '600';
-                notification.style.zIndex = '1000';
-                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-                notification.classList.add('fade-in');
+                notification.className = `notification ${type}`;
                 
-                if (type === 'success') {
-                    notification.style.background = 'linear-gradient(135deg, var(--success), #27ae60)';
-                } else if (type === 'warning') {
-                    notification.style.background = 'linear-gradient(135deg, var(--warning), #e67e22)';
-                } else {
-                    notification.style.background = 'linear-gradient(135deg, var(--error), #c0392b)';
-                }
+                // إنشاء أيقونة بناءً على نوع الإشعار
+                let icon = 'fa-info-circle';
+                if (type === 'success') icon = 'fa-check-circle';
+                if (type === 'warning') icon = 'fa-exclamation-triangle';
+                if (type === 'error') icon = 'fa-exclamation-circle';
                 
-                document.body.appendChild(notification);
+                notification.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <div class="notification-content">${message}</div>
+                    <button class="notification-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="notification-progress"></div>
+                `;
                 
-                setTimeout(() => {
-                    notification.style.opacity = '0';
-                    notification.style.transition = 'opacity 0.5s ease';
+                notificationContainer.appendChild(notification);
+                
+                // إغلاق الإشعار عند النقر على الزر
+                const closeButton = notification.querySelector('.notification-close');
+                closeButton.addEventListener('click', () => {
+                    notification.classList.add('hide');
                     setTimeout(() => {
-                        if (document.body.contains(notification)) {
-                            document.body.removeChild(notification);
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
                         }
                     }, 500);
-                }, 3000);
+                });
+                
+                // إزالة الإشعار تلقائياً بعد 5 ثوان
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.classList.add('hide');
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.parentNode.removeChild(notification);
+                            }
+                        }, 500);
+                    }
+                }, 5000);
             }
             
             // جعل الدوال متاحة عالمياً للاستخدام من قبل الأزرار
