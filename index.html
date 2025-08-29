@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bzip2@1.0.6/lib/bzip2.min.js"></script>
+    <!-- استبدال مكتبة bzip2 بمكتبة أكثر موثوقية -->
+    <script src="https://cdn.jsdelivr.net/npm/bzip2-js@1.0.6/bzip2.min.js"></script>
     <style>
         :root {
             --primary: #6e44ff;
@@ -260,7 +261,7 @@
         }
         
         .upload-area:hover {
-            border-color = '#b892ff';
+            border-color: #b892ff;
             background: rgba(13, 13, 26, 0.6);
             box-shadow: 0 0 20px rgba(110, 68, 255, 0.3);
         }
@@ -569,7 +570,7 @@
         
         /* تأثيرات النيون */
         .neon-text {
-            text-shadow: 0 0 5px var(--secondary), 0 0 10px var(--secondary), 0 0 15px var(--secondary), 0 0 20px var(--primary), 0 0 35px var(--primary), 0 0 40px var(--primary);
+            text-shadow: 0 0 5px var(--secondary), 0 0 10px var (--secondary), 0 0 15px var(--secondary), 0 0 20px var(--primary), 0 0 35px var(--primary), 0 0 40px var(--primary);
         }
         
         /* تأثيرات الظل */
@@ -635,7 +636,7 @@
                     <input type="text" id="repo-owner" placeholder="اسم المستخدم أو المنظمة">
                 </div>
                 <div class="input-group">
-                    <label for="repo-name"><i class="fas fa-database"></i> اسم المستودع:</label>
+                    <label for="repo-name"><i class="fas fa-database"></i> اسم مستودع:</label>
                     <input type="text" id="repo-name" placeholder="اسم المستودع">
                 </div>
                 <div class="input-group">
@@ -1250,13 +1251,14 @@ SHA256: ${sha256}
                     const textEncoder = new TextEncoder();
                     const packagesData = textEncoder.encode(packagesContent);
                     
-                    // ضغط البيانات باستخدام bzip2
-                    const compressed = bzip2.compress(packagesContent, { level: 9 });
+                    // استخدام مكتبة bzip2-js بدلاً من bzip2 الأصلية
+                    const compressed = Bzip2.encode(packagesData, { level: 9 });
                     
                     // تحويل البيانات المضغوطة إلى base64
                     let binary = '';
-                    for (let i = 0; i < compressed.length; i++) {
-                        binary += String.fromCharCode(compressed[i]);
+                    const compressedArray = new Uint8Array(compressed);
+                    for (let i = 0; i < compressedArray.byteLength; i++) {
+                        binary += String.fromCharCode(compressedArray[i]);
                     }
                     const base64Content = btoa(binary);
                     
@@ -1264,10 +1266,11 @@ SHA256: ${sha256}
                     await uploadToGitHub('Packages.bz2', base64Content, 'تحديث Packages.bz2');
                 } catch (error) {
                     console.error('Error creating Packages.bz2:', error);
-                    throw new Error('Failed to create Packages.bz2');
+                    // في حالة فشل إنشاء bz2، نستمر مع gzip فقط
+                    showNotification('تم إنشاء Packages.gz فقط، فشل إنشاء Packages.bz2', 'warning');
                 }
                 
-                // إنشاء Packages.gz باستخدام pako (للحفاظ على التوافق)
+                // إنشاء Packages.gz باستخدام pako
                 try {
                     // تحويل النص إلى Uint8Array
                     const textEncoder = new TextEncoder();
