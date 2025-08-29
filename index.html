@@ -7,11 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
-    <!-- استخدام مكتبة bzip2-js الأكثر موثوقية -->
-    <script src="https://cdn.jsdelivr.net/npm/bzip2-js@1.0.6/bzip2.min.js"></script>
     <style>
-        /* جميع أنماط CSS الأصلية تبقى كما هي */
         :root {
             --primary: #6e44ff;
             --secondary: #b892ff;
@@ -640,6 +636,205 @@
             transform: translateX(5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
+
+        /* نظام الإشعارات المحسّن */
+        .notifications-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 350px;
+        }
+        
+        .notification {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(110, 68, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideInRight 0.4s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+            position: relative;
+            overflow: hidden;
+            transform: translateX(0);
+        }
+        
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        
+        .notification-success::before {
+            background: linear-gradient(to bottom, var(--success), #27ae60);
+        }
+        
+        .notification-error::before {
+            background: linear-gradient(to bottom, var(--error), #c0392b);
+        }
+        
+        .notification-warning::before {
+            background: linear-gradient(to bottom, var(--warning), #e67e22);
+        }
+        
+        .notification-info::before {
+            background: linear-gradient(to bottom, var(--info), #2980b9);
+        }
+        
+        .notification-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .notification-success .notification-icon {
+            color: var(--success);
+        }
+        
+        .notification-error .notification-icon {
+            color: var(--error);
+        }
+        
+        .notification-warning .notification-icon {
+            color: var(--warning);
+        }
+        
+        .notification-info .notification-icon {
+            color: var(--info);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .notification-message {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .notification-close:hover {
+            color: white;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        /* واجهة تعديل الحزمة */
+        .edit-package-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 13, 26, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .edit-package-content {
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--glow);
+            border: 1px solid rgba(110, 68, 255, 0.3);
+            position: relative;
+        }
+        
+        .edit-package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .edit-package-title {
+            font-size: 24px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .edit-package-close {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .edit-package-close:hover {
+            color: var(--accent);
+        }
+        
+        .edit-package-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .edit-package-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(110, 68, 255, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -663,7 +858,7 @@
                     <input type="text" id="repo-owner" placeholder="اسم المستخدم أو المنظمة">
                 </div>
                 <div class="input-group">
-                    <label for="repo-name"><i class="fas fa-database"></i> اسم المستودع:</label>
+                    <label for="repo-name"><i class="fas fa-database"></i> اسم مستودع:</label>
                     <input type="text" id="repo-name" placeholder="اسم المستودع">
                 </div>
                 <div class="input-group">
@@ -787,6 +982,26 @@
         </div>
     </div>
 
+    <!-- نظام الإشعارات -->
+    <div class="notifications-container" id="notifications-container"></div>
+
+    <!-- واجهة تعديل الحزمة -->
+    <div class="edit-package-modal" id="edit-package-modal">
+        <div class="edit-package-content">
+            <div class="edit-package-header">
+                <h2 class="edit-package-title"><i class="fas fa-edit"></i> تعديل الحزمة</h2>
+                <button class="edit-package-close" id="edit-package-close">&times;</button>
+            </div>
+            <div class="edit-package-form" id="edit-package-form">
+                <!-- سيتم ملؤه ديناميكيًا -->
+            </div>
+            <div class="edit-package-actions">
+                <button class="btn btn-danger" id="edit-package-cancel">إلغاء</button>
+                <button class="btn btn-success" id="edit-package-save">حفظ التغييرات</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // عناصر DOM
@@ -813,6 +1028,12 @@
             const packagesContainer = document.getElementById('packages-container');
             const rootlessSection = document.getElementById('rootless-section');
             const rootlessContainer = document.getElementById('rootless-container');
+            const notificationsContainer = document.getElementById('notifications-container');
+            const editPackageModal = document.getElementById('edit-package-modal');
+            const editPackageClose = document.getElementById('edit-package-close');
+            const editPackageCancel = document.getElementById('edit-package-cancel');
+            const editPackageSave = document.getElementById('edit-package-save');
+            const editPackageForm = document.getElementById('edit-package-form');
             
             // عناصر تفاصيل الحزمة
             const packageNameInput = document.getElementById('package-name');
@@ -829,6 +1050,7 @@
             let packages = [];
             let repoConfig = {};
             let currentEditingPackage = null;
+            let notificationCount = 0;
             
             // تحميل الإعدادات المحفوظة
             const savedConfig = localStorage.getItem('repoConfig');
@@ -901,6 +1123,13 @@
                 fileInput.value = '';
                 uploadBtn.disabled = !isFormValid();
             });
+            
+            // إغلاق نافذة التعديل
+            editPackageClose.addEventListener('click', closeEditModal);
+            editPackageCancel.addEventListener('click', closeEditModal);
+            
+            // حفظ التعديلات
+            editPackageSave.addEventListener('click', updatePackageInfo);
             
             function handleFileSelect(files) {
                 for (let i = 0; i < files.length; i++) {
@@ -1038,12 +1267,6 @@
                         }
                     }
                     
-                    // 3. إنشاء ملفات مضغوطة
-                    progressStatus.textContent = 'جاري إنشاء ملفات مضغوطة...';
-                    uploadProgress.style.width = '90%';
-                    
-                    await createCompressedPackages();
-                    
                     // اكتمال العملية
                     uploadProgress.style.width = '100%';
                     
@@ -1055,7 +1278,7 @@
                         resultSection.className = 'result-section success';
                         resultMessage.innerHTML = `
                             <p>تم رفع ${successCount} حزمة بنجاح إلى المستودع!</p>
-                            <p>تم تحديث ملفات Packages تلقائياً.</p>
+                            <p>تم تحديث ملف Packages تلقائياً.</p>
                         `;
                         showNotification(`تم رفع ${successCount} حزمة وتحديث المستودع بنجاح!`, 'success');
                     } else if (successCount === 0) {
@@ -1072,7 +1295,7 @@
                         resultMessage.innerHTML = `
                             <p>تم رفع ${successCount} حزمة بنجاح!</p>
                             <p>فشل في رفع ${errorCount} حزمة!</p>
-                            <p>تم تحديث ملفات Packages تلقائياً.</p>
+                            <p>تم تحديث ملف Packages تلقائياً.</p>
                         `;
                         showNotification(`تم رفع ${successCount} حزمة بنجاح، وفشل ${errorCount}!`, 'warning');
                     }
@@ -1257,76 +1480,6 @@ SHA256: ${sha256}
                 });
             }
             
-            // إنشاء ملفات Packages المضغوطة - الإصدار المحسّن والمصلح
-            async function createCompressedPackages() {
-                // جلب محتوى Packages
-                let packagesContent = '';
-                try {
-                    const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Packages`, {
-                        headers: {
-                            'Authorization': `token ${repoConfig.token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const fileData = await response.json();
-                        packagesContent = atob(fileData.content);
-                    } else {
-                        throw new Error('Unable to fetch Packages file');
-                    }
-                } catch (e) {
-                    throw new Error('Unable to fetch Packages file');
-                }
-                
-                // إنشاء Packages.gz باستخدام pako
-                try {
-                    // تحويل النص إلى Uint8Array
-                    const textEncoder = new TextEncoder();
-                    const packagesData = textEncoder.encode(packagesContent);
-                    
-                    // ضغط البيانات باستخدام pako (gzip)
-                    const compressed = pako.gzip(packagesData);
-                    
-                    // تحويل البيانات المضغوطة إلى base64
-                    let binary = '';
-                    for (let i = 0; i < compressed.byteLength; i++) {
-                        binary += String.fromCharCode(compressed[i]);
-                    }
-                    const base64Content = btoa(binary);
-                    
-                    // رفع ملف Packages.gz المضغوط
-                    await uploadToGitHub('Packages.gz', base64Content, 'تحديث Packages.gz');
-                } catch (error) {
-                    console.error('Error creating Packages.gz:', error);
-                    throw new Error('Failed to create Packages.gz');
-                }
-                
-                // إنشاء Packages.bz2 باستخدام طريقة بديلة أكثر موثوقية
-                try {
-                    // تحويل النص إلى Uint8Array
-                    const textEncoder = new TextEncoder();
-                    const packagesData = textEncoder.encode(packagesContent);
-                    
-                    // استخدام مكتبة bzip2-js بطريقة مختلفة
-                    const compressedData = Bzip2.encode(packagesData, 9);
-                    
-                    // تحويل البيانات المضغوطة إلى base64
-                    let binary = '';
-                    const compressedArray = new Uint8Array(compressedData);
-                    for (let i = 0; i < compressedArray.byteLength; i++) {
-                        binary += String.fromCharCode(compressedArray[i]);
-                    }
-                    const base64Content = btoa(binary);
-                    
-                    // رفع ملف Packages.bz2 المضغوط
-                    await uploadToGitHub('Packages.bz2', base64Content, 'تحديث Packages.bz2');
-                } catch (error) {
-                    console.error('Error creating Packages.bz2:', error);
-                    showNotification('تم إنشاء Packages.gz فقط، فشل إنشاء Packages.bz2', 'warning');
-                }
-            }
-            
             // تحميل الحزم من المستودع مع تحسينات لعرض rootless
             async function loadPackagesFromRepo() {
                 try {
@@ -1415,40 +1568,53 @@ SHA256: ${sha256}
                 }
             }
             
-            // وظيفة عرض الإشعارات
+            // نظام الإشعارات المحسّن
             function showNotification(message, type) {
+                notificationCount++;
                 const notification = document.createElement('div');
-                notification.textContent = message;
-                notification.style.position = 'fixed';
-                notification.style.bottom = '30px';
-                notification.style.right = '30px';
-                notification.style.padding = '15px 25px';
-                notification.style.borderRadius = '10px';
-                notification.style.color = 'white';
-                notification.style.fontWeight = '600';
-                notification.style.zIndex = '1000';
-                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-                notification.classList.add('fade-in');
+                notification.classList.add('notification', `notification-${type}`);
                 
-                if (type === 'success') {
-                    notification.style.background = 'linear-gradient(135deg, var(--success), #27ae60)';
-                } else if (type === 'warning') {
-                    notification.style.background = 'linear-gradient(135deg, var(--warning), #e67e22)';
-                } else {
-                    notification.style.background = 'linear-gradient(135deg, var(--error), #c0392b)';
+                let icon = '';
+                let title = '';
+                
+                switch(type) {
+                    case 'success':
+                        icon = 'fas fa-check-circle';
+                        title = 'نجاح';
+                        break;
+                    case 'error':
+                        icon = 'fas fa-exclamation-circle';
+                        title = 'خطأ';
+                        break;
+                    case 'warning':
+                        icon = 'fas fa-exclamation-triangle';
+                        title = 'تحذير';
+                        break;
+                    case 'info':
+                        icon = 'fas fa-info-circle';
+                        title = 'معلومات';
+                        break;
                 }
                 
-                document.body.appendChild(notification);
+                notification.innerHTML = `
+                    <i class="${icon} notification-icon"></i>
+                    <div class="notification-content">
+                        <div class="notification-title">${title}</div>
+                        <div class="notification-message">${message}</div>
+                    </div>
+                    <button class="notification-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
                 
+                notificationsContainer.appendChild(notification);
+                
+                // إزالة الإشعار تلقائياً بعد 5 ثوانٍ
                 setTimeout(() => {
-                    notification.style.opacity = '0';
-                    notification.style.transition = 'opacity 0.5s ease';
-                    setTimeout(() => {
-                        if (document.body.contains(notification)) {
-                            document.body.removeChild(notification);
-                        }
-                    }, 500);
-                }, 3000);
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 5000);
             }
             
             // جعل الدوال متاحة عالمياً للاستخدام من قبل الأزرار
@@ -1488,36 +1654,72 @@ SHA256: ${sha256}
                             const descriptionMatch = packageInfo.match(/Description: (.+)/);
                             const sectionMatch = packageInfo.match(/Section: (.+)/);
                             
-                            // تعبئة النموذج بالمعلومات
-                            packageNameInput.value = packageName;
-                            packageVersionInput.value = versionMatch ? versionMatch[1] : '';
-                            packageArchitectureSelect.value = architectureMatch ? architectureMatch[1] : 'iphoneos-arm64';
-                            packageMaintainerInput.value = maintainerMatch ? maintainerMatch[1] : '';
-                            packageDependsInput.value = dependsMatch ? dependsMatch[1] : '';
-                            packageAuthorInput.value = authorMatch ? authorMatch[1] : '';
-                            packageDisplayNameInput.value = displayNameMatch ? displayNameMatch[1] : '';
-                            packageDescriptionTextarea.value = descriptionMatch ? descriptionMatch[1] : '';
-                            packageSectionSelect.value = sectionMatch ? sectionMatch[1] : 'Utilities';
+                            // تعبئة نموذج التعديل
+                            editPackageForm.innerHTML = `
+                                <div class="input-group">
+                                    <label for="edit-package-name">اسم الحزمة:</label>
+                                    <input type="text" id="edit-package-name" value="${packageName}" placeholder="اسم الحزمة">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-package-version">الإصدار:</label>
+                                    <input type="text" id="edit-package-version" value="${versionMatch ? versionMatch[1] : ''}" placeholder="الإصدار">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-package-architecture">الهيكلة:</label>
+                                    <select id="edit-package-architecture">
+                                        <option value="iphoneos-arm" ${architectureMatch && architectureMatch[1] === 'iphoneos-arm' ? 'selected' : ''}>iphoneos-arm</option>
+                                        <option value="iphoneos-arm64" ${(!architectureMatch || architectureMatch[1] === 'iphoneos-arm64') ? 'selected' : ''}>iphoneos-arm64</option>
+                                        <option value="iphoneos-arm64e" ${architectureMatch && architectureMatch[1] === 'iphoneos-arm64e' ? 'selected' : ''}>iphoneos-arm64e</option>
+                                        <option value="linux-x86" ${architectureMatch && architectureMatch[1] === 'linux-x86' ? 'selected' : ''}>linux-x86</option>
+                                        <option value="linux-x86_64" ${architectureMatch && architectureMatch[1] === 'linux-x86_64' ? 'selected' : ''}>linux-x86_64</option>
+                                        <option value="iphoneos-arm64-rootless" ${architectureMatch && architectureMatch[1] === 'iphoneos-arm64-rootless' ? 'selected' : ''}>iphoneos-arm64 (rootless)</option>
+                                        <option value="iphoneos-arm64e-rootless" ${architectureMatch && architectureMatch[1] === 'iphoneos-arm64e-rootless' ? 'selected' : ''}>iphoneos-arm64e (rootless)</option>
+                                        <option value="iphoneos-arm64-roothide" ${architectureMatch && architectureMatch[1] === 'iphoneos-arm64-roothide' ? 'selected' : ''}>iphoneos-arm64 (roothide)</option>
+                                        <option value="iphoneos-arm64e-roothide" ${architectureMatch && architectureMatch[1] === 'iphoneos-arm64e-roothide' ? 'selected' : ''}>iphoneos-arm64e (roothide)</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-package-section">القسم:</label>
+                                    <select id="edit-package-section">
+                                        <option value="Utilities" ${(!sectionMatch || sectionMatch[1] === 'Utilities') ? 'selected' : ''}>Utilities</option>
+                                        <option value="Development" ${sectionMatch && sectionMatch[1] === 'Development' ? 'selected' : ''}>Development</option>
+                                        <option value="Multimedia" ${sectionMatch && sectionMatch[1] === 'Multimedia' ? 'selected' : ''}>Multimedia</option>
+                                        <option value="Networking" ${sectionMatch && sectionMatch[1] === 'Networking' ? 'selected' : ''}>Networking</option>
+                                        <option value="System" ${sectionMatch && sectionMatch[1] === 'System' ? 'selected' : ''}>System</option>
+                                        <option value="Themes" ${sectionMatch && sectionMatch[1] === 'Themes' ? 'selected' : ''}>Themes</option>
+                                        <option value="Tweaks" ${sectionMatch && sectionMatch[1] === 'Tweaks' ? 'selected' : ''}>Tweaks</option>
+                                        <option value="Rootless" ${sectionMatch && sectionMatch[1] === 'Rootless' ? 'selected' : ''}>Rootless</option>
+                                        <option value="Roothide" ${sectionMatch && sectionMatch[1] === 'Roothide' ? 'selected' : ''}>Roothide</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-package-maintainer">المشرف:</label>
+                                    <input type="text" id="edit-package-maintainer" value="${maintainerMatch ? maintainerMatch[1] : ''}" placeholder="اسم المشرف">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-package-depends">التبعيات:</label>
+                                    <input type="text" id="edit-package-depends" value="${dependsMatch ? dependsMatch[1] : ''}" placeholder="الحزم المعتمدة عليها">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-package-author">المؤلف:</label>
+                                    <input type="text" id="edit-package-author" value="${authorMatch ? authorMatch[1] : ''}" placeholder="اسم المؤلف">
+                                </div>
+                                <div class="input-group">
+                                    <label for="edit-package-display-name">اسم العرض:</label>
+                                    <input type="text" id="edit-package-display-name" value="${displayNameMatch ? displayNameMatch[1] : ''}" placeholder="اسم العرض">
+                                </div>
+                                <div class="input-group" style="grid-column: 1 / -1;">
+                                    <label for="edit-package-description">الوصف:</label>
+                                    <textarea id="edit-package-description" rows="3" placeholder="وصف الحزمة">${descriptionMatch ? descriptionMatch[1] : ''}</textarea>
+                                </div>
+                            `;
                             
                             // تعيين الحزمة الحالية للتعديل
                             currentEditingPackage = filename;
                             
-                            // عرض قسم التفاصيل
-                            packageDetailsSection.style.display = 'block';
+                            // عرض نافذة التعديل
+                            editPackageModal.style.display = 'flex';
                             
-                            // إظهار زر التحديث وإخفاء زر الرفع
-                            document.getElementById('upload-btn').style.display = 'none';
-                            
-                            if (!document.getElementById('update-btn')) {
-                                const updateBtn = document.createElement('button');
-                                updateBtn.id = 'update-btn';
-                                updateBtn.className = 'btn btn-success';
-                                updateBtn.innerHTML = '<i class="fas fa-sync"></i> تحديث الحزمة';
-                                updateBtn.onclick = updatePackageInfo;
-                                uploadBtn.parentNode.appendChild(updateBtn);
-                            }
-                            
-                            showNotification('تم تحميل معلومات الحزمة للتعديل', 'success');
                         } else {
                             showNotification('لم يتم العثور على معلومات الحزمة', 'error');
                         }
@@ -1529,6 +1731,12 @@ SHA256: ${sha256}
                     showNotification('فشل في تحميل معلومات الحزمة', 'error');
                 }
             };
+            
+            // إغلاق نافذة التعديل
+            function closeEditModal() {
+                editPackageModal.style.display = 'none';
+                currentEditingPackage = null;
+            }
             
             // تحديث معلومات الحزمة
             async function updatePackageInfo() {
@@ -1575,17 +1783,28 @@ SHA256: ${sha256}
                             const sha1 = sha1Match ? sha1Match[1] : '';
                             const sha256 = sha256Match ? sha256Match[1] : '';
                             
+                            // الحصول على القيم من نموذج التعديل
+                            const editPackageName = document.getElementById('edit-package-name').value;
+                            const editPackageVersion = document.getElementById('edit-package-version').value;
+                            const editPackageArchitecture = document.getElementById('edit-package-architecture').value;
+                            const editPackageMaintainer = document.getElementById('edit-package-maintainer').value;
+                            const editPackageDepends = document.getElementById('edit-package-depends').value;
+                            const editPackageAuthor = document.getElementById('edit-package-author').value;
+                            const editPackageDisplayName = document.getElementById('edit-package-display-name').value;
+                            const editPackageDescription = document.getElementById('edit-package-description').value;
+                            const editPackageSection = document.getElementById('edit-package-section').value;
+                            
                             // إنشاء معلومات الحزمة المحدثة
                             const packageInfo = `
-Package: ${packageNameInput.value || currentEditingPackage.replace('.deb', '')}
-Version: ${packageVersionInput.value || '1.0.0'}
-Architecture: ${packageArchitectureSelect.value}
-Maintainer: ${packageMaintainerInput.value || 'Package Maintainer'}
-Depends: ${packageDependsInput.value || 'firmware (>= 14.0)'}
-Author: ${packageAuthorInput.value || 'Package Author'}
-Name: ${packageDisplayNameInput.value || 'Package Display Name'}
-Description: ${packageDescriptionTextarea.value || 'Description of the package'}
-Section: ${packageSectionSelect.value}
+Package: ${editPackageName || currentEditingPackage.replace('.deb', '')}
+Version: ${editPackageVersion || '1.0.0'}
+Architecture: ${editPackageArchitecture}
+Maintainer: ${editPackageMaintainer || 'Package Maintainer'}
+Depends: ${editPackageDepends || 'firmware (>= 14.0)'}
+Author: ${editPackageAuthor || 'Package Author'}
+Name: ${editPackageDisplayName || 'Package Display Name'}
+Description: ${editPackageDescription || 'Description of the package'}
+Section: ${editPackageSection}
 Homepage: https://example.com
 Filename: debs/${currentEditingPackage}
 Size: ${fileSize}
@@ -1610,20 +1829,13 @@ SHA256: ${sha256}
                             // رفع ملف Packages المحدث
                             await uploadToGitHub('Packages', base64Content, `تحديث معلومات الحزمة: ${currentEditingPackage}`);
                             
-                            // إعادة إنشاء الملفات المضغوطة
-                            await createCompressedPackages();
-                            
                             showNotification('تم تحديث معلومات الحزمة بنجاح', 'success');
                             
                             // إعادة تحميل قائمة الحزم
                             loadPackagesFromRepo();
                             
-                            // إخفاء قسم التفاصيل
-                            packageDetailsSection.style.display = 'none';
-                            document.getElementById('upload-btn').style.display = 'block';
-                            document.getElementById('update-btn').remove();
-                            
-                            currentEditingPackage = null;
+                            // إغلاق نافذة التعديل
+                            closeEditModal();
                         } else {
                             throw new Error('Unable to fetch file info');
                         }
@@ -1714,14 +1926,11 @@ SHA256: ${sha256}
                         // رفع ملف Packages المحدث
                         await uploadToGitHub('Packages', base64Content, `تحديث Packages بعد حذف: ${filename}`);
                         
-                        // إعادة إنشاء الملفات المضغوطة
-                        await createCompressedPackages();
-                        
-                        showNotification('تم تحديث ملفات Packages بعد الحذف', 'success');
+                        showNotification('تم تحديث ملف Packages بعد الحذف', 'success');
                     }
                 } catch (error) {
                     console.error('Error updating Packages after deletion:', error);
-                    showNotification('حدث خطأ أثناء تحديث ملفات Packages', 'error');
+                    showNotification('حدث خطأ أثناء تحديث ملف Packages', 'error');
                 }
             }
         });
