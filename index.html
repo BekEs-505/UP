@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
-    <!-- استبدال مكتبة bzip2 بمكتبة أكثر موثوقية -->
+    <!-- استخدام مكتبة bzip2-js الأكثر موثوقية -->
     <script src="https://cdn.jsdelivr.net/npm/bzip2-js@1.0.6/bzip2.min.js"></script>
     <style>
         :root {
@@ -570,7 +570,7 @@
         
         /* تأثيرات النيون */
         .neon-text {
-            text-shadow: 0 0 5px var(--secondary), 0 0 10px var (--secondary), 0 0 15px var(--secondary), 0 0 20px var(--primary), 0 0 35px var(--primary), 0 0 40px var(--primary);
+            text-shadow: 0 0 5px var(--secondary), 0 0 10px var(--secondary), 0 0 15px var(--secondary), 0 0 20px var(--primary), 0 0 35px var(--primary), 0 0 40px var(--primary);
         }
         
         /* تأثيرات الظل */
@@ -613,6 +613,32 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(var(--accent), var(--primary));
         }
+
+        /* تحسينات خاصة بـ rootless */
+        .rootless-section {
+            background: rgba(13, 13, 26, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(110, 68, 255, 0.3);
+            display: none;
+        }
+        
+        .rootless-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(26, 26, 46, 0.5);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .rootless-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -636,7 +662,7 @@
                     <input type="text" id="repo-owner" placeholder="اسم المستخدم أو المنظمة">
                 </div>
                 <div class="input-group">
-                    <label for="repo-name"><i class="fas fa-database"></i> اسم مستودع:</label>
+                    <label for="repo-name"><i class="fas fa-database"></i> اسم المستودع:</label>
                     <input type="text" id="repo-name" placeholder="اسم المستودع">
                 </div>
                 <div class="input-group">
@@ -747,6 +773,11 @@
                     <h3>الحزم الموجودة في المستودع</h3>
                     <div id="packages-container"></div>
                 </div>
+
+                <div class="rootless-section" id="rootless-section" style="display: none;">
+                    <h3>حزم Rootless المتاحة</h3>
+                    <div id="rootless-container"></div>
+                </div>
             </div>
         </div>
         
@@ -779,6 +810,8 @@
             const resultMessage = document.getElementById('result-message');
             const packagesList = document.getElementById('packages-list');
             const packagesContainer = document.getElementById('packages-container');
+            const rootlessSection = document.getElementById('rootless-section');
+            const rootlessContainer = document.getElementById('rootless-container');
             
             // عناصر تفاصيل الحزمة
             const packageNameInput = document.getElementById('package-name');
@@ -1223,7 +1256,7 @@ SHA256: ${sha256}
                 });
             }
             
-            // إنشاء ملفات Packages المضغوطة - الإصدار المعدل
+            // إنشاء ملفات Packages المضغوطة - الإصدار المعدل والمحسّن
             async function createCompressedPackages() {
                 // جلب محتوى Packages
                 let packagesContent = '';
@@ -1245,13 +1278,13 @@ SHA256: ${sha256}
                     throw new Error('Unable to fetch Packages file');
                 }
                 
-                // إنشاء Packages.bz2 باستخدام bzip2
+                // إنشاء Packages.bz2 باستخدام bzip2-js - الإصدار المحسّن
                 try {
                     // تحويل النص إلى Uint8Array
                     const textEncoder = new TextEncoder();
                     const packagesData = textEncoder.encode(packagesContent);
                     
-                    // استخدام مكتبة bzip2-js بدلاً من bzip2 الأصلية
+                    // استخدام مكتبة bzip2-js للضغط
                     const compressed = Bzip2.encode(packagesData, { level: 9 });
                     
                     // تحويل البيانات المضغوطة إلى base64
@@ -1266,7 +1299,7 @@ SHA256: ${sha256}
                     await uploadToGitHub('Packages.bz2', base64Content, 'تحديث Packages.bz2');
                 } catch (error) {
                     console.error('Error creating Packages.bz2:', error);
-                    // في حالة فشل إنشاء bz2، نستمر مع gzip فقط
+                    // في حالة فشل إنشاء bz2، نستمر مع gzip فقط ونعرض تنبيهاً
                     showNotification('تم إنشاء Packages.gz فقط، فشل إنشاء Packages.bz2', 'warning');
                 }
                 
@@ -1294,11 +1327,13 @@ SHA256: ${sha256}
                 }
             }
             
-            // تحميل الحزم من المستودع
+            // تحميل الحزم من المستودع مع تحسينات لعرض rootless
             async function loadPackagesFromRepo() {
                 try {
                     packagesList.style.display = 'block';
                     packagesContainer.innerHTML = '<p>جاري تحميل الحزم...</p>';
+                    rootlessSection.style.display = 'block';
+                    rootlessContainer.innerHTML = '<p>جاري تحميل حزم rootless...</p>';
                     
                     const response = await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/debs`, {
                         headers: {
@@ -1313,33 +1348,70 @@ SHA256: ${sha256}
                     
                     const files = await response.json();
                     packagesContainer.innerHTML = '';
+                    rootlessContainer.innerHTML = '';
                     
                     if (files.length === 0) {
                         packagesContainer.innerHTML = '<p>لا توجد حزم في المستودع</p>';
+                        rootlessContainer.innerHTML = '<p>لا توجد حزم rootless في المستودع</p>';
                         return;
                     }
                     
+                    let hasRootless = false;
+                    let hasRegular = false;
+                    
                     files.forEach(file => {
                         if (file.name.endsWith('.deb')) {
-                            const packageItem = document.createElement('div');
-                            packageItem.classList.add('package-item');
-                            packageItem.innerHTML = `
-                                <div class="package-info">
-                                    <h3>${file.name}</h3>
-                                    <p>الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
-                                </div>
-                                <div class="package-actions">
-                                    <button class="btn btn-secondary" onclick="downloadPackage('${file.name}')"><i class="fas fa-download"></i> تحميل</button>
-                                    <button class="btn btn-warning" onclick="editPackage('${file.name}')"><i class="fas fa-edit"></i> تعديل</button>
-                                    <button class="btn btn-danger" onclick="deletePackage('${file.name}')"><i class="fas fa-trash"></i> حذف</button>
-                                </div>
-                            `;
-                            packagesContainer.appendChild(packageItem);
+                            // التحقق مما إذا كانت الحزمة من نوع rootless
+                            const isRootless = file.name.includes('rootless');
+                            
+                            if (isRootless) {
+                                hasRootless = true;
+                                const packageItem = document.createElement('div');
+                                packageItem.classList.add('rootless-item');
+                                packageItem.innerHTML = `
+                                    <div class="package-info">
+                                        <h3>${file.name}</h3>
+                                        <p>الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                                        <p class="rootless-badge" style="color: var(--accent); font-weight: bold;">(Rootless)</p>
+                                    </div>
+                                    <div class="package-actions">
+                                        <button class="btn btn-secondary" onclick="downloadPackage('${file.name}')"><i class="fas fa-download"></i> تحميل</button>
+                                        <button class="btn btn-warning" onclick="editPackage('${file.name}')"><i class="fas fa-edit"></i> تعديل</button>
+                                        <button class="btn btn-danger" onclick="deletePackage('${file.name}')"><i class="fas fa-trash"></i> حذف</button>
+                                    </div>
+                                `;
+                                rootlessContainer.appendChild(packageItem);
+                            } else {
+                                hasRegular = true;
+                                const packageItem = document.createElement('div');
+                                packageItem.classList.add('package-item');
+                                packageItem.innerHTML = `
+                                    <div class="package-info">
+                                        <h3>${file.name}</h3>
+                                        <p>الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                                    </div>
+                                    <div class="package-actions">
+                                        <button class="btn btn-secondary" onclick="downloadPackage('${file.name}')"><i class="fas fa-download"></i> تحميل</button>
+                                        <button class="btn btn-warning" onclick="editPackage('${file.name}')"><i class="fas fa-edit"></i> تعديل</button>
+                                        <button class="btn btn-danger" onclick="deletePackage('${file.name}')"><i class="fas fa-trash"></i> حذف</button>
+                                    </div>
+                                `;
+                                packagesContainer.appendChild(packageItem);
+                            }
                         }
                     });
                     
+                    if (!hasRootless) {
+                        rootlessContainer.innerHTML = '<p>لا توجد حزم rootless في المستودع</p>';
+                    }
+                    
+                    if (!hasRegular) {
+                        packagesContainer.innerHTML = '<p>لا توجد حزم عادية في المستودع</p>';
+                    }
+                    
                 } catch (error) {
                     packagesContainer.innerHTML = `<p>خطأ في تحميل الحزم: ${error.message}</p>`;
+                    rootlessContainer.innerHTML = `<p>خطأ في تحميل حزم rootless: ${error.message}</p>`;
                 }
             }
             
