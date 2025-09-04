@@ -3,39 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEB - GitHub API</title>
+    <title>منصة إدارة مستودعات DEB - GitHub API</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --primary-dark: #5649c9;
-            --primary-light: #8378e9;
-            --secondary: #a29bfe;
-            --accent: #fd79a8;
+            --primary: #6e44ff;
+            --primary-dark: #5a36d9;
+            --primary-light: #8d6aff;
+            --secondary: #b892ff;
+            --accent: #ff5e63;
             --dark: #1a1a2e;
             --darker: #0d0d1a;
             --light: #f0f0f7;
             --lighter: #ffffff;
-            --success: #00b894;
-            --success-dark: #00a382;
-            --warning: #fdcb6e;
-            --info: #0984e3;
-            --info-dark: #0872c3;
-            --error: #d63031;
-            --error-dark: #c02b2b;
+            --success: #2ecc71;
+            --success-dark: #27ae60;
+            --warning: #f39c12;
+            --info: #3498db;
+            --info-dark: #2980b9;
+            --error: #e74c3c;
+            --error-dark: #c0392b;
             --gray-100: #f8f9fa;
             --gray-200: #e9ecef;
             --gray-300: #dee2e6;
             --gray-800: #343a40;
-            --border-radius: 20px;
-            --border-radius-sm: 12px;
-            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-            --box-shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.3);
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+            --box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+            --box-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.2);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --glass-bg: rgba(26, 26, 46, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
         }
         
         * {
@@ -55,125 +53,87 @@
         }
         
         .container {
-            max-width: 1600px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 25px;
+            padding: 20px;
         }
         
         /* تحسين الهيدر */
         header {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(12px);
             border-radius: var(--border-radius);
-            padding: 25px 40px;
-            margin-bottom: 40px;
+            padding: 20px 35px;
+            margin-bottom: 35px;
             box-shadow: var(--box-shadow);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
-            z-index: -1;
         }
         
         header:hover {
             box-shadow: var(--box-shadow-hover);
-            transform: translateY(-5px);
+            transform: translateY(-2px);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 15px;
         }
         
         .logo i {
-            font-size: 42px;
+            font-size: 36px;
             color: var(--secondary);
             background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
         
         .logo h1 {
-            font-size: 32px;
-            font-weight: 900;
+            font-size: 28px;
+            font-weight: 800;
             background: linear-gradient(135deg, var(--secondary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         /* تحسين المحتوى الرئيسي */
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 40px;
-            margin-bottom: 60px;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 35px;
+            margin-bottom: 50px;
         }
         
         /* تحسين أقسام الموقع */
         .auth-section, .upload-section {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            background: rgba(26, 26, 46, 0.75);
+            backdrop-filter: blur(15px);
             border-radius: var(--border-radius);
-            padding: 40px;
+            padding: 35px;
             box-shadow: var(--box-shadow);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .auth-section::before, .upload-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(108, 92, 231, 0.05), rgba(253, 121, 168, 0.05));
-            z-index: -1;
         }
         
         .auth-section:hover, .upload-section:hover {
             box-shadow: var(--box-shadow-hover);
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
         
         .section-title {
-            font-size: 28px;
-            margin-bottom: 32px;
-            padding-bottom: 18px;
+            font-size: 24px;
+            margin-bottom: 28px;
+            padding-bottom: 15px;
             border-bottom: 2px solid var(--primary);
             color: var(--secondary);
             display: flex;
             align-items: center;
-            gap: 15px;
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            right: 0;
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, var(--primary), transparent);
+            gap: 12px;
         }
         
         .section-title i {
@@ -184,37 +144,37 @@
         
         /* تحسين حقول الإدخال */
         .input-group {
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             position: relative;
         }
         
         .input-group label {
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--secondary);
-            font-size: 17px;
+            font-size: 16px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
-        .input-group input, .input-group select, .input-group textarea {
+        .input-group input, .input-group select {
             width: 100%;
-            padding: 18px 20px;
+            padding: 16px 18px;
             background: rgba(13, 13, 26, 0.8);
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            border: 1px solid rgba(110, 68, 255, 0.25);
             border-radius: var(--border-radius-sm);
             color: var(--lighter);
             font-family: inherit;
             transition: var(--transition);
-            font-size: 16px;
+            font-size: 15px;
         }
         
-        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+        .input-group input:focus, .input-group select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.25);
+            box-shadow: 0 0 0 3px rgba(110, 68, 255, 0.2);
             background: rgba(13, 13, 26, 0.9);
         }
         
@@ -223,19 +183,19 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 18px 32px;
+            gap: 10px;
+            padding: 16px 28px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border: none;
             border-radius: var(--border-radius-sm);
             cursor: pointer;
             font-family: inherit;
-            font-weight: 700;
+            font-weight: 600;
             transition: var(--transition);
             text-decoration: none;
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.35);
-            font-size: 17px;
+            box-shadow: 0 6px 16px rgba(110, 68, 255, 0.3);
+            font-size: 16px;
             position: relative;
             overflow: hidden;
         }
@@ -247,13 +207,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+            background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
             pointer-events: none;
         }
         
         .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(108, 92, 231, 0.45);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(110, 68, 255, 0.4);
         }
         
         .btn:active {
@@ -261,106 +221,90 @@
         }
         
         .btn i {
-            font-size: 20px;
+            font-size: 18px;
         }
         
         .btn-secondary {
             background: linear-gradient(135deg, var(--info), var(--info-dark));
-            box-shadow: 0 8px 20px rgba(9, 132, 227, 0.35);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
         }
         
         .btn-secondary:hover {
-            box-shadow: 0 12px 28px rgba(9, 132, 227, 0.45);
+            box-shadow: 0 10px 24px rgba(52, 152, 219, 0.4);
         }
         
         .btn-danger {
             background: linear-gradient(135deg, var(--error), var(--error-dark));
-            box-shadow: 0 8px 20px rgba(214, 48, 49, 0.35);
+            box-shadow: 0 6px 16px rgba(231, 76, 60, 0.3);
         }
         
         .btn-danger:hover {
-            box-shadow: 0 12px 28px rgba(214, 48, 49, 0.45);
+            box-shadow: 0 10px 24px rgba(231, 76, 60, 0.4);
         }
         
         .btn-success {
             background: linear-gradient(135deg, var(--success), var(--success-dark));
-            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.35);
+            box-shadow: 0 6px 16px rgba(46, 204, 113, 0.3);
         }
         
         .btn-success:hover {
-            box-shadow: 0 12px 28px rgba(0, 184, 148, 0.45);
+            box-shadow: 0 10px 24px rgba(46, 204, 113, 0.4);
         }
         
         /* تحسين منطقة الرفع */
         .upload-area {
             border: 3px dashed var(--primary);
             border-radius: var(--border-radius);
-            padding: 70px 40px;
+            padding: 60px 30px;
             text-align: center;
-            margin-bottom: 35px;
-            background: rgba(13, 13, 26, 0.5);
+            margin-bottom: 30px;
+            background: rgba(13, 13, 26, 0.4);
             transition: var(--transition);
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .upload-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
-            z-index: -1;
         }
         
         .upload-area:hover {
             border-color: var(--secondary);
-            background: rgba(13, 13, 26, 0.7);
-            transform: translateY(-3px);
+            background: rgba(13, 13, 26, 0.6);
+            transform: translateY(-2px);
         }
         
         .upload-icon {
-            font-size: 80px;
-            margin-bottom: 25px;
+            font-size: 70px;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
         
         .upload-text {
-            font-size: 20px;
-            margin-bottom: 30px;
+            font-size: 18px;
+            margin-bottom: 25px;
             color: var(--light);
-            font-weight: 500;
         }
         
         /* تحسين أقسام المعلومات والتقدم */
         .file-info, .progress-section, .result-section, .packages-list, .workflow-info {
-            background: rgba(13, 13, 26, 0.9);
-            padding: 28px;
+            background: rgba(13, 13, 26, 0.8);
+            padding: 24px;
             border-radius: var(--border-radius);
-            margin-bottom: 28px;
-            border: 1px solid rgba(108, 92, 231, 0.25);
+            margin-bottom: 24px;
+            border: 1px solid rgba(110, 68, 255, 0.2);
             transition: var(--transition);
-            backdrop-filter: blur(10px);
         }
         
         .file-info:hover, .progress-section:hover, .result-section:hover, .packages-list:hover, .workflow-info:hover {
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
         
         .progress-bar {
-            height: 32px;
+            height: 28px;
             background: rgba(13, 13, 26, 0.9);
-            border-radius: 16px;
+            border-radius: 14px;
             overflow: hidden;
-            margin-bottom: 15px;
-            border: 1px solid rgba(108, 92, 231, 0.35);
-            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.25);
+            margin-bottom: 12px;
+            border: 1px solid rgba(110, 68, 255, 0.3);
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
         }
         
         .progress {
@@ -368,7 +312,7 @@
             background: linear-gradient(to right, var(--primary), var(--accent));
             width: 0%;
             transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-            border-radius: 16px;
+            border-radius: 14px;
             position: relative;
             overflow: hidden;
         }
@@ -391,15 +335,15 @@
                 transparent
             );
             z-index: 1;
-            background-size: 60px 60px;
+            background-size: 50px 50px;
             animation: move 2s linear infinite;
-            border-radius: 16px;
+            border-radius: 14px;
             overflow: hidden;
         }
         
         @keyframes move {
             0% { background-position: 0 0; }
-            100% { background-position: 60px 60px; }
+            100% { background-position: 50px 50px; }
         }
         
         .success {
@@ -412,22 +356,22 @@
         
         /* تحسين قائمة الحزم */
         .packages-list {
-            max-height: 500px;
+            max-height: 450px;
             overflow-y: auto;
         }
         
         .packages-list::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
         
         .packages-list::-webkit-scrollbar-track {
             background: rgba(13, 13, 26, 0.5);
-            border-radius: 6px;
+            border-radius: 4px;
         }
         
         .packages-list::-webkit-scrollbar-thumb {
             background: var(--primary);
-            border-radius: 6px;
+            border-radius: 4px;
         }
         
         .packages-list::-webkit-scrollbar-thumb:hover {
@@ -438,50 +382,49 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            background: rgba(26, 26, 46, 0.7);
+            padding: 18px;
+            background: rgba(26, 26, 46, 0.6);
             border-radius: var(--border-radius-sm);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .package-item:hover {
-            background: rgba(26, 26, 46, 0.9);
-            transform: translateX(8px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: rgba(26, 26, 46, 0.8);
+            transform: translateX(5px);
         }
         
         .package-actions {
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
         
         .package-actions .btn {
-            padding: 12px 20px;
-            font-size: 15px;
+            padding: 10px 16px;
+            font-size: 14px;
         }
         
         /* تحسين الفوتر */
         .footer {
             text-align: center;
-            padding: 40px;
-            margin-top: 70px;
-            border-top: 1px solid var(--glass-border);
+            padding: 35px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--secondary);
-            background: var(--glass-bg);
+            background: rgba(13, 13, 26, 0.7);
             border-radius: var(--border-radius);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
         }
         
         /* تحسينات للشيفرات البرمجية */
         code {
-            background: rgba(13, 13, 26, 0.9);
-            padding: 4px 10px;
-            border-radius: 8px;
+            background: rgba(13, 13, 26, 0.8);
+            padding: 3px 8px;
+            border-radius: 5px;
             font-family: monospace;
             color: var(--secondary);
-            border: 1px solid rgba(108, 92, 231, 0.25);
+            border: 1px solid rgba(110, 68, 255, 0.2);
         }
         
         /* تحسينات للروابط */
@@ -489,7 +432,6 @@
             color: var(--primary-light);
             text-decoration: none;
             transition: var(--transition);
-            font-weight: 600;
         }
         
         a:hover {
@@ -499,27 +441,20 @@
         
         /* تحسينات للقوائم */
         ol {
-            padding-right: 25px;
-            margin: 18px 0;
+            padding-right: 20px;
+            margin: 15px 0;
         }
         
         li {
-            margin-bottom: 10px;
-            line-height: 1.7;
+            margin-bottom: 8px;
+            line-height: 1.6;
         }
         
         /* تحسينات للاستجابة */
-        @media (max-width: 1400px) {
-            .main-content {
-                grid-template-columns: 1fr 1.8fr;
-                gap: 35px;
-            }
-        }
-        
         @media (max-width: 1200px) {
             .main-content {
                 grid-template-columns: 1fr 1.5fr;
-                gap: 30px;
+                gap: 25px;
             }
         }
         
@@ -529,42 +464,24 @@
             }
             
             header {
-                padding: 22px;
-            }
-            
-            .logo h1 {
-                font-size: 28px;
-            }
-        }
-        
-        @media (max-width: 900px) {
-            .container {
                 padding: 20px;
             }
             
-            .auth-section, .upload-section {
-                padding: 30px 25px;
-            }
-            
-            .upload-area {
-                padding: 50px 25px;
-            }
-            
-            .upload-icon {
-                font-size: 60px;
-            }
-            
-            .section-title {
+            .logo h1 {
                 font-size: 24px;
             }
         }
         
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
             header {
                 flex-direction: column;
                 text-align: center;
-                gap: 22px;
-                padding: 20px 18px;
+                gap: 20px;
+                padding: 20px 15px;
             }
             
             .auth-section, .upload-section {
@@ -572,11 +489,11 @@
             }
             
             .upload-area {
-                padding: 40px 20px;
+                padding: 40px 15px;
             }
             
             .upload-icon {
-                font-size: 55px;
+                font-size: 50px;
             }
             
             .section-title {
@@ -586,7 +503,7 @@
             .package-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 18px;
+                gap: 15px;
             }
             
             .package-actions {
@@ -595,7 +512,7 @@
             }
         }
         
-        @media (max-width: 576px) {
+        @media (max-width: 480px) {
             .btn {
                 width: 100%;
                 justify-content: center;
@@ -608,10 +525,6 @@
             .package-actions .btn {
                 width: 100%;
             }
-            
-            .logo h1 {
-                font-size: 24px;
-            }
         }
         
         /* تأثيرات إضافية للواجهة */
@@ -620,143 +533,39 @@
         }
         
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.5); }
-            70% { box-shadow: 0 0 0 15px rgba(108, 92, 231, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(110, 68, 255, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(110, 68, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(110, 68, 255, 0); }
         }
         
         .fade-in {
-            animation: fadeIn 0.6s ease-in;
+            animation: fadeIn 0.5s ease-in;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(25px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
         /* تحسينات للنصوص */
         h3 {
             color: var(--secondary);
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 20px;
+            gap: 8px;
         }
         
         p {
-            margin-bottom: 18px;
-            line-height: 1.8;
+            margin-bottom: 15px;
+            line-height: 1.7;
         }
         
         /* تحسينات خاصة لشاشات كبيرة جداً */
         @media (min-width: 1800px) {
             .container {
-                max-width: 1700px;
+                max-width: 1600px;
             }
-        }
-        
-        /* نافذة التعديل */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(13, 13, 26, 0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 40px;
-            box-shadow: var(--box-shadow-hover);
-            transform: scale(0.9);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-        
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--error);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            color: white;
-            font-size: 20px;
-            transition: var(--transition);
-        }
-        
-        .close-modal:hover {
-            background: var(--error-dark);
-            transform: rotate(90deg);
-        }
-        
-        .modal-title {
-            text-align: center;
-            margin-bottom: 35px;
-            color: var(--secondary);
-            font-size: 28px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-        
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-content {
-                padding: 30px 20px;
-            }
-        }
-        
-        /* تأثيرات إضافية */
-        .glow {
-            animation: glow 2s infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { box-shadow: 0 0 20px rgba(108, 92, 231, 0.5); }
-            to { box-shadow: 0 0 30px rgba(108, 92, 231, 0.8), 0 0 40px rgba(253, 121, 168, 0.6); }
         }
     </style>
 </head>
@@ -765,7 +574,7 @@
         <header class="fade-in">
             <div class="logo">
                 <i class="fas fa-cubes"></i>
-                <h1> DEB - GitHub API</h1>
+                <h1>منصة إدارة مستودعات DEB - GitHub API</h1>
             </div>
         </header>
         
@@ -845,71 +654,6 @@
         </div>
     </div>
 
-    <!-- نافذة التعديل -->
-    <div class="modal-overlay" id="edit-modal">
-        <div class="modal-content">
-            <div class="close-modal" id="close-modal">
-                <i class="fas fa-times"></i>
-            </div>
-            <h2 class="modal-title"><i class="fas fa-edit"></i> تعديل الحزمة</h2>
-            
-            <div class="form-row">
-                <div class="input-group">
-                    <label for="edit-package-name"><i class="fas fa-cube"></i> Package Name</label>
-                    <input type="text" id="edit-package-name">
-                </div>
-                
-                <div class="input-group">
-                    <label for="edit-version"><i class="fas fa-code-branch"></i> Version</label>
-                    <input type="text" id="edit-version">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="input-group">
-                    <label for="edit-architecture"><i class="fas fa-microchip"></i> Architecture</label>
-                    <input type="text" id="edit-architecture" value="iphoneos-arm64">
-                </div>
-                
-                <div class="input-group">
-                    <label for="edit-tweaks"><i class="fas fa-tools"></i> Tweaks</label>
-                    <input type="text" id="edit-tweaks">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="input-group">
-                    <label for="edit-maintainer"><i class="fas fa-user-cog"></i> Maintainer</label>
-                    <input type="text" id="edit-maintainer">
-                </div>
-                
-                <div class="input-group">
-                    <label for="edit-dependencies"><i class="fas fa-link"></i> Dependencies</label>
-                    <input type="text" id="edit-dependencies">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="input-group">
-                    <label for="edit-author"><i class="fas fa-user"></i> Author</label>
-                    <input type="text" id="edit-author">
-                </div>
-                
-                <div class="input-group">
-                    <label for="edit-display-name"><i class="fas fa-signature"></i> Display Name</label>
-                    <input type="text" id="edit-display-name">
-                </div>
-            </div>
-            
-            <div class="input-group">
-                <label for="edit-description"><i class="fas fa-align-left"></i> Description</label>
-                <textarea id="edit-description" rows="4"></textarea>
-            </div>
-            
-            <button id="save-changes" class="btn btn-success"><i class="fas fa-check"></i> حفظ التغييرات</button>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // عناصر DOM
@@ -932,15 +676,9 @@
             const packagesList = document.getElementById('packages-list');
             const packagesContainer = document.getElementById('packages-container');
             
-            // عناصر نافذة التعديل
-            const editModal = document.getElementById('edit-modal');
-            const closeModalBtn = document.getElementById('close-modal');
-            const saveChangesBtn = document.getElementById('save-changes');
-            
             let selectedFile = null;
             let packages = [];
             let repoConfig = {};
-            let currentPackage = null;
             
             // تحميل الإعدادات المحفوظة
             const savedConfig = localStorage.getItem('repoConfig');
@@ -1042,19 +780,19 @@ jobs:
             // التعامل مع سحب وإفلات الملفات
             dropZone.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                dropZone.style.borderColor = '#a29bfe';
+                dropZone.style.borderColor = '#b892ff';
                 dropZone.style.background = 'rgba(13, 13, 26, 0.8)';
             });
             
             dropZone.addEventListener('dragleave', function() {
-                dropZone.style.borderColor = '#6c5ce7';
-                dropZone.style.background = 'rgba(13, 13, 26, 0.5)';
+                dropZone.style.borderColor = '#6e44ff';
+                dropZone.style.background = 'rgba(13, 13, 26, 0.4)';
             });
             
             dropZone.addEventListener('drop', function(e) {
                 e.preventDefault();
-                dropZone.style.borderColor = '#6c5ce7';
-                dropZone.style.background = 'rgba(13, 13, 26, 0.5)';
+                dropZone.style.borderColor = '#6e44ff';
+                dropZone.style.background = 'rgba(13, 13, 26, 0.4)';
                 
                 if (e.dataTransfer.files.length) {
                     handleFileSelect(e.dataTransfer.files[0]);
@@ -1253,7 +991,6 @@ jobs:
                                 </div>
                                 <div class="package-actions">
                                     <button class="btn btn-secondary" onclick="downloadPackage('${file.name}')"><i class="fas fa-download"></i> تحميل</button>
-                                    <button class="btn" onclick="editPackage('${file.name}')"><i class="fas fa-edit"></i> تعديل</button>
                                     <button class="btn btn-danger" onclick="deletePackage('${file.name}')"><i class="fas fa-trash"></i> حذف</button>
                                 </div>
                             `;
@@ -1266,44 +1003,6 @@ jobs:
                 }
             }
             
-            // فتح نافذة التعديل
-            window.editPackage = function(filename) {
-                currentPackage = filename;
-                
-                // ملء الحقول بقيم افتراضية (يمكن تعديلها لتحميل البيانات الحالية)
-                document.getElementById('edit-package-name').value = filename.replace('.deb', '');
-                document.getElementById('edit-version').value = '1.0.0';
-                document.getElementById('edit-architecture').value = 'iphoneos-arm64';
-                document.getElementById('edit-tweaks').value = '';
-                document.getElementById('edit-maintainer').value = '';
-                document.getElementById('edit-dependencies').value = '';
-                document.getElementById('edit-author').value = '';
-                document.getElementById('edit-display-name').value = filename.replace('.deb', '');
-                document.getElementById('edit-description').value = 'وصف الحزمة';
-                
-                // عرض النافذة
-                editModal.classList.add('active');
-            };
-            
-            // إغلاق نافذة التعديل
-            closeModalBtn.addEventListener('click', function() {
-                editModal.classList.remove('active');
-            });
-            
-            // حفظ التغييرات
-            saveChangesBtn.addEventListener('click', function() {
-                // هنا يمكنك إضافة كود لحفظ التغييرات
-                showNotification('تم حفظ التغييرات بنجاح!', 'success');
-                editModal.classList.remove('active');
-            });
-            
-            // إغلاق النافذة عند النقر خارجها
-            editModal.addEventListener('click', function(e) {
-                if (e.target === editModal) {
-                    editModal.classList.remove('active');
-                }
-            });
-            
             // وظيفة عرض الإشعارات
             function showNotification(message, type) {
                 // إنشاء عنصر الإشعار
@@ -1312,12 +1011,12 @@ jobs:
                 notification.style.position = 'fixed';
                 notification.style.bottom = '30px';
                 notification.style.right = '30px';
-                notification.style.padding = '18px 28px';
-                notification.style.borderRadius = '12px';
+                notification.style.padding = '15px 25px';
+                notification.style.borderRadius = '10px';
                 notification.style.color = 'white';
-                notification.style.fontWeight = '700';
+                notification.style.fontWeight = '600';
                 notification.style.zIndex = '1000';
-                notification.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)';
+                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
                 notification.classList.add('fade-in');
                 
                 if (type === 'success') {
