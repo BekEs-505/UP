@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة إدارة مستودعات DEB - GitHub API</title>
+    <title> ~بيكاس - BekEs~</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
-            --primary: #3498db;
-            --primary-dark: #2980b9;
-            --primary-light: #5dade2;
-            --secondary: #2ecc71;
-            --accent: #9b59b6;
-            --dark: #2c3e50;
-            --darker: #1a252f;
-            --light: #ecf0f1;
+            --primary: #6c5ce7;
+            --primary-dark: #5649c9;
+            --primary-light: #8378e9;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --dark: #1a1a2e;
+            --darker: #0d0d1a;
+            --light: #f0f0f7;
             --lighter: #ffffff;
-            --success: #2ecc71;
-            --success-dark: #27ae60;
-            --warning: #f39c12;
-            --info: #3498db;
-            --info-dark: #2980b9;
+            --success: #00b894;
+            --success-dark: #00a382;
+            --warning: #fdcb6e;
+            --info: #74b9ff;
+            --info-dark: #0984e3;
             --error: #e74c3c;
             --error-dark: #c0392b;
             --gray-100: #f8f9fa;
             --gray-200: #e9ecef;
             --gray-300: #dee2e6;
             --gray-800: #343a40;
-            --border-radius: 16px;
-            --border-radius-sm: 10px;
-            --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            --box-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.25);
+            --border-radius: 20px;
+            --border-radius-sm: 12px;
+            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            --box-shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.35);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --glass-bg: rgba(44, 62, 80, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-bg: rgba(26, 26, 46, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
         
         * {
@@ -63,7 +63,7 @@
         /* تحسين الهيدر */
         header {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border-radius: var(--border-radius);
             padding: 25px 40px;
             margin-bottom: 40px;
@@ -84,7 +84,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.15), rgba(253, 121, 168, 0.15));
             z-index: -1;
         }
         
@@ -102,13 +102,18 @@
         .logo i {
             font-size: 42px;
             color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
         
         .logo h1 {
             font-size: 32px;
             font-weight: 900;
-            color: var(--light);
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
@@ -123,7 +128,7 @@
         /* تحسين أقسام الموقع */
         .auth-section, .upload-section {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border-radius: var(--border-radius);
             padding: 40px;
             box-shadow: var(--box-shadow);
@@ -140,7 +145,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(52, 152, 219, 0.05), rgba(46, 204, 113, 0.05));
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
             z-index: -1;
         }
         
@@ -172,7 +177,9 @@
         }
         
         .section-title i {
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         /* تحسين حقول الإدخال */
@@ -195,8 +202,8 @@
         .input-group input, .input-group select, .input-group textarea {
             width: 100%;
             padding: 18px 20px;
-            background: rgba(26, 37, 47, 0.8);
-            border: 1px solid rgba(52, 152, 219, 0.3);
+            background: rgba(13, 13, 26, 0.8);
+            border: 1px solid rgba(108, 92, 231, 0.3);
             border-radius: var(--border-radius-sm);
             color: var(--lighter);
             font-family: inherit;
@@ -207,8 +214,8 @@
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25);
-            background: rgba(26, 37, 47, 0.9);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.25);
+            background: rgba(13, 13, 26, 0.9);
         }
         
         /* تحسين الأزرار */
@@ -227,7 +234,7 @@
             font-weight: 700;
             transition: var(--transition);
             text-decoration: none;
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.35);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.35);
             font-size: 17px;
             position: relative;
             overflow: hidden;
@@ -246,7 +253,7 @@
         
         .btn:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(52, 152, 219, 0.45);
+            box-shadow: 0 12px 28px rgba(108, 92, 231, 0.45);
         }
         
         .btn:active {
@@ -259,11 +266,11 @@
         
         .btn-secondary {
             background: linear-gradient(135deg, var(--secondary), var(--success-dark));
-            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.35);
+            box-shadow: 0 8px 20px rgba(0, 206, 201, 0.35);
         }
         
         .btn-secondary:hover {
-            box-shadow: 0 12px 28px rgba(46, 204, 113, 0.45);
+            box-shadow: 0 12px 28px rgba(0, 206, 201, 0.45);
         }
         
         .btn-danger {
@@ -277,11 +284,11 @@
         
         .btn-success {
             background: linear-gradient(135deg, var(--success), var(--success-dark));
-            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.35);
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.35);
         }
         
         .btn-success:hover {
-            box-shadow: 0 12px 28px rgba(46, 204, 113, 0.45);
+            box-shadow: 0 12px 28px rgba(0, 184, 148, 0.45);
         }
         
         /* تحسين منطقة الرفع */
@@ -291,7 +298,7 @@
             padding: 70px 40px;
             text-align: center;
             margin-bottom: 35px;
-            background: rgba(26, 37, 47, 0.5);
+            background: rgba(13, 13, 26, 0.5);
             transition: var(--transition);
             cursor: pointer;
             position: relative;
@@ -305,20 +312,22 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
             z-index: -1;
         }
         
         .upload-area:hover {
             border-color: var(--primary-light);
-            background: rgba(26, 37, 47, 0.7);
+            background: rgba(13, 13, 26, 0.7);
             transform: translateY(-3px);
         }
         
         .upload-icon {
             font-size: 80px;
             margin-bottom: 25px;
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
         
@@ -331,13 +340,13 @@
         
         /* تحسين أقسام المعلومات والتقدم */
         .file-info, .progress-section, .result-section, .packages-list, .workflow-info {
-            background: rgba(26, 37, 47, 0.9);
+            background: rgba(13, 13, 26, 0.9);
             padding: 28px;
             border-radius: var(--border-radius);
             margin-bottom: 28px;
-            border: 1px solid rgba(52, 152, 219, 0.25);
+            border: 1px solid rgba(108, 92, 231, 0.25);
             transition: var(--transition);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
         }
         
         .file-info:hover, .progress-section:hover, .result-section:hover, .packages-list:hover, .workflow-info:hover {
@@ -346,11 +355,11 @@
         
         .progress-bar {
             height: 32px;
-            background: rgba(26, 37, 47, 0.9);
+            background: rgba(13, 13, 26, 0.9);
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 15px;
-            border: 1px solid rgba(52, 152, 219, 0.35);
+            border: 1px solid rgba(108, 92, 231, 0.35);
             box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.25);
         }
         
@@ -412,7 +421,7 @@
         }
         
         .packages-list::-webkit-scrollbar-track {
-            background: rgba(26, 37, 47, 0.5);
+            background: rgba(13, 13, 26, 0.5);
             border-radius: 6px;
         }
         
@@ -430,7 +439,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background: rgba(44, 62, 80, 0.7);
+            background: rgba(26, 26, 46, 0.7);
             border-radius: var(--border-radius-sm);
             margin-bottom: 15px;
             transition: var(--transition);
@@ -438,7 +447,7 @@
         }
         
         .package-item:hover {
-            background: rgba(44, 62, 80, 0.9);
+            background: rgba(26, 26, 46, 0.9);
             transform: translateX(8px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
@@ -499,16 +508,28 @@
             color: var(--light);
             background: var(--glass-bg);
             border-radius: var(--border-radius);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.05), rgba(253, 121, 168, 0.05));
+            z-index: -1;
         }
         
         .developer-info {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         
         .developer-link {
@@ -518,25 +539,35 @@
             color: var(--primary-light);
             text-decoration: none;
             transition: var(--transition);
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 30px;
-            background: rgba(26, 37, 47, 0.7);
+            background: rgba(13, 13, 26, 0.7);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+            direction: ltr;
         }
         
         .developer-link:hover {
-            color: var(--primary);
-            background: rgba(26, 37, 47, 0.9);
+            color: var(--lighter);
+            background: rgba(108, 92, 231, 0.3);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.2);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 16px;
+            color: var(--secondary);
+            font-weight: 600;
         }
         
         /* تحسينات للشيفرات البرمجية */
         code {
-            background: rgba(26, 37, 47, 0.9);
+            background: rgba(13, 13, 26, 0.9);
             padding: 4px 10px;
             border-radius: 8px;
             font-family: monospace;
             color: var(--primary-light);
-            border: 1px solid rgba(52, 152, 219, 0.25);
+            border: 1px solid rgba(108, 92, 231, 0.25);
         }
         
         /* تحسينات للروابط */
@@ -548,7 +579,7 @@
         }
         
         a:hover {
-            color: var(--primary);
+            color: var(--secondary);
             text-decoration: underline;
         }
         
@@ -678,6 +709,11 @@
                 flex-direction: column;
                 gap: 5px;
             }
+            
+            .developer-info {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
         
         @media (max-width: 576px) {
@@ -697,11 +733,6 @@
             .logo h1 {
                 font-size: 24px;
             }
-            
-            .developer-info {
-                flex-direction: column;
-                gap: 10px;
-            }
         }
         
         /* تأثيرات إضافية للواجهة */
@@ -710,9 +741,9 @@
         }
         
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.5); }
-            70% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(108, 92, 231, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
         }
         
         .fade-in {
@@ -753,8 +784,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(26, 37, 47, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(13, 13, 26, 0.95);
+            backdrop-filter: blur(15px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -771,7 +802,7 @@
         
         .modal-content {
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius);
             width: 90%;
@@ -845,8 +876,8 @@
         }
         
         @keyframes glow {
-            from { box-shadow: 0 0 20px rgba(52, 152, 219, 0.5); }
-            to { box-shadow: 0 0 30px rgba(52, 152, 219, 0.8), 0 0 40px rgba(46, 204, 113, 0.6); }
+            from { box-shadow: 0 0 20px rgba(108, 92, 231, 0.5); }
+            to { box-shadow: 0 0 30px rgba(108, 92, 231, 0.8), 0 0 40px rgba(253, 121, 168, 0.6); }
         }
         
         /* تخصيصات متعددة الملفات */
@@ -859,9 +890,9 @@
             overflow-y: auto;
             margin-top: 15px;
             padding: 15px;
-            background: rgba(26, 37, 47, 0.7);
+            background: rgba(13, 13, 26, 0.7);
             border-radius: var(--border-radius-sm);
-            border: 1px solid rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(108, 92, 231, 0.2);
         }
         
         .file-list-item {
@@ -883,7 +914,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(52, 152, 219, 0.2);
+            background: rgba(108, 92, 231, 0.2);
             color: var(--primary);
             border: none;
             cursor: pointer;
@@ -916,6 +947,152 @@
             font-size: 24px;
             color: white;
         }
+        
+        /* تصميم متقدم للحقوق */
+        .rights {
+            font-size: 14px;
+            color: var(--primary-light);
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .rights a {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+        
+        /* نافذة Depiction */
+        .depiction-modal {
+            z-index: 1001;
+        }
+        
+        .depiction-modal .modal-content {
+            max-width: 1000px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .depiction-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .depiction-form {
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .depiction-preview {
+            background: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .code-header {
+            background: #2d2d2d;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        
+        .code-content {
+            padding: 20px;
+            overflow: auto;
+            height: 100%;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #d4d4d4;
+            background: #1e1e1e;
+        }
+        
+        .json-key {
+            color: #9cdcfe;
+        }
+        
+        .json-string {
+            color: #ce9178;
+        }
+        
+        .json-number {
+            color: #b5cea8;
+        }
+        
+        .json-boolean {
+            color: #569cd6;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab.active {
+            background: var(--primary-gradient);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.6);
+        }
+        
+        .tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .screenshot-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+        
+        .screenshot-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .screenshot-input {
+            flex: 1;
+        }
+        
+        .depiction-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
     </style>
 </head>
 <body>
@@ -923,11 +1100,8 @@
         <header class="fade-in">
             <div class="logo">
                 <i class="fas fa-cubes"></i>
-                <h1>DEB - GitHub API</h1>
+                <h1> ~بيكاس - BekEs~</h1>
             </div>
-            <button class="btn btn-secondary">
-                <i class="fas fa-box"></i> إدارة الحزم
-            </button>
         </header>
         
         <div class="main-content">
@@ -962,6 +1136,9 @@
                     </ol>
                     <button id="setup-workflow" class="btn btn-secondary" style="margin-top: 15px;">
                         <i class="fas fa-magic"></i> إنشاء ملف التحديث التلقائي
+                    </button>
+                    <button id="generate-depiction" class="btn btn-success" style="margin-top: 15px;">
+                        <i class="fas fa-code"></i> توليد Depiction
                     </button>
                 </div>
             </div>
@@ -1012,20 +1189,23 @@
         </div>
         
         <div class="footer">
-            <p>© 2023 منصة إدارة مستودعات DEB المتكاملة. جميع الحقوق محفوظة.</p>
+            <p class="copyright">© 2023 منصة إدارة مستودعات DEB المتكاملة. جميع الحقوق محفوظة.</p>
             <div class="developer-info">
                 <a href="https://github.com/developer" class="developer-link" target="_blank">
-                    <i class="fas fa-user"></i> 
-                    <span>المطور: أحمد محمد</span>
+                    <i class="fab fa-github"></i> 
+                    <span>المطور على GitHub</span>
                 </a>
-                <a href="https://example.com" class="developer-link" target="_blank">
+                <a href="https://bekes-505.github.io/apt/" class="developer-link" target="_blank">
                     <i class="fas fa-globe"></i> 
-                    <span>الموقع الإلكتروني</span>
+                    <span>سورس بيكاس</span>
                 </a>
                 <a href="mailto:developer@example.com" class="developer-link">
                     <i class="fas fa-envelope"></i> 
-                    <span>البريد الإلكتروني</span>
+                    <span>تيلجرام</span>
                 </a>
+            </div>
+            <div class="rights">
+                <p>تم التصميم والبرمجة بواسطة <a href="#">بيكاس</a> | جميع الحقوق محفوظة © 2030</p>
             </div>
         </div>
     </div>
@@ -1105,6 +1285,130 @@
         </div>
     </div>
 
+    <!-- نافذة Depiction -->
+    <div class="modal-overlay depiction-modal" id="depiction-modal">
+        <div class="modal-content">
+            <div class="close-modal" id="close-depiction-modal">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="modal-title"><i class="fas fa-code"></i> مولد أكواد Depiction</h2>
+            
+            <div class="depiction-container">
+                <div class="depiction-form">
+                    <!-- التبويبات -->
+                    <div class="tabs">
+                        <div class="tab active" data-tab="details">
+                            <i class="fas fa-info-circle"></i> التفاصيل
+                        </div>
+                        <div class="tab" data-tab="screenshots">
+                            <i class="fas fa-image"></i> لقطات الشاشة
+                        </div>
+                        <div class="tab" data-tab="changelog">
+                            <i class="fas fa-history"></i> سجل التغييرات
+                        </div>
+                    </div>
+                    
+                    <!-- محتوى التبويبات -->
+                    <div class="tab-content active" id="details-tab">
+                        <div class="input-group">
+                            <label for="depiction-packageName"><i class="fas fa-cube"></i> اسم الحزمة</label>
+                            <input type="text" id="depiction-packageName" class="form-control" value="com.lizynz.folderx">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="depiction-markdownText"><i class="fas fa-paragraph"></i> النص الوصفي</label>
+                            <textarea id="depiction-markdownText" class="form-control"><p>Supports Dopamine and palera1n.</p> <p>En: Customize the folder to your liking.</p> <p>Ru: Настройте папку по своему вкусу.</p></textarea>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="depiction-devices"><i class="fas fa-mobile-alt"></i> الأجهزة</label>
+                            <input type="text" id="depiction-devices" class="form-control" value="iPhone & iPad">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="depiction-compatibility"><i class="fas fa-check-circle"></i> التوافق</label>
+                            <input type="text" id="depiction-compatibility" class="form-control" value="14.x - 18.x">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="depiction-price"><i class="fas fa-tag"></i> السعر</label>
+                            <input type="text" id="depiction-price" class="form-control" value="Free">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="depiction-updated"><i class="fas fa-calendar-alt"></i> آخر تحديث</label>
+                            <input type="text" id="depiction-updated" class="form-control" value="21.09.2024">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="depiction-released"><i class="fas fa-calendar-check"></i> تاريخ الإصدار</label>
+                            <input type="text" id="depiction-released" class="form-control" value="17.04.2023">
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="screenshots-tab">
+                        <div class="input-group">
+                            <label><i class="fas fa-camera"></i> إدارة لقطات الشاشة</label>
+                            <div id="depiction-screenshots-container">
+                                <div class="screenshot-item">
+                                    <input type="text" class="form-control screenshot-input" placeholder="رابط لقطة الشاشة" value="">
+                                    <button class="btn btn-danger btn-sm remove-screenshot"><i class="fas fa-trash"></i></button>
+                                </div>
+                                <div class="screenshot-item">
+                                    <input type="text" class="form-control screenshot-input" placeholder="رابط لقطة الشاشة" value="">
+                                    <button class="btn btn-danger btn-sm remove-screenshot"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" id="add-screenshot">
+                                <i class="fas fa-plus"></i> إضافة لقطة شاشة
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="changelog-tab">
+                        <div class="input-group">
+                            <label for="depiction-changelogText"><i class="fas fa-file-alt"></i> سجل التغييرات</label>
+                            <textarea id="depiction-changelogText" class="form-control" rows="15">- Color palette not require respring (except icon).
+- Added change the color of icon label.
+- Fixed icons in App Library.
+- Fixed bug where folder icon color affected App Library icon.
+- Fixed bug where the launcher remained after closing the folder.
+- Fixed bug when radius did not change at first setup or after reset.
+- Added slider for adjusting folder size.</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="depiction-buttons">
+                        <button class="btn btn-primary" id="depiction-generate-btn">
+                            <i class="fas fa-cogs"></i> توليد الكود
+                        </button>
+                        <button class="btn btn-secondary" id="depiction-reset-btn">
+                            <i class="fas fa-redo"></i> إعادة تعيين
+                        </button>
+                        <button class="btn btn-success" id="depiction-upload-btn">
+                            <i class="fas fa-upload"></i> رفع إلى GitHub
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="depiction-preview">
+                    <div class="code-header">
+                        <span>depiction.json</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-content" id="depiction-code-output">
+{
+    "class": "DepictionTabView",
+    "tabs": [
+        // سيظهر الكود هنا بعد الضغط على زر التوليد
+    ]
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // عناصر DOM
@@ -1115,6 +1419,7 @@
             const saveTokenBtn = document.getElementById('save-token');
             const loadPackagesBtn = document.getElementById('load-packages');
             const setupWorkflowBtn = document.getElementById('setup-workflow');
+            const generateDepictionBtn = document.getElementById('generate-depiction');
             const fileInput = document.getElementById('file-input');
             const dropZone = document.getElementById('drop-zone');
             const fileInfo = document.getElementById('file-info');
@@ -1133,11 +1438,33 @@
             const editModal = document.getElementById('edit-modal');
             const closeModalBtn = document.getElementById('close-modal');
             const saveChangesBtn = document.getElementById('save-changes');
+            const editPackageName = document.getElementById('edit-package-name');
+            const editVersion = document.getElementById('edit-version');
+            const editArchitecture = document.getElementById('edit-architecture');
+            const editTweaks = document.getElementById('edit-tweaks');
+            const editMaintainer = document.getElementById('edit-maintainer');
+            const editDependencies = document.getElementById('edit-dependencies');
+            const editAuthor = document.getElementById('edit-author');
+            const editDisplayName = document.getElementById('edit-display-name');
+            const editDescription = document.getElementById('edit-description');
+            const editIcon = document.getElementById('edit-icon');
+            const editHeader = document.getElementById('edit-header');
+            
+            // عناصر نافذة Depiction
+            const depictionModal = document.getElementById('depiction-modal');
+            const closeDepictionModalBtn = document.getElementById('close-depiction-modal');
+            const depictionGenerateBtn = document.getElementById('depiction-generate-btn');
+            const depictionResetBtn = document.getElementById('depiction-reset-btn');
+            const depictionUploadBtn = document.getElementById('depiction-upload-btn');
+            const depictionCodeOutput = document.getElementById('depiction-code-output');
+            const depictionScreenshotsContainer = document.getElementById('depiction-screenshots-container');
+            const addScreenshotBtn = document.getElementById('add-screenshot');
             
             let selectedFiles = [];
             let packages = [];
             let repoConfig = {};
             let currentPackage = null;
+            let depictionData = {};
             
             // تحميل الإعدادات المحفوظة
             const savedConfig = localStorage.getItem('repoConfig');
@@ -1239,19 +1566,19 @@ jobs:
             // التعامل مع سحب وإفلات الملفات
             dropZone.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                dropZone.style.borderColor = '#5dade2';
-                dropZone.style.background = 'rgba(26, 37, 47, 0.8)';
+                dropZone.style.borderColor = '#8378e9';
+                dropZone.style.background = 'rgba(13, 13, 26, 0.8)';
             });
             
             dropZone.addEventListener('dragleave', function() {
-                dropZone.style.borderColor = '#3498db';
-                dropZone.style.background = 'rgba(26, 37, 47, 0.5)';
+                dropZone.style.borderColor = '#6c5ce7';
+                dropZone.style.background = 'rgba(13, 13, 26, 0.5)';
             });
             
             dropZone.addEventListener('drop', function(e) {
                 e.preventDefault();
-                dropZone.style.borderColor = '#3498db';
-                dropZone.style.background = 'rgba(26, 37, 47, 0.5)';
+                dropZone.style.borderColor = '#6c5ce7';
+                dropZone.style.background = 'rgba(13, 13, 26, 0.5)';
                 
                 if (e.dataTransfer.files.length) {
                     handleFileSelect(e.dataTransfer.files);
@@ -1498,17 +1825,17 @@ jobs:
                 currentPackage = filename;
                 
                 // ملء الحقول بقيم افتراضية (يمكن تعديلها لتحميل البيانات الحالية)
-                document.getElementById('edit-package-name').value = filename.replace('.deb', '');
-                document.getElementById('edit-version').value = '1.0.0';
-                document.getElementById('edit-architecture').value = 'iphoneos-arm64';
-                document.getElementById('edit-tweaks').value = '';
-                document.getElementById('edit-maintainer').value = '';
-                document.getElementById('edit-dependencies').value = '';
-                document.getElementById('edit-author').value = '';
-                document.getElementById('edit-display-name').value = filename.replace('.deb', '');
-                document.getElementById('edit-description').value = 'وصف الحزمة';
-                document.getElementById('edit-icon').value = '';
-                document.getElementById('edit-header').value = '';
+                editPackageName.value = filename.replace('.deb', '');
+                editVersion.value = '1.0.0';
+                editArchitecture.value = 'iphoneos-arm64';
+                editTweaks.value = '';
+                editMaintainer.value = '';
+                editDependencies.value = '';
+                editAuthor.value = '';
+                editDisplayName.value = filename.replace('.deb', '');
+                editDescription.value = 'وصف الحزمة';
+                editIcon.value = '';
+                editHeader.value = '';
                 
                 // عرض النافذة
                 editModal.classList.add('active');
@@ -1520,10 +1847,39 @@ jobs:
             });
             
             // حفظ التغييرات
-            saveChangesBtn.addEventListener('click', function() {
-                // هنا يمكنك إضافة كود لحفظ التغييرات
-                showNotification('تم حفظ التغييرات بنجاح!', 'success');
-                editModal.classList.remove('active');
+            saveChangesBtn.addEventListener('click', async function() {
+                if (!currentPackage) {
+                    showNotification('لم يتم تحديد حزمة للتعديل', 'error');
+                    return;
+                }
+                
+                try {
+                    // إنشاء ملف التعديل (Control file)
+                    const controlContent = `Package: ${editPackageName.value}
+Version: ${editVersion.value}
+Architecture: ${editArchitecture.value}
+Maintainer: ${editMaintainer.value}
+Depends: ${editDependencies.value}
+Author: ${editAuthor.value}
+Name: ${editDisplayName.value}
+Description: ${editDescription.value}
+Icon: ${editIcon.value}
+Header: ${editHeader.value}
+SileoDepiction: https://example.com/depiction.json
+Depiction: https://example.com/depiction.html
+`;
+
+                    // رفع ملف التحكم
+                    const controlPath = `debs/${currentPackage}.control`;
+                    await uploadToGitHub(controlPath, btoa(unescape(encodeURIComponent(controlContent))), `تعديل حزمة: ${currentPackage}`);
+                    
+                    showNotification('تم تعديل الحزمة بنجاح!', 'success');
+                    editModal.classList.remove('active');
+                    
+                } catch (error) {
+                    console.error('Error updating package:', error);
+                    showNotification('فشل في تعديل الحزمة', 'error');
+                }
             });
             
             // إغلاق النافذة عند النقر خارجها
@@ -1532,6 +1888,291 @@ jobs:
                     editModal.classList.remove('active');
                 }
             });
+            
+            // فتح نافذة Depiction
+            generateDepictionBtn.addEventListener('click', function() {
+                if (!repoConfig.token || !repoConfig.owner || !repoConfig.repo) {
+                    showNotification('يرجى حفظ الإعدادات أولاً', 'error');
+                    return;
+                }
+                
+                depictionModal.classList.add('active');
+            });
+            
+            // إغلاق نافذة Depiction
+            closeDepictionModalBtn.addEventListener('click', function() {
+                depictionModal.classList.remove('active');
+            });
+            
+            // إغلاق نافذة Depiction عند النقر خارجها
+            depictionModal.addEventListener('click', function(e) {
+                if (e.target === depictionModal) {
+                    depictionModal.classList.remove('active');
+                }
+            });
+            
+            // إدارة التبويبات في نافذة Depiction
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // إزالة النشاط من جميع الأزرار والمحتويات
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // إضافة النشاط للزر والمحتوى المحدد
+                    tab.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // إضافة لقطات شاشة
+            addScreenshotBtn.addEventListener('click', () => {
+                const newScreenshot = document.createElement('div');
+                newScreenshot.className = 'screenshot-item';
+                newScreenshot.innerHTML = `
+                    <input type="text" class="form-control screenshot-input" placeholder="رابط لقطة الشاشة" value="">
+                    <button class="btn btn-danger btn-sm remove-screenshot"><i class="fas fa-trash"></i></button>
+                `;
+                depictionScreenshotsContainer.appendChild(newScreenshot);
+                
+                // إضافة حدث لإزالة لقطة الشاشة
+                newScreenshot.querySelector('.remove-screenshot').addEventListener('click', () => {
+                    depictionScreenshotsContainer.removeChild(newScreenshot);
+                });
+            });
+            
+            // إضافة أحداث إزالة للقطات الشاشة الموجودة مسبقاً
+            document.querySelectorAll('.remove-screenshot').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    depictionScreenshotsContainer.removeChild(this.parentElement);
+                });
+            });
+            
+            // توليد كود Depiction
+            depictionGenerateBtn.addEventListener('click', () => {
+                // جمع بيانات لقطات الشاشة
+                const screenshotInputs = document.querySelectorAll('.screenshot-input');
+                const screenshotUrls = Array.from(screenshotInputs)
+                    .map(input => input.value.trim())
+                    .filter(url => url !== '');
+                
+                const screenshots = screenshotUrls.map((url, index) => {
+                    return {
+                        accessibilityText: `Screenshot${index}`,
+                        url: url
+                    };
+                });
+                
+                // جمع البيانات الأخرى
+                const packageName = document.getElementById('depiction-packageName').value;
+                const markdownText = document.getElementById('depiction-markdownText').value;
+                const devices = document.getElementById('depiction-devices').value;
+                const compatibility = document.getElementById('depiction-compatibility').value;
+                const price = document.getElementById('depiction-price').value;
+                const updated = document.getElementById('depiction-updated').value;
+                const released = document.getElementById('depiction-released').value;
+                const changelogText = document.getElementById('depiction-changelogText').value;
+                
+                // بناء كود JSON
+                const jsonCode = {
+                    "class": "DepictionTabView",
+                    "tabs": [
+                        {
+                            "class": "DepictionStackView",
+                            "tabname": "Details",
+                            "views": [
+                                {
+                                    "itemCornerRadius": 6,
+                                    "class": "DepictionScreenshotsView",
+                                    "itemSize": "{160, 275.41333333333336}",
+                                    "screenshots": screenshots
+                                },
+                                {
+                                    "class": "DepictionMarkdownView",
+                                    "markdown": markdownText,
+                                    "useSpacing": true,
+                                    "useRawFormat": true
+                                },
+                                {
+                                    "class": "DepictionSeparatorView"
+                                },
+                                {
+                                    "class": "DepictionHeaderView",
+                                    "title": "Informations",
+                                    "useBoldText": true
+                                },
+                                {
+                                    "class": "DepictionTableTextView",
+                                    "title": "Devices",
+                                    "text": devices
+                                },
+                                {
+                                    "class": "DepictionTableTextView",
+                                    "title": "Compatibility",
+                                    "text": compatibility
+                                },
+                                {
+                                    "class": "DepictionTableTextView",
+                                    "title": "Price",
+                                    "text": price
+                                },
+                                {
+                                    "class": "DepictionTableTextView",
+                                    "text": updated,
+                                    "title": "Last Time Updated"
+                                },
+                                {
+                                    "class": "DepictionTableTextView",
+                                    "text": released,
+                                    "title": "Released"
+                                }
+                            ],
+                            "xPadding": 10
+                        },
+                        {
+                            "class": "DepictionStackView",
+                            "tabname": "Changelog",
+                            "views": [
+                                {
+                                    "class": "DepictionSubheaderView",
+                                    "title": "Version 2.0"
+                                },
+                                {
+                                    "class": "DepictionMarkdownView",
+                                    "markdown": changelogText
+                                },
+                                {
+                                    "class": "DepictionSeparatorView"
+                                }
+                            ]
+                        }
+                    ]
+                };
+                
+                // حفظ البيانات
+                depictionData = jsonCode;
+                
+                // عرض الكود المنسق مع تلوين الصyntax
+                depictionCodeOutput.innerHTML = syntaxHighlight(JSON.stringify(jsonCode, null, 4));
+            });
+            
+            // إعادة تعيين نموذج Depiction
+            depictionResetBtn.addEventListener('click', () => {
+                if (confirm('هل أنت متأكد من أنك تريد إعادة تعيين جميع الحقول؟')) {
+                    document.getElementById('depiction-packageName').value = '';
+                    document.getElementById('depiction-markdownText').value = '';
+                    document.getElementById('depiction-devices').value = '';
+                    document.getElementById('depiction-compatibility').value = '';
+                    document.getElementById('depiction-price').value = '';
+                    document.getElementById('depiction-updated').value = '';
+                    document.getElementById('depiction-released').value = '';
+                    document.getElementById('depiction-changelogText').value = '';
+                    
+                    // إعادة تعيين لقطات الشاشة
+                    depictionScreenshotsContainer.innerHTML = `
+                        <div class="screenshot-item">
+                            <input type="text" class="form-control screenshot-input" placeholder="رابط لقطة الشاشة" value="">
+                            <button class="btn btn-danger btn-sm remove-screenshot"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="screenshot-item">
+                            <input type="text" class="form-control screenshot-input" placeholder="رابط لقطة الشاشة" value="">
+                            <button class="btn btn-danger btn-sm remove-screenshot"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    
+                    // إعادة تعيين الكود الناتج
+                    depictionCodeOutput.textContent = '{\n    "class": "DepictionTabView",\n    "tabs": [\n        // سيظهر الكود هنا بعد الضغط على زر التوليد\n    ]\n}';
+                    
+                    // إعادة إرفاق أحداث الإزالة
+                    document.querySelectorAll('.remove-screenshot').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            depictionScreenshotsContainer.removeChild(this.parentElement);
+                        });
+                    });
+                    
+                    alert('تم إعادة تعيين جميع الحقول بنجاح.');
+                }
+            });
+            
+            // رفع Depiction إلى GitHub
+            depictionUploadBtn.addEventListener('click', async function() {
+                if (!depictionData || Object.keys(depictionData).length === 0) {
+                    showNotification('يرجى توليد الكود أولاً', 'error');
+                    return;
+                }
+                
+                try {
+                    const packageName = document.getElementById('depiction-packageName').value;
+                    if (!packageName) {
+                        showNotification('يرجى إدخال اسم الحزمة', 'error');
+                        return;
+                    }
+                    
+                    // إنشاء مجلد Depiction إذا لم يكن موجوداً
+                    try {
+                        await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/Depiction`, {
+                            headers: {
+                                'Authorization': `token ${repoConfig.token}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        });
+                    } catch (e) {
+                        // المجلد غير موجود، سنقوم بإنشائه
+                        await uploadToGitHub('Depiction/.gitkeep', btoa(''), 'إنشاء مجلد Depiction');
+                    }
+                    
+                    // إنشاء مجلد باسم الحزمة داخل مجلد Depiction
+                    const packageFolder = `Depiction/${packageName}`;
+                    try {
+                        await fetch(`https://api.github.com/repos/${repoConfig.owner}/${repoConfig.repo}/contents/${packageFolder}`, {
+                            headers: {
+                                'Authorization': `token ${repoConfig.token}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        });
+                    } catch (e) {
+                        // المجلد غير موجود، سنقوم بإنشائه
+                        await uploadToGitHub(`${packageFolder}/.gitkeep`, btoa(''), `إنشاء مجلد ${packageName}`);
+                    }
+                    
+                    // رفع ملف depiction.json
+                    const jsonContent = JSON.stringify(depictionData, null, 4);
+                    const jsonPath = `${packageFolder}/depiction.json`;
+                    
+                    await uploadToGitHub(jsonPath, btoa(unescape(encodeURIComponent(jsonContent))), `إضافة Depiction لـ ${packageName}`);
+                    
+                    showNotification('تم رفع ملف Depiction بنجاح!', 'success');
+                    depictionModal.classList.remove('active');
+                    
+                } catch (error) {
+                    console.error('Error uploading depiction:', error);
+                    showNotification('فشل في رفع ملف Depiction', 'error');
+                }
+            });
+            
+            // وظيفة تلوين الصyntax لJSON
+            function syntaxHighlight(json) {
+                json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                    let cls = 'json-number';
+                    if (/^"/.test(match)) {
+                        if (/:$/.test(match)) {
+                            cls = 'json-key';
+                        } else {
+                            cls = 'json-string';
+                        }
+                    } else if (/true|false/.test(match)) {
+                        cls = 'json-boolean';
+                    } else if (/null/.test(match)) {
+                        cls = 'json-null';
+                    }
+                    return '<span class="' + cls + '">' + match + '</span>';
+                });
+            }
             
             // وظيفة عرض الإشعارات
             function showNotification(message, type) {

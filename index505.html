@@ -3,22 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة إدارة مستودعات DEB - GitHub API</title>
+    <title> ~بيكاس - BekEs~</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
-            --primary: #6e44ff;
-            --secondary: #b892ff;
-            --accent: #ff5e63;
+            --primary: #6c5ce7;
+            --primary-dark: #5649c9;
+            --primary-light: #8378e9;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
             --dark: #1a1a2e;
             --darker: #0d0d1a;
             --light: #f0f0f7;
-            --success: #2ecc71;
-            --warning: #f39c12;
-            --info: #3498db;
+            --lighter: #ffffff;
+            --success: #00b894;
+            --success-dark: #00a382;
+            --warning: #fdcb6e;
+            --info: #74b9ff;
+            --info-dark: #0984e3;
             --error: #e74c3c;
+            --error-dark: #c0392b;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-800: #343a40;
+            --border-radius: 20px;
+            --border-radius-sm: 12px;
+            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            --box-shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.35);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --glass-bg: rgba(26, 26, 46, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
         
         * {
@@ -29,7 +46,7 @@
         
         body {
             font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, var(--darker), var(--dark));
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
             color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
@@ -38,120 +55,205 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 25px;
         }
         
+        /* تحسين الهيدر */
         header {
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border-radius: var(--border-radius);
+            padding: 25px 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--box-shadow);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.15), rgba(253, 121, 168, 0.15));
+            z-index: -1;
+        }
+        
+        header:hover {
+            box-shadow: var(--box-shadow-hover);
+            transform: translateY(-5px);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
         }
         
         .logo i {
-            font-size: 32px;
-            color: var(--secondary);
+            font-size: 42px;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
         
         .logo h1 {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* تحسين المحتوى الرئيسي */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        /* تحسين أقسام الموقع */
+        .auth-section, .upload-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-section::before, .upload-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
+            z-index: -1;
+        }
+        
+        .auth-section:hover, .upload-section:hover {
+            box-shadow: var(--box-shadow-hover);
+            transform: translateY(-5px);
+        }
+        
+        .section-title {
             font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            margin-bottom: 32px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), transparent);
+        }
+        
+        .section-title i {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 30px;
-            margin-bottom: 40px;
+        /* تحسين حقول الإدخال */
+        .input-group {
+            margin-bottom: 28px;
+            position: relative;
         }
         
-        .auth-section {
-            background: rgba(26, 26, 46, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: fit-content;
-        }
-        
-        .section-title {
-            font-size: 24px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--primary);
-            color: var(--secondary);
+        .input-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--light);
+            font-size: 17px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--secondary);
-        }
-        
-        .input-group input, .input-group select {
+        .input-group input, .input-group select, .input-group textarea {
             width: 100%;
-            padding: 15px;
-            background: rgba(13, 13, 26, 0.7);
-            border: 1px solid rgba(110, 68, 255, 0.3);
-            border-radius: 12px;
-            color: var(--light);
+            padding: 18px 20px;
+            background: rgba(13, 13, 26, 0.8);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: var(--border-radius-sm);
+            color: var(--lighter);
             font-family: inherit;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            font-size: 16px;
         }
         
-        .input-group input:focus {
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(110, 68, 255, 0.3);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.25);
+            background: rgba(13, 13, 26, 0.9);
         }
         
+        /* تحسين الأزرار */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 15px 25px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            gap: 12px;
+            padding: 18px 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
             font-family: inherit;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            transition: var(--transition);
             text-decoration: none;
-            box-shadow: 0 5px 15px rgba(110, 68, 255, 0.4);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.35);
+            font-size: 17px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+            pointer-events: none;
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(110, 68, 255, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(108, 92, 231, 0.45);
         }
         
         .btn:active {
@@ -159,96 +261,145 @@
         }
         
         .btn i {
-            font-size: 18px;
+            font-size: 20px;
         }
         
         .btn-secondary {
-            background: linear-gradient(135deg, var(--info), #2980b9);
+            background: linear-gradient(135deg, var(--secondary), var(--success-dark));
+            box-shadow: 0 8px 20px rgba(0, 206, 201, 0.35);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 12px 28px rgba(0, 206, 201, 0.45);
         }
         
         .btn-danger {
-            background: linear-gradient(135deg, var(--error), #c0392b);
+            background: linear-gradient(135deg, var(--error), var(--error-dark));
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.35);
         }
         
-        .upload-section {
-            background: rgba(26, 26, 46, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .btn-danger:hover {
+            box-shadow: 0 12px 28px rgba(231, 76, 60, 0.45);
         }
         
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), var(--success-dark));
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.35);
+        }
+        
+        .btn-success:hover {
+            box-shadow: 0 12px 28px rgba(0, 184, 148, 0.45);
+        }
+        
+        /* تحسين منطقة الرفع */
         .upload-area {
             border: 3px dashed var(--primary);
-            border-radius: 15px;
-            padding: 50px 30px;
+            border-radius: var(--border-radius);
+            padding: 70px 40px;
             text-align: center;
-            margin-bottom: 25px;
-            background: rgba(13, 13, 26, 0.4);
-            transition: all 0.3s ease;
+            margin-bottom: 35px;
+            background: rgba(13, 13, 26, 0.5);
+            transition: var(--transition);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
+            z-index: -1;
         }
         
         .upload-area:hover {
-            border-color: var(--secondary);
-            background: rgba(13, 13, 26, 0.6);
+            border-color: var(--primary-light);
+            background: rgba(13, 13, 26, 0.7);
+            transform: translateY(-3px);
         }
         
         .upload-icon {
-            font-size: 70px;
-            margin-bottom: 20px;
-            color: var(--secondary);
+            font-size: 80px;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
         
         .upload-text {
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: var(--light);
+            font-weight: 500;
         }
         
-        .file-info {
-            background: rgba(13, 13, 26, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            display: none;
-            border: 1px solid rgba(110, 68, 255, 0.3);
+        /* تحسين أقسام المعلومات والتقدم */
+        .file-info, .progress-section, .result-section, .packages-list, .workflow-info {
+            background: rgba(13, 13, 26, 0.9);
+            padding: 28px;
+            border-radius: var(--border-radius);
+            margin-bottom: 28px;
+            border: 1px solid rgba(108, 92, 231, 0.25);
+            transition: var(--transition);
+            backdrop-filter: blur(15px);
         }
         
-        .progress-section {
-            display: none;
-            margin-bottom: 20px;
-            background: rgba(13, 13, 26, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
+        .file-info:hover, .progress-section:hover, .result-section:hover, .packages-list:hover, .workflow-info:hover {
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
         }
         
         .progress-bar {
-            height: 25px;
+            height: 32px;
             background: rgba(13, 13, 26, 0.9);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            margin-bottom: 10px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
+            margin-bottom: 15px;
+            border: 1px solid rgba(108, 92, 231, 0.35);
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.25);
         }
         
         .progress {
             height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
             width: 0%;
-            transition: width 0.5s ease;
-            border-radius: 12px;
+            transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            border-radius: 16px;
             position: relative;
+            overflow: hidden;
         }
         
-        .result-section {
-            display: none;
-            background: rgba(13, 13, 26, 0.7);
-            padding: 25px;
-            border-radius: 15px;
-            margin-top: 20px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                transparent 75%, 
+                transparent
+            );
+            z-index: 1;
+            background-size: 60px 60px;
+            animation: move 2s linear infinite;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
         }
         
         .success {
@@ -259,24 +410,70 @@
             border-left: 5px solid var(--error);
         }
         
+        /* تحسين قائمة الحزم */
         .packages-list {
-            background: rgba(13, 13, 26, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
+        }
+        
+        .packages-list::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        .packages-list::-webkit-scrollbar-track {
+            background: rgba(13, 13, 26, 0.5);
+            border-radius: 6px;
+        }
+        
+        .packages-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 6px;
+        }
+        
+        .packages-list::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-light);
         }
         
         .package-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background: rgba(26, 26, 46, 0.5);
-            border-radius: 10px;
-            margin-bottom: 10px;
+            padding: 20px;
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 15px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .package-item:hover {
+            background: rgba(26, 26, 46, 0.9);
+            transform: translateX(8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .package-info {
+            flex: 1;
+            min-width: 0;
+            margin-left: 15px;
+        }
+        
+        .package-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 300px;
+        }
+        
+        .package-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            color: var(--primary-light);
         }
         
         .package-actions {
@@ -284,25 +481,183 @@
             gap: 10px;
         }
         
-        .footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--secondary);
+        .package-actions .btn {
+            padding: 10px 16px;
+            font-size: 14px;
         }
         
-        .workflow-info {
-            background: rgba(13, 13, 26, 0.7);
-            padding: 20px;
-            border-radius: 15px;
+        .package-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        /* تحسين الفوتر */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            margin-top: 70px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--light);
+            background: var(--glass-bg);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(108, 92, 231, 0.05), rgba(253, 121, 168, 0.05));
+            z-index: -1;
+        }
+        
+        .developer-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
             margin-top: 20px;
-            border: 1px solid rgba(110, 68, 255, 0.3);
+            flex-wrap: wrap;
+        }
+        
+        .developer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-light);
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(13, 13, 26, 0.7);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+            direction: ltr;
+        }
+        
+        .developer-link:hover {
+            color: var(--lighter);
+            background: rgba(108, 92, 231, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.2);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 16px;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        /* تحسينات للشيفرات البرمجية */
+        code {
+            background: rgba(13, 13, 26, 0.9);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: var(--primary-light);
+            border: 1px solid rgba(108, 92, 231, 0.25);
+        }
+        
+        /* تحسينات للروابط */
+        a {
+            color: var(--primary-light);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        /* تحسينات للقوائم */
+        ol {
+            padding-right: 25px;
+            margin: 18px 0;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        
+        /* تحسينات للاستجابة */
+        @media (max-width: 1400px) {
+            .main-content {
+                grid-template-columns: 1fr 1.8fr;
+                gap: 35px;
+            }
+            
+            .package-name {
+                max-width: 250px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr 1.5fr;
+                gap: 30px;
+            }
+            
+            .package-name {
+                max-width: 200px;
+            }
         }
         
         @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: 1fr;
+            }
+            
+            header {
+                padding: 22px;
+            }
+            
+            .logo h1 {
+                font-size: 28px;
+            }
+            
+            .package-name {
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .auth-section, .upload-section {
+                padding: 30px 25px;
+            }
+            
+            .upload-area {
+                padding: 50px 25px;
+            }
+            
+            .upload-icon {
+                font-size: 60px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .package-name {
+                max-width: 200px;
             }
         }
         
@@ -310,30 +665,315 @@
             header {
                 flex-direction: column;
                 text-align: center;
-                gap: 20px;
+                gap: 22px;
+                padding: 20px 18px;
+            }
+            
+            .auth-section, .upload-section {
+                padding: 25px 20px;
             }
             
             .upload-area {
-                padding: 30px 15px;
+                padding: 40px 20px;
             }
             
             .upload-icon {
-                font-size: 50px;
+                font-size: 55px;
             }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .package-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+            
+            .package-info {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .package-name {
+                max-width: 100%;
+            }
+            
+            .package-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .package-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .developer-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .package-actions {
+                flex-direction: column;
+            }
+            
+            .package-actions .btn {
+                width: 100%;
+            }
+            
+            .logo h1 {
+                font-size: 24px;
+            }
+        }
+        
+        /* تأثيرات إضافية للواجهة */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(108, 92, 231, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* تحسينات للنصوص */
+        h3 {
+            color: var(--light);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+        }
+        
+        p {
+            margin-bottom: 18px;
+            line-height: 1.8;
+        }
+        
+        /* تحسينات خاصة لشاشات كبيرة جداً */
+        @media (min-width: 1800px) {
+            .container {
+                max-width: 1700px;
+            }
+        }
+        
+        /* نافذة التعديل */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 13, 26, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            box-shadow: var(--box-shadow-hover);
+            transform: scale(0.9);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--error);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            background: var(--error-dark);
+            transform: rotate(90deg);
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 35px;
+            color: var(--light);
+            font-size: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+        }
+        
+        /* تأثيرات إضافية */
+        .glow {
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(108, 92, 231, 0.5); }
+            to { box-shadow: 0 0 30px rgba(108, 92, 231, 0.8), 0 0 40px rgba(253, 121, 168, 0.6); }
+        }
+        
+        /* تخصيصات متعددة الملفات */
+        .multi-file-info {
+            margin-top: 20px;
+        }
+        
+        .file-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(13, 13, 26, 0.7);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+        }
+        
+        .file-list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .file-list-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* أزرار إضافية */
+        .icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(108, 92, 231, 0.2);
+            color: var(--primary);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .icon-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .package-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .package-header-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        /* تصميم متقدم للحقوق */
+        .rights {
+            font-size: 14px;
+            color: var(--primary-light);
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .rights a {
+            color: var(--secondary);
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="fade-in">
             <div class="logo">
                 <i class="fas fa-cubes"></i>
-                <h1>منصة إدارة مستودعات DEB - GitHub API</h1>
+                <h1> ~بيكاس - BekEs~</h1>
             </div>
         </header>
         
         <div class="main-content">
-            <div class="auth-section">
+            <div class="auth-section fade-in">
                 <h2 class="section-title"><i class="fas fa-key"></i> إعدادات المصادقة</h2>
                 <div class="input-group">
                     <label for="github-token"><i class="fas fa-lock"></i> توكن GitHub:</label>
@@ -352,7 +992,7 @@
                     <input type="text" id="repo-branch" value="main" placeholder="اسم الفرع">
                 </div>
                 <button id="save-token" class="btn"><i class="fas fa-save"></i> حفظ الإعدادات</button>
-                <button id="load-packages" class="btn btn-secondary" style="margin-top: 10px;"><i class="fas fa-download"></i> تحميل الحزم</button>
+                <button id="load-packages" class="btn btn-secondary" style="margin-top: 15px;"><i class="fas fa-download"></i> تحميل الحزم</button>
                 
                 <div class="workflow-info">
                     <h3><i class="fas fa-info-circle"></i> معلومات هامة</h3>
@@ -362,24 +1002,29 @@
                         <li>وجود مجلد <code>debs/</code> في المستودع</li>
                         <li>منح التوكن صلاحية <strong>repo</strong></li>
                     </ol>
-                    <button id="setup-workflow" class="btn btn-secondary" style="margin-top: 10px;">
+                    <button id="setup-workflow" class="btn btn-secondary" style="margin-top: 15px;">
                         <i class="fas fa-magic"></i> إنشاء ملف التحديث التلقائي
                     </button>
                 </div>
             </div>
             
-            <div class="upload-section">
+            <div class="upload-section fade-in">
                 <h2 class="section-title"><i class="fas fa-upload"></i> رفع حزمة DEB</h2>
                 <div class="upload-area" id="drop-zone">
                     <div class="upload-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
                     </div>
-                    <p class="upload-text">اسحب وأفلت ملف DEB هنا أو</p>
-                    <label for="file-input" class="btn"><i class="fas fa-file"></i> اختر ملف</label>
-                    <input type="file" id="file-input" accept=".deb" hidden>
+                    <p class="upload-text">اسحب وأفلت ملفات DEB هنا أو</p>
+                    <label for="file-input" class="btn"><i class="fas fa-file"></i> اختر ملفات</label>
+                    <input type="file" id="file-input" accept=".deb" multiple hidden>
                 </div>
                 
                 <div class="file-info" id="file-info"></div>
+                
+                <div class="multi-file-info" id="multi-file-info" style="display: none;">
+                    <h3><i class="fas fa-list"></i> الملفات المحددة</h3>
+                    <div class="file-list" id="file-list"></div>
+                </div>
                 
                 <button id="upload-btn" class="btn" disabled><i class="fas fa-paper-plane"></i> رفع إلى GitHub</button>
                 
@@ -397,14 +1042,111 @@
                 </div>
 
                 <div class="packages-list" id="packages-list" style="display: none;">
-                    <h3>الحزم الموجودة في المستودع</h3>
+                    <div class="package-header">
+                        <div class="package-header-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <h3>الحزم الموجودة في المستودع</h3>
+                    </div>
                     <div id="packages-container"></div>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>© 2023 منصة إدارة مستودعات DEB المتكاملة. جميع الحقوق محفوظة.</p>
+            <p class="copyright">© 2023 منصة إدارة مستودعات DEB المتكاملة. جميع الحقوق محفوظة.</p>
+            <div class="developer-info">
+                <a href="https://github.com/developer" class="developer-link" target="_blank">
+                    <i class="fab fa-github"></i> 
+                    <span>المطور على GitHub</span>
+                </a>
+                <a href="https://bekes-505.github.io/apt/" class="developer-link" target="_blank">
+                    <i class="fas fa-globe"></i> 
+                    <span>سورس بيكاس</span>
+                </a>
+                <a href="mailto:developer@example.com" class="developer-link">
+                    <i class="fas fa-envelope"></i> 
+                    <span>تيلجرام</span>
+                </a>
+            </div>
+            <div class="rights">
+                <p>تم التصميم والبرمجة بواسطة <a href="#">بيكاس</a> | جميع الحقوق محفوظة © 2030</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة التعديل -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <div class="close-modal" id="close-modal">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="modal-title"><i class="fas fa-edit"></i> تعديل الحزمة</h2>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="edit-package-name"><i class="fas fa-cube"></i> Package Name</label>
+                    <input type="text" id="edit-package-name">
+                </div>
+                
+                <div class="input-group">
+                    <label for="edit-version"><i class="fas fa-code-branch"></i> Version</label>
+                    <input type="text" id="edit-version">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="edit-architecture"><i class="fas fa-microchip"></i> Architecture</label>
+                    <input type="text" id="edit-architecture" value="iphoneos-arm64">
+                </div>
+                
+                <div class="input-group">
+                    <label for="edit-tweaks"><i class="fas fa-tools"></i> Tweaks</label>
+                    <input type="text" id="edit-tweaks">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="edit-maintainer"><i class="fas fa-user-cog"></i> Maintainer</label>
+                    <input type="text" id="edit-maintainer">
+                </div>
+                
+                <div class="input-group">
+                    <label for="edit-dependencies"><i class="fas fa-link"></i> Dependencies</label>
+                    <input type="text" id="edit-dependencies">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="edit-author"><i class="fas fa-user"></i> Author</label>
+                    <input type="text" id="edit-author">
+                </div>
+                
+                <div class="input-group">
+                    <label for="edit-display-name"><i class="fas fa-signature"></i> Display Name</label>
+                    <input type="text" id="edit-display-name">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="edit-description"><i class="fas fa-align-left"></i> Description</label>
+                <textarea id="edit-description" rows="4"></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="edit-icon"><i class="fas fa-image"></i> Icon URL</label>
+                <input type="text" id="edit-icon" placeholder="رابط أيقونة الأداة">
+            </div>
+            
+            <div class="input-group">
+                <label for="edit-header"><i class="fas fa-heading"></i> Header Image URL</label>
+                <input type="text" id="edit-header" placeholder="رابط صورة الهيدر">
+            </div>
+            
+            <button id="save-changes" class="btn btn-success"><i class="fas fa-check"></i> حفظ التغييرات</button>
         </div>
     </div>
 
@@ -421,6 +1163,8 @@
             const fileInput = document.getElementById('file-input');
             const dropZone = document.getElementById('drop-zone');
             const fileInfo = document.getElementById('file-info');
+            const multiFileInfo = document.getElementById('multi-file-info');
+            const fileList = document.getElementById('file-list');
             const uploadBtn = document.getElementById('upload-btn');
             const progressSection = document.getElementById('progress-section');
             const uploadProgress = document.getElementById('upload-progress');
@@ -430,9 +1174,26 @@
             const packagesList = document.getElementById('packages-list');
             const packagesContainer = document.getElementById('packages-container');
             
-            let selectedFile = null;
+            // عناصر نافذة التعديل
+            const editModal = document.getElementById('edit-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const saveChangesBtn = document.getElementById('save-changes');
+            const editPackageName = document.getElementById('edit-package-name');
+            const editVersion = document.getElementById('edit-version');
+            const editArchitecture = document.getElementById('edit-architecture');
+            const editTweaks = document.getElementById('edit-tweaks');
+            const editMaintainer = document.getElementById('edit-maintainer');
+            const editDependencies = document.getElementById('edit-dependencies');
+            const editAuthor = document.getElementById('edit-author');
+            const editDisplayName = document.getElementById('edit-display-name');
+            const editDescription = document.getElementById('edit-description');
+            const editIcon = document.getElementById('edit-icon');
+            const editHeader = document.getElementById('edit-header');
+            
+            let selectedFiles = [];
             let packages = [];
             let repoConfig = {};
+            let currentPackage = null;
             
             // تحميل الإعدادات المحفوظة
             const savedConfig = localStorage.getItem('repoConfig');
@@ -534,43 +1295,62 @@ jobs:
             // التعامل مع سحب وإفلات الملفات
             dropZone.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                dropZone.style.borderColor = '#b892ff';
+                dropZone.style.borderColor = '#8378e9';
                 dropZone.style.background = 'rgba(13, 13, 26, 0.8)';
             });
             
             dropZone.addEventListener('dragleave', function() {
-                dropZone.style.borderColor = '#6e44ff';
-                dropZone.style.background = 'rgba(13, 13, 26, 0.4)';
+                dropZone.style.borderColor = '#6c5ce7';
+                dropZone.style.background = 'rgba(13, 13, 26, 0.5)';
             });
             
             dropZone.addEventListener('drop', function(e) {
                 e.preventDefault();
-                dropZone.style.borderColor = '#6e44ff';
-                dropZone.style.background = 'rgba(13, 13, 26, 0.4)';
+                dropZone.style.borderColor = '#6c5ce7';
+                dropZone.style.background = 'rgba(13, 13, 26, 0.5)';
                 
                 if (e.dataTransfer.files.length) {
-                    handleFileSelect(e.dataTransfer.files[0]);
+                    handleFileSelect(e.dataTransfer.files);
                 }
             });
             
             fileInput.addEventListener('change', function() {
                 if (fileInput.files.length) {
-                    handleFileSelect(fileInput.files[0]);
+                    handleFileSelect(fileInput.files);
                 }
             });
             
-            function handleFileSelect(file) {
-                if (!file.name.endsWith('.deb')) {
-                    showNotification('يرجى اختيار ملف DEB فقط', 'error');
+            function handleFileSelect(files) {
+                selectedFiles = Array.from(files).filter(file => file.name.endsWith('.deb'));
+                
+                if (selectedFiles.length === 0) {
+                    showNotification('يرجى اختيار ملفات DEB فقط', 'error');
                     return;
                 }
                 
-                selectedFile = file;
-                fileInfo.style.display = 'block';
-                fileInfo.innerHTML = `
-                    <strong>اسم الملف:</strong> ${file.name}<br>
-                    <strong>الحجم:</strong> ${(file.size / 1024 / 1024).toFixed(2)} MB
-                `;
+                // عرض معلومات الملفات
+                if (selectedFiles.length === 1) {
+                    fileInfo.style.display = 'block';
+                    multiFileInfo.style.display = 'none';
+                    fileInfo.innerHTML = `
+                        <strong>اسم الملف:</strong> ${selectedFiles[0].name}<br>
+                        <strong>الحجم:</strong> ${(selectedFiles[0].size / 1024 / 1024).toFixed(2)} MB
+                    `;
+                } else {
+                    fileInfo.style.display = 'none';
+                    multiFileInfo.style.display = 'block';
+                    fileList.innerHTML = '';
+                    
+                    selectedFiles.forEach(file => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('file-list-item');
+                        listItem.innerHTML = `
+                            <span>${file.name}</span>
+                            <span>${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                        `;
+                        fileList.appendChild(listItem);
+                    });
+                }
                 
                 uploadBtn.disabled = !isFormValid();
             }
@@ -579,10 +1359,10 @@ jobs:
                 return repoConfig.token && 
                        repoConfig.owner && 
                        repoConfig.repo && 
-                       selectedFile;
+                       selectedFiles.length > 0;
             }
             
-            // رفع الملف إلى GitHub
+            // رفع الملفات إلى GitHub
             uploadBtn.addEventListener('click', async function() {
                 if (!isFormValid()) {
                     showNotification('يرجى ملء جميع الحقول واختيار ملف', 'error');
@@ -595,20 +1375,25 @@ jobs:
                 progressStatus.textContent = 'جاري بدء الرفع...';
                 
                 try {
-                    // 1. رفع ملف DEB إلى مجلد debs/
-                    progressStatus.textContent = 'جاري رفع ملف DEB...';
-                    uploadProgress.style.width = '50%';
+                    const totalFiles = selectedFiles.length;
+                    let uploadedCount = 0;
                     
-                    const debContent = await readFileAsBase64(selectedFile);
-                    const debPath = `debs/${selectedFile.name}`;
+                    for (const file of selectedFiles) {
+                        progressStatus.textContent = `جاري رفع ملف ${file.name}... (${uploadedCount+1}/${totalFiles})`;
+                        uploadProgress.style.width = `${(uploadedCount / totalFiles) * 100}%`;
+                        
+                        const debContent = await readFileAsBase64(file);
+                        const debPath = `debs/${file.name}`;
+                        
+                        await uploadToGitHub(debPath, debContent, `إضافة حزمة: ${file.name}`);
+                        uploadedCount++;
+                    }
                     
-                    await uploadToGitHub(debPath, debContent, `إضافة حزمة: ${selectedFile.name}`);
-                    
-                    // 2. الانتظار قليلاً حتى يعمل workflow التحديث التلقائي
+                    // الانتظار قليلاً حتى يعمل workflow التحديث التلقائي
                     progressStatus.textContent = 'جاري انتظار التحديث التلقائي للمستودع...';
-                    uploadProgress.style.width = '80%';
+                    uploadProgress.style.width = '90%';
                     
-                    // 3. الانتظار لمدة 20 ثانية لتحديث المستودع
+                    // الانتظار لمدة 20 ثانية لتحديث المستودع
                     await new Promise(resolve => setTimeout(resolve, 20000));
                     
                     // اكتمال العملية
@@ -619,12 +1404,12 @@ jobs:
                     resultSection.style.display = 'block';
                     resultSection.className = 'result-section success';
                     resultMessage.innerHTML = `
-                        <p>تم رفع الحزمة بنجاح إلى المستودع!</p>
+                        <p>تم رفع ${totalFiles} حزمة بنجاح إلى المستودع!</p>
                         <p>تم تحديث ملفات Packages تلقائياً عبر workflow.</p>
                         <p>يمكنك متابعة التحديث في <a href="https://github.com/${repoConfig.owner}/${repoConfig.repo}/actions" target="_blank">صفحة Actions</a></p>
                     `;
                     
-                    showNotification('تم رفع الحزمة وتحديث المستودع بنجاح!', 'success');
+                    showNotification(`تم رفع ${totalFiles} حزمة وتحديث المستودع بنجاح!`, 'success');
                     
                     // إعادة تحميل قائمة الحزم
                     loadPackagesFromRepo();
@@ -739,12 +1524,19 @@ jobs:
                             const packageItem = document.createElement('div');
                             packageItem.classList.add('package-item');
                             packageItem.innerHTML = `
+                                <div class="package-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
                                 <div class="package-info">
-                                    <h3>${file.name}</h3>
-                                    <p>الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                                    <h3 class="package-name" title="${file.name}">${file.name}</h3>
+                                    <div class="package-meta">
+                                        <span>الحجم: ${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                                        <span>آخر تحديث: ${new Date().toLocaleDateString('ar-EG')}</span>
+                                    </div>
                                 </div>
                                 <div class="package-actions">
                                     <button class="btn btn-secondary" onclick="downloadPackage('${file.name}')"><i class="fas fa-download"></i> تحميل</button>
+                                    <button class="btn" onclick="editPackage('${file.name}')"><i class="fas fa-edit"></i> تعديل</button>
                                     <button class="btn btn-danger" onclick="deletePackage('${file.name}')"><i class="fas fa-trash"></i> حذف</button>
                                 </div>
                             `;
@@ -757,6 +1549,75 @@ jobs:
                 }
             }
             
+            // فتح نافذة التعديل
+            window.editPackage = function(filename) {
+                currentPackage = filename;
+                
+                // ملء الحقول بقيم افتراضية (يمكن تعديلها لتحميل البيانات الحالية)
+                editPackageName.value = filename.replace('.deb', '');
+                editVersion.value = '1.0.0';
+                editArchitecture.value = 'iphoneos-arm64';
+                editTweaks.value = '';
+                editMaintainer.value = '';
+                editDependencies.value = '';
+                editAuthor.value = '';
+                editDisplayName.value = filename.replace('.deb', '');
+                editDescription.value = 'وصف الحزمة';
+                editIcon.value = '';
+                editHeader.value = '';
+                
+                // عرض النافذة
+                editModal.classList.add('active');
+            };
+            
+            // إغلاق نافذة التعديل
+            closeModalBtn.addEventListener('click', function() {
+                editModal.classList.remove('active');
+            });
+            
+            // حفظ التغييرات
+            saveChangesBtn.addEventListener('click', async function() {
+                if (!currentPackage) {
+                    showNotification('لم يتم تحديد حزمة للتعديل', 'error');
+                    return;
+                }
+                
+                try {
+                    // إنشاء ملف التعديل (Control file)
+                    const controlContent = `Package: ${editPackageName.value}
+Version: ${editVersion.value}
+Architecture: ${editArchitecture.value}
+Maintainer: ${editMaintainer.value}
+Depends: ${editDependencies.value}
+Author: ${editAuthor.value}
+Name: ${editDisplayName.value}
+Description: ${editDescription.value}
+Icon: ${editIcon.value}
+Header: ${editHeader.value}
+SileoDepiction: https://example.com/depiction.json
+Depiction: https://example.com/depiction.html
+`;
+
+                    // رفع ملف التحكم
+                    const controlPath = `debs/${currentPackage}.control`;
+                    await uploadToGitHub(controlPath, btoa(unescape(encodeURIComponent(controlContent))), `تعديل حزمة: ${currentPackage}`);
+                    
+                    showNotification('تم تعديل الحزمة بنجاح!', 'success');
+                    editModal.classList.remove('active');
+                    
+                } catch (error) {
+                    console.error('Error updating package:', error);
+                    showNotification('فشل في تعديل الحزمة', 'error');
+                }
+            });
+            
+            // إغلاق النافذة عند النقر خارجها
+            editModal.addEventListener('click', function(e) {
+                if (e.target === editModal) {
+                    editModal.classList.remove('active');
+                }
+            });
+            
             // وظيفة عرض الإشعارات
             function showNotification(message, type) {
                 // إنشاء عنصر الإشعار
@@ -765,24 +1626,31 @@ jobs:
                 notification.style.position = 'fixed';
                 notification.style.bottom = '30px';
                 notification.style.right = '30px';
-                notification.style.padding = '15px 25px';
-                notification.style.borderRadius = '10px';
+                notification.style.padding = '18px 28px';
+                notification.style.borderRadius = '12px';
                 notification.style.color = 'white';
-                notification.style.fontWeight = '600';
+                notification.style.fontWeight = '700';
                 notification.style.zIndex = '1000';
-                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+                notification.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)';
+                notification.classList.add('fade-in');
                 
                 if (type === 'success') {
-                    notification.style.background = 'linear-gradient(135deg, var(--success), #27ae60)';
+                    notification.style.background = 'linear-gradient(135deg, var(--success), var(--success-dark))';
                 } else {
-                    notification.style.background = 'linear-gradient(135deg, var(--error), #c0392b)';
+                    notification.style.background = 'linear-gradient(135deg, var(--error), var(--error-dark))';
                 }
                 
                 document.body.appendChild(notification);
                 
                 // إخفاء الإشعار بعد 3 ثوان
                 setTimeout(() => {
-                    document.body.removeChild(notification);
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 500);
                 }, 3000);
             }
             
