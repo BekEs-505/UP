@@ -44,7 +44,7 @@
             padding: 0;
         }
         
-        body {
+        html, body {
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
             color: var(--light);
@@ -466,7 +466,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 300px;
+            max-width: 250px;
         }
         
         .package-meta {
@@ -602,7 +602,7 @@
             }
             
             .package-name {
-                max-width: 250px;
+                max-width: 200px;
             }
         }
         
@@ -613,7 +613,7 @@
             }
             
             .package-name {
-                max-width: 200px;
+                max-width: 180px;
             }
         }
         
@@ -631,7 +631,7 @@
             }
             
             .package-name {
-                max-width: 300px;
+                max-width: 250px;
             }
         }
         
@@ -657,7 +657,7 @@
             }
             
             .package-name {
-                max-width: 200px;
+                max-width: 180px;
             }
         }
         
@@ -904,6 +904,13 @@
         
         .file-list-item:last-child {
             border-bottom: none;
+        }
+        
+        .file-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
         }
         
         /* أزرار إضافية */
@@ -1765,7 +1772,7 @@ jobs:
                     fileInfo.style.display = 'block';
                     multiFileInfo.style.display = 'none';
                     fileInfo.innerHTML = `
-                        <strong>اسم الملف:</strong> ${selectedFiles[0].name}<br>
+                        <strong>اسم الملف:</strong> <span class="file-name" title="${selectedFiles[0].name}">${selectedFiles[0].name}</span><br>
                         <strong>الحجم:</strong> ${(selectedFiles[0].size / 1024 / 1024).toFixed(2)} MB
                     `;
                 } else {
@@ -1777,7 +1784,7 @@ jobs:
                         const listItem = document.createElement('div');
                         listItem.classList.add('file-list-item');
                         listItem.innerHTML = `
-                            <span>${file.name}</span>
+                            <span class="file-name" title="${file.name}">${file.name}</span>
                             <span>${(file.size / 1024 / 1024).toFixed(2)} MB</span>
                         `;
                         fileList.appendChild(listItem);
@@ -1828,8 +1835,8 @@ jobs:
                     progressStatus.textContent = 'جاري انتظار التحديث التلقائي للمستودع...';
                     uploadProgress.style.width = '90%';
                     
-                    // الانتظار لمدة 20 ثانية لتحديث المستودع
-                    await new Promise(resolve => setTimeout(resolve, 20000));
+                    // الانتظار لمدة 30 ثانية لتحديث المستودع
+                    await new Promise(resolve => setTimeout(resolve, 30000));
                     
                     // اكتمال العملية
                     uploadProgress.style.width = '100%';
